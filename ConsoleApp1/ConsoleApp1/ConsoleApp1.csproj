@@ -49,6 +49,7 @@
     <Compile Include="Ferdinant.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="rgb.cs" />
     <Compile Include="Sara.cs" />
   </ItemGroup>
   <ItemGroup>
