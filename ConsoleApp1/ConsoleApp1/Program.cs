@@ -15,13 +15,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-
-            List<Fahrer> fahrers = new List<Fahrer>();
-            fahrers.Add(new Ferdinant("Ferdinat ", "Falschparker ", "Toyota Corolla ", "wkh", 1));
-            fahrers.Add(new Sara("Sara ", "Blond ", "Opel ", "mgh", 3));
             Menue();
-
-            Console.ReadLine();
         }
         static void Hallo()
         {
@@ -30,15 +24,18 @@ namespace ConsoleApp1
 
 
 
-            Console.WriteLine("**        **          ****           **            **                 ***       ");
-            Console.WriteLine("**        **         **  **          **            **              ***   ***    ");
-            Console.WriteLine("**        **        **    **         **            **             ***     ***   ");
-            Console.WriteLine("************       **      **        **            **             **        **  ");
-            Console.WriteLine("************      **        **       **            **             **        **  ");
-            Console.WriteLine("**        **     ***************     **            **             ***      **   ");
-            Console.WriteLine("**        **    **             **    ***********   ***********      ***  ***    ");
+            Console.WriteLine("       **        **          ****           **            **                 ***       ");
+            Console.WriteLine("      **        **         **  **          **            **              ***   ***    ");
+            Console.WriteLine("     **        **        **    **         **            **             ***     ***   ");
+            Console.WriteLine("    ************       **      **        **            **             **        **  ");
+            Console.WriteLine("   ************      **        **       **            **             **        **  ");
+            Console.WriteLine("  **        **     ***************     **            **             ***      **   ");
+            Console.WriteLine(" **        **    **             **    ***********   ***********      ***  ***    ");
             Console.WriteLine("**        **   **               **   ***********   ***********        ****      ");
             Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("und willkomme zu der Fahrgemeinschaft App!!!\n\n\n");
+            Thread.Sleep(2000);
+            Console.Clear();
 
 
 
@@ -47,52 +44,69 @@ namespace ConsoleApp1
         }
         static void Login()
         {
-            Console.WriteLine("Gebe deinen nutzernamen ein");
-            Console.ForegroundColor = ConsoleColor.Black;
-            string Nuzername = Console.ReadLine();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Clear();
-            Console.WriteLine("Gebe dein passwort ein");
-            Console.ForegroundColor = ConsoleColor.Black;
-            string Passwort = Console.ReadLine();
-            Console.ForegroundColor = ConsoleColor.White;
-            bool a = false;
-            while (a == false)
+            Console.WriteLine("Wass willst du machen?\n");
+            Console.WriteLine("Anmelden 1: ");
+            Console.WriteLine("Registrieren 2: ");
+            string b = Console.ReadLine();
+            switch (b)
             {
-                if (Nuzername == "ERSC")
-                {
-                    if (Passwort == "Passwort")
+                case "1":
+                    Console.Clear();
+                    string Username = "0";
+                    string passwort = "0";
+                    using (var reader = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Test.csv"))
                     {
-                        a = true;
-                        Console.Clear();
+                        Username = reader.ReadLine();
+                        passwort = reader.ReadLine();
+
                     }
-                    else
+
+                    Console.WriteLine("Gebe deinen nutzernamen ein");
+                    string Nuzername = Console.ReadLine();
+                    Console.Clear();
+                    Console.WriteLine("Gebe dein passwort ein");
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    string Passwort = Console.ReadLine();
+                    Console.ForegroundColor = ConsoleColor.White;
+                    bool a = false;
+                    while (a == false)
                     {
-                        Console.WriteLine("Dein Passwort ist falsch. Bitte versuche es erneut");
-                        Thread.Sleep(2000);
-                        a = false;
-                        Passwort = Console.ReadLine();
+                        if (Nuzername == Username)
+                        {
+                            if (Passwort == passwort)
+                            {
+                                a = true;
+                                Console.Clear();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Dein Passwort ist falsch. Bitte versuche es erneut");
+                                Thread.Sleep(2000);
+                                a = false;
+                                Passwort = Console.ReadLine();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Dein Nutzername ist falsch. Bitte wiederhole ihn");
+                            Thread.Sleep(2000);
+                            a = false;
+                            Nuzername = Console.ReadLine();
+                        }
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Dein Nutzername ist falsch. Bitte wiederhole ihn");
-                    Thread.Sleep(2000);
-                    a = false;
-                    Nuzername = Console.ReadLine();
-                }
+                    return;
+                case "2":
+                    Console.Clear();
+                    Fahrer f = new Fahrer();
+                    f.Registrieren();
+                    return;
             }
+            
+            
         }
-        static void Menue()
+        static void AuswahlFenster()
         {
-
-
-            Hallo();
-            Console.WriteLine("und willkomme zu der Fahrgemeinschaft App!!!\n\n\n");
-            Thread.Sleep(2000);
             Console.Clear();
-            Login();
-        Start:
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Was willst du machen?");
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -101,51 +115,65 @@ namespace ConsoleApp1
             Console.WriteLine("2 : Fahrer werden");
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("3 : Auflistunf der Bisherige Fahrer");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("4 : App verlassen");
             Console.ForegroundColor = ConsoleColor.White;
+        }
+        static void Menue()
+        {
+
+
+        Hallo();
+            
+        Login();
+        Start:
+            AuswahlFenster();
 
             int a = Convert.ToInt32(Console.ReadLine());
-            
-
             switch (a)
             {
-                case 1:
+                case 1://Fahrersuche
                     Console.Clear();
-                    List<Fahrer> fahrers = new List<Fahrer>();
-                    fahrers.Add(new Ferdinant("Ferdinat ", "Falschparker ", "Toyota Corolla ", "wkh", 1));
-                    fahrers.Add(new Sara("Sara ", "Blond ", "Opel ", "mgh", 3));
+                    List<Fahrer> fahrers = new List<Fahrer>
+                    {
+                        new Ferdinant("Ferdinat ", "Falschparker ", "Toyota Corolla ", "wkh", 1),
+                        new Sara("Sara ", "Blond ", "Opel ", "mgh", 3)
+                    };
 
                 case1:
                     Console.WriteLine("Gebe dein Ziel Ort ein.");
                     string ort = Console.ReadLine();
                     Fahrer f = new Fahrer();
                     if (ort == "wkh")
-                    {
+                    {//Fahrersuche für Wikersheim
                         f.FahrersucheSara(ort);
                         Console.ForegroundColor = ConsoleColor.White;
                         goto Start;
                     }
                     else if (ort == "mgh")
-                    {
+                    {//Fahrersuche Bad Mergentheim
                         f.FahrersucheFerdinant(ort);
                         Console.ForegroundColor = ConsoleColor.White;
                         goto Start;
 
                     }
                     else
-                    {
+                    {//Wenn Das ZiehlOrt nicht existiert
                         Console.WriteLine($"Es wird nicht nach {ort} gefahren");
                         Thread.Sleep(2000);
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.White;
                         goto case1;
                     }
-                case 2:
+                case 2://Fahrer werden
                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                     Console.Clear();
-                    List<Fahrer> fahrers1 = new List<Fahrer>();
-                    fahrers1.Add(new Ferdinant("Ferdinat ", "Falschparker ", "Toyota Corolla ", "wkh", 1));
-                    fahrers1.Add(new Sara("Sara ", "Blond ", "Opel ", "mgh", 3));
-
+                    List<Fahrer> fahrers1 = new List<Fahrer>
+                    {
+                        new Ferdinant("Ferdinat ", "Falschparker ", "Toyota Corolla ", "wkh", 1),
+                        new Sara("Sara ", "Blond ", "Opel ", "mgh", 3)
+                    };
+                    //Vergewisserrung Fahrer zu werden
                     Console.WriteLine("Willst du auch ein mitglied der Fahrer App werden?");
                     Console.WriteLine("Dann schreibe y!");
                     if (Console.ReadLine() == "y")
@@ -159,15 +187,25 @@ namespace ConsoleApp1
                     {
                         goto Start;
                     }
-                case 3:
+                case 3://Fahrer Auflisten Die existieren und wann sie fahren
                     Fahrer f2 = new Fahrer();
                     f2.Write();
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    
-                    
+                    Thread.Sleep(5000);
+                    goto Start;
+                case 4:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Clear();
+                    Console.WriteLine("Bist du dir sicher das du Die App schließen willst? y/n");
+                    if (Console.ReadLine() == "y")
+                    {
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        Console.Clear();
                         goto Start;
-
-                    
+                    }
                     return;
                 default:
                     Console.Clear();
@@ -180,8 +218,8 @@ namespace ConsoleApp1
             }
 
 
-        }
-        static void rgb()
+        }       
+        static void Rgb()
         {
             WriteCharacterStrings(1, 1000, true);
         }
@@ -198,7 +236,7 @@ namespace ConsoleApp1
             Console.ResetColor();
             Console.Clear();
         }
-        
+
 
 
     }
