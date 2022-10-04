@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public class Fahrer : FahrerInterface
+    public class Fahrer     : FahrerInterface
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
