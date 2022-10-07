@@ -8,298 +8,134 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
-
+using System.Xml.Schema;
 
 namespace ConsoleApp1
 {
     public class Fahrer : FahrerInterface
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string CarType { get; set; }
-        public string ZielOrt { get; set; }
-        public int Sitzplaetze { get; set; }
-        public virtual void Write()
+        //public string FirstName { get; set; }
+        //public string LastName { get; set; }
+        //public string CarType { get; set; }
+        //public string ZielOrt { get; set; }
+        //public int Sitzplaetze { get; set; }
+        public static int CountLines(string fileToCount)
         {
-            Console.WriteLine($"Sara Blond Fährt nach: Weikersheim");
-            Console.WriteLine($"Ferdinant Falschparker Fährt nach: Bad Mergentheim");
-            Console.WriteLine($"Bastian Nachnamiii Fährt nach: Kaufland");
-
-        }//Schreibt alle Fahrer nieder
-        public virtual void FahrersucheSara(string ort)
-        {//Method to add the driver sara
-            Console.Clear();
-            //Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("gebe ein wieviel du mitnehmen willst");
-            int sitzplaetze = Convert.ToInt32(Console.ReadLine());
-            if (sitzplaetze <= 3)
+            int counter = 0;
+            using (StreamReader countReader = new StreamReader(fileToCount))
             {
-                Console.WriteLine("Wann willst du fahren?");
-
-
-                string wann = Console.ReadLine();
-                if (wann == "morgen")
-                {
-                    Console.WriteLine($"{wann} kannst du mit Sara Blond fahren");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                }
-
-                else if (wann == "Montag")
-                {
-                    Console.WriteLine($"{wann} kannst du mit Sara Blond fahren");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                }
-                else if (wann == "in einer Woche")
-                {
-                    Console.WriteLine($"{wann} kannst du mit Sara Blond fahren");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                }
-                else if (wann == "Freitag")
-                {
-                    Console.WriteLine($"{wann} kannst du mit Sara Blond fahren");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                }
-                else if (wann == "in einem Monat")
-                {
-                    Console.WriteLine($"{wann} kannst du mit Sara Blond fahren");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                }
-                else
-                {
-                    Console.WriteLine($"Sara färt nicht {wann}. Du darfst also nicht fahren");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                }
-            }
-            else
-            {
-
-                Console.WriteLine($"Sara hat nur 3 Sitze frei. Also kannst du nicht mitfahren.");
-                Thread.Sleep(2000);
-                Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                Thread.Sleep(2000);
-                Console.Clear();
-
+                while (countReader.ReadLine() != null) { counter++; }
+                return counter;
             }
 
-        }//Öfnung bei whk
-        public virtual void FahrersucheFerdinant(string ort)
-        {//Mehtod for the Driver "Ferdinant"
-            Console.Clear();
-            if (ort == "mgh")
+        }
+        public virtual void PrintOut()
+        {
+            using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
             {
-                Console.WriteLine("gebe ein wieviel du mitnehmen willst");
-                int sitzplaetze = Convert.ToInt32(Console.ReadLine());
-                if (sitzplaetze <= 1)
+                int countEtries = 0;
+                //int count = 0;
+                while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv") >= countEtries)
                 {
-                    Console.WriteLine("Wann willst du fahren?");
+                    if (countEtries % 3 >= 1)
+                    {
+                        Console.WriteLine();
+                        countEtries++;
 
 
-                    string wann = Console.ReadLine();
-                    if (wann == "morgen")
-                    {
-                        Console.WriteLine($"Morgen kannst du mit Ferdinant fahren");
-                        Thread.Sleep(2000);
-                        Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                        Thread.Sleep(2000);
-                        Console.Clear();
-                    }
-                    else if (wann == "heute")
-                    {
-                        Console.WriteLine("Heute kannst du mit Ferdinant fahren");
-                        Thread.Sleep(2000);
-                        Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                        Thread.Sleep(2000);
-                        Console.Clear();
                     }
                     else
                     {
-                        Console.WriteLine($"Ferdinant färt nicht {wann}. Du darfst also nicht fahren");
-                        Thread.Sleep(2000);
-                        Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                        Thread.Sleep(2000);
-                        Console.Clear();
+
+                        Console.WriteLine($"{sr.ReadLine()} {sr.ReadLine()} fährt mit einem {sr.ReadLine()} nach {sr.ReadLine()} am {sr.ReadLine()}");
+                        countEtries++;
+
                     }
-
-
                 }
-                else
-                {
 
-                    Console.WriteLine($"Ferdinant hat nur 1 Sitze frei also kannst du nicht mitfahren.");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                }
+                Thread.Sleep(5000);
             }
-            else
-            {
-                Console.WriteLine($"Du darfst nicht mit mitfahren fahren");
-                Thread.Sleep(2000);
-                Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                Thread.Sleep(2000);
-                Console.Clear();
-            }
-        }//Öffnung bei mgh
-        public virtual void FahrersucheBastian(string ort)
-        {//Mehtod for the Driver "Ferdinant"
-            Console.Clear();
-            if (ort == "Kaufland")
-            {
-                Console.WriteLine("gebe ein wieviel du mitnehmen willst");
-                int sitzplaetze = Convert.ToInt32(Console.ReadLine());
-                if (sitzplaetze <= 10)
-                {
-                    Console.WriteLine("Wann willst du fahren?");
 
 
-                    string wann = Console.ReadLine();
-                    if (wann == "morgen")
-                    {
-                        Console.WriteLine($"Morgen kannst du mit Bastian fahren");
-                        Thread.Sleep(2000);
-                        Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                        Thread.Sleep(2000);
-                        Console.Clear();
-                    }
-                    else if (wann == "heute")
-                    {
-                        Console.WriteLine("Heute kannst du mit Bastian fahren");
-                        Thread.Sleep(2000);
-                        Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                        Thread.Sleep(2000);
-                        Console.Clear();
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Bastian färt nicht {wann}. Du darfst also nicht fahren");
-                        Thread.Sleep(2000);
-                        Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                        Thread.Sleep(2000);
-                        Console.Clear();
-                    }
-
-
-                }
-                else
-                {
-
-                    Console.WriteLine($"Bastian hat nur 10 Sitze frei also kannst du nicht mitfahren.");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                }
-            }
-            else
-            {
-                Console.WriteLine($"Du darfst nicht mit mitfahren fahren");
-                Thread.Sleep(2000);
-                Console.WriteLine("Du wirst wieder zur Haubtseite weitergeleitet");
-                Thread.Sleep(2000);
-                Console.Clear();
-            }
-        }//Öffnung bei Kaufland1
+        }//Schreibt alle Fahrer niede
         public void BestimmteAutoSuche()
         {
-            Console.WriteLine("Mit welchem Auto willst du unbedingt Fahren?");
-            string AusgewaeltesAuto = Console.ReadLine();
-            if (AusgewaeltesAuto == "Toyota")
+            using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
             {
-                Console.WriteLine("Ferdinant fährt nach Weikersheim mit einem " + AusgewaeltesAuto);
+                Console.WriteLine("Mit welchem Auto willst du unbeedingt fahren?");
+                string AusgewaeltesAuto = Console.ReadLine();
+                int counter = 0;
+                bool a = false;
+                while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv") >= counter)
+                {
+                    string preName = sr.ReadLine();
+                    string lastname = sr.ReadLine();
+                    string Fahrzeug = sr.ReadLine();
+                    string Ort = sr.ReadLine();
+                    string Zeit = sr.ReadLine();
+                    if (AusgewaeltesAuto == Fahrzeug)
+                    {
+                        Console.WriteLine($"{preName} {lastname} fährt mit einem {Fahrzeug} nach {Ort} am {Zeit}");
+
+                        counter++;
+                        a = true;
+                    }
+                    else
+                    {
+                        //counter++;
+                        if (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv") == counter)
+                        {
+                            if (a == false)
+                            {
+                                Console.WriteLine("Keiner fährt mit einem " + AusgewaeltesAuto);
+                                counter++;
+
+                            }
+                            else { counter++; }
+                        }
+                        else { counter++; }
+                    }
+                }
+
             }
-            else if (AusgewaeltesAuto == "Opel")
-            {
-                Console.WriteLine("Sara fährt nach Bad Mergentheim mit einem " + AusgewaeltesAuto);
-            }
-            else if (AusgewaeltesAuto == "Lambo")
-            {
-                Console.WriteLine("Bastian färt nach Kaufland mit einem " + AusgewaeltesAuto);
-            }
-            else
-            {
-                Console.WriteLine("Keiner färt mit einem " + AusgewaeltesAuto);
-            }
+
             Thread.Sleep(2000);
         }//Sucht von allen Autos ein Bestimmtes herraus
-        public void CarPool()
-        {
-            Console.WriteLine("Ferdinant fährt nach Bad Mergentheim mit einem TOYOTA");
-            Console.WriteLine("Sara fährt nach Weikersheim mit einem OPEL");
-            Console.WriteLine("Bastian fährt nach Kaufland mit einem LAMBO");
-            Thread.Sleep(5000);
-        }
         public void FahrerEdit()
         {//Method to add the User as a driver
-            string path = @"C:\010Projects\Linq\Fahrgemeinschaft\UserEigenschaft.csv";
-            Console.WriteLine("Gib deinen vornamen ein");
-            string Uvorname = Console.ReadLine();
-
-            Console.WriteLine("Gib deinen Nachnamen ein");
-            string Unachname = Console.ReadLine();
-            Console.WriteLine("Gib dein Auto ein");
-            string UCartype = Console.ReadLine();
-            Console.WriteLine("Gib dien Ziel Ort ein");
-            string ZiehlOrt = Console.ReadLine();
-            Console.WriteLine("Gib ein wieviele Sitzplätze du hast");
-            string splaetze = Console.ReadLine();
-            string nutzerInfo = Uvorname + " " + Unachname + " " + UCartype + " " + ZiehlOrt + " " + splaetze;
-            using (StreamWriter sw = File.CreateText(path))
+            List<string> ItemList = new List<string>();
+            string b = "0";
+            using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))//Alte UserInfo kopieren
             {
-                sw.WriteLine(nutzerInfo);
-                sw.WriteLine();
+                b = sr.ReadToEnd();
+            }
 
+            using (StreamWriter sw = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
+            {//Neue UserInfo bekommen
+
+                Console.WriteLine("Gebe deinen Vor namen ein");
+                sw.WriteLine(Console.ReadLine());
+                Console.Clear();
+                Console.WriteLine("Gebe deinen Nachnamen ein");
+                sw.WriteLine(Console.ReadLine());
+                Console.Clear();
+                Console.WriteLine("Gebe dein auto ein");
+                sw.WriteLine(Console.ReadLine());
+                Console.Clear();
+                Console.WriteLine("Gebe an wo hin du hinfährst");
+                sw.WriteLine(Console.ReadLine());
+                Console.WriteLine("Gebe an wann du Fährst(eine Angabe)");
+                sw.WriteLine(Console.ReadLine());
+                sw.WriteLine(b);//Alter UserInfo hinzufügen
             }
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s;
-                while ((s = sr.ReadLine()) != null)
-                {
-                    Console.WriteLine(s);
-                }
-            }
-            Console.WriteLine("Deine Daten wurden erfolgreich hinzugefügt.\n" +
-                "               Du bist jezt ein Teil der App");
+
+
+
+            Console.WriteLine("Deine Daten wurden erfolgreich hinzugefügt.");
+            Console.WriteLine("Du bist jezt ein Teil der App");
+            Thread.Sleep(2000);
 
         }//Fahrer werden option
-        public void Copy()
-        {
-            Console.WriteLine("File Copying...");
-
-            FileStream inStream = new FileStream("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Test.csv", FileMode.Open, FileAccess.Read, FileShare.None);
-            FileStream outStram = new FileStream("C:\\010Projects\\Linq\\Fahrgemeinschaft\\TestCopy.csv", FileMode.Create, FileAccess.Write, FileShare.Read);
-
-            using (inStream)
-            {
-                while (true)
-                {
-                    int b = inStream.ReadByte();
-                    if (b == -1)
-                        break;
-                    outStram.WriteByte((byte)b);
-                }
-            }
-            Console.WriteLine("File Copied...");
-        }//File1 auf File2 Copieren
         public void Registrieren()//Anlegen eines neuen Accounts
         {
 
@@ -377,25 +213,578 @@ namespace ConsoleApp1
                 "oder uns über Spieler-Support-Anfragen oder den Kundendienst zu kontaktieren. Wenn Sie an einem Wettbewerb, einer wettbewerbsorientierten Veranstaltung,\n" +
                 " oder an unserem Programm Support-A-Creator teilnehmen, erfassen wir Ihre Antragsinformationen und andere Informationen, die wir benötigen, um Ihre ");
         }
-        public void Fahrgemeinschaften()
+        public void FahrersucheListeAdd(string preName, string lastname, string ZielZeit, string Fahrzeug, string prenameMitfahrer, string lastnameMitfahrer)
         {
-            string path = "C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv";
-            string NutzerSara = "0";
-            string NutzerFerdinant = "0";
-            string NutzerBastian = "0";
-            using (StreamReader sr = File.OpenText(path))
+            Console.WriteLine($"willst du mit {preName} {lastname} in einem {Fahrzeug} mitfahren?");
+            Console.WriteLine("Dann drücke y");
+            if (Console.ReadLine() == "y")
             {
-                
-                NutzerFerdinant = sr.ReadLine();
-                NutzerSara = sr.ReadLine();
-                NutzerBastian = sr.ReadLine();
-                Console.ReadLine();
+                string copiedItems = "0";
+                Console.WriteLine($"Du darfst mit {preName} {lastname} am {ZielZeit} in einem {Fahrzeug} fahren");
+                using (StreamReader sr2 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv"))
+                {
+                    copiedItems = sr2.ReadToEnd();
+
+                }
+                using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv"))
+                {
+                    sw2.WriteLine($"{prenameMitfahrer} {lastnameMitfahrer} ist der Beifahrer von {preName} {lastname} am {ZielZeit} in einem {Fahrzeug} fahren");
+                    sw2.WriteLine(copiedItems);
+                }
             }
-
+            else
+            {
+                Console.WriteLine("Du wirst nicht hinzugefügt. Drücke die Entertaste um wieder zum Auswahlfenster zu kommen");
+            }
+            
         }
+        public void Fahrersuche2()
+        {
+            using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
+            {
+                Console.WriteLine("Gebe deinen Vornamen ein");
+                string prenameMitfahrer = Console.ReadLine();
+                Console.WriteLine("gebe deinen Nachnamen ein");
+                string lastnameMitfahrer = Console.ReadLine();
+                Console.WriteLine("Wo willst du hin?");
+                string ZielOrt = Console.ReadLine();
+                Console.WriteLine("Wann willst du dahin?");
+                string ZielZeit = Console.ReadLine();
+                int counterForLines = CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv");
+                int counter = 1;
+                while (counter < counterForLines)
+                {
+                    if (counter == 1)
+                    {//Lukas wird eingelesen (erster eintrag(1-4))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
 
 
+                    }
+                    if (counter % 80 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
 
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 76 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
 
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 72 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 68 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 64 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 60 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 56 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 52 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 48 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 44 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 40 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 36 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 32 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 28 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 24 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 20 == 1)
+                    {//Copied
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 16 == 1)
+                    {//Bastian wird eingelesen(fünfter Eintrag (17-20))
+
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 12 == 1)
+                    {//Sara wird eingelesen (vierter Eintrag(12-16))
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 8 == 1)
+                    {//Ferdinant wird eingelesen(dritterEintrag(9-12))
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    if (counter % 4 == 1)
+                    {//Erwin wird eingelesen (zweiterEintrag(5-8))
+                        string preName = sr.ReadLine();
+                        string lastname = sr.ReadLine();
+                        string Fahrzeug = sr.ReadLine();
+                        string Ort = sr.ReadLine();
+                        string Zeit = sr.ReadLine();
+                        if (ZielOrt == Ort)
+                        {
+                            if (ZielZeit == Zeit)
+                            {
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                            }
+                        }
+                        else
+                        {
+                        }
+                        counter++;
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+                }
+                Console.ReadLine();
+
+            }
+        }
+        public void FahrgemeinschaftPrint()
+        {
+            List<string>FahrGemeinschaften = new List<string>();
+            Console.Clear();
+            using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv"))
+            {
+                int countEtries = 0;
+                //int count = 0;
+                
+                while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv") >= countEtries)
+                {
+                    Console.WriteLine(sr.ReadLine());
+                    Console.WriteLine();
+                    countEtries++;
+                }
+                
+                Thread.Sleep(5000);
+            }
+        }
     }
 }
+

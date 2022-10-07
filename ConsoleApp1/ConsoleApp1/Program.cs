@@ -12,12 +12,8 @@ namespace ConsoleApp1
         static void Main()
         {
             Menue();
-            //ADHS();
-            //Fahrer r = new Fahrer();
-            //r.Fahrgemeinschaften();
-            //TanzendeKuh();
         }
-        
+
         static void TanzendeKuh()
         {
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
@@ -25,10 +21,10 @@ namespace ConsoleApp1
             while (a == a)
             {
                 Console.WriteLine("                                                                               \r\n                                           @@                                   \r\n                                         /%(&,                                  \r\n                                         @(((@ .,,,       @(@                   \r\n                             &@.    .@@  @&         ,@@@@@((@.                  \r\n                            @   ......              @@@@@@@@&                   \r\n                            ,@   ....                   .@@@@% */*.             \r\n                                &@@@                    %@@@@@@....@@@@         \r\n                                   @    @,@             (, @@@@......@@@        \r\n                                  */   ,   #           @@/@ %@@@&#%@@@@         \r\n                                  ,(         ,/((*.     *     &                 \r\n                                   @  (@*............../@/    @                 \r\n                                   .@...,@@&.........,@@,..@.@                  \r\n                            &@@*   @.....#&..........,@@,...*%                  \r\n                         @         %*........................%                  \r\n                       .%       @@@  @,......@....@........&#      ,&@@@@       \r\n                        &       (/  ....&@/............/@@@@@@@      @@@@*      \r\n                        #*        @,..................               @@@@&      \r\n                         ,&     @@@@@..................              %@@@(      \r\n                           @%@@@@@@@....................  ##%&@@@&#,            \r\n                           *&@@@@,......................  ./                    \r\n                         *@     ........................  (*                    \r\n                       &(        ......................   @                     \r\n                    /@.              ................    @                      \r\n                   @@@@/      .%@@@/                   ,&                       \r\n                    @@@@@(,@.          ,&@@             @*   &@@,               \r\n                      @@@                  ,#        *#@@. (@%%&@               \r\n                                            @        @                          \r\n                                            @       @                           \r\n                                            @@@@@@@@&                           \r\n                                           ,@@@@@@@@*                           \r\n                                                                              ");
-                Thread.Sleep(100);
+                Thread.Sleep(500);
                 Console.Clear();
                 Console.WriteLine("                                                                                \r\n                                                                                \r\n                                                                                \r\n                                    @@                                          \r\n                                   &((@                                         \r\n                   /%%%      .,,,. @(((%                                        \r\n                   ##((@@@@@          @@  @@     *@,                            \r\n                    @@@@@@@@@              ......   @                           \r\n              ,//, @@@@@                    ....   @                            \r\n          @@@#...,@@@@@@.                   #@@@#                               \r\n         @@#......@@@@ /*            (%*@    @                                  \r\n          @@@@##@@@@, @%@@           #   .   @                                  \r\n                 #,    ..     .*((/.         @                                  \r\n                  @    %@*..............(@.  @                                  \r\n                   &##..%@@..........@@@...*@                                   \r\n                   @....%@&...........&*....,%   (@@#                           \r\n                   @........................&.        .@                        \r\n        @@@@#       @/.......(&...*@......(@  @@(       @                       \r\n       @@@@@      @@@@@@@,............#@#...   @.       @                       \r\n       @@@@*              .................../@        &                        \r\n       @@@@               .................*@@@@&     @                         \r\n             *%&@@@&#@   ....................@@@@@@@%#                          \r\n                     @   ....................../@@@&@                           \r\n                     %   ........................     @                         \r\n                      @   .....................         @/                      \r\n                       &   .................              &@                    \r\n                        @                    %@@@#       &@@@@                  \r\n                (@@#   %@            .@@%.          (@ @@@@@@                   \r\n               .@%%%@  *@%@         @                  ,@@@                     \r\n                           @       .%                                           \r\n                           */      ,#                                           \r\n                            @@@@@@@@@                                           \r\n                            &@@@@@@@@                                           \r\n                                                                                ");
-                Thread.Sleep(100);
+                Thread.Sleep(500);
                 Console.Clear();
             }
 
@@ -78,16 +74,16 @@ namespace ConsoleApp1
             Console.WriteLine("║");
             Console.WriteLine("║");
             Console.Write("╚════════════════════");
-            string b = Console.ReadLine();
+            string b = Convert.ToString(Console.ReadKey().KeyChar);
             switch (b)
             {
                 case "1":
-                    Login:
+                Login:
                     Console.Clear();
                     string Username = "0";
                     int v = 0;
                     string Usereingabe = "0";
-                    
+
                     List<string> list = new List<string>();
                     FileInfo info = new FileInfo("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Test.csv");
                     long length = info.Length;
@@ -96,13 +92,17 @@ namespace ConsoleApp1
                         using (var reader = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Test.csv"))
                         {
                             Usereingabe = reader.ReadToEnd();
-                            Usereingabe.Split(',',';');
+                            Usereingabe.Split(',', ';');
                             list.Add(Usereingabe);
                         }
                     } while (v == 1);
 
                     Console.WriteLine("Gebe deinen nutzernamen ein");
                     string Nuzername = Console.ReadLine();
+                    if (Nuzername == (""))
+                    {
+                        Console.WriteLine("Du hast nichts eingegeben");
+                    }
                     Console.Clear();
                     Console.WriteLine("Gebe dein passwort ein");
                     Console.ForegroundColor = ConsoleColor.Black;
@@ -116,9 +116,9 @@ namespace ConsoleApp1
                         .FirstOrDefault(stringToCheck => stringToCheck.Contains(Nuzername));
 
                     if (match != null)
-                    { 
+                    {
                     }
-                    
+
                     else
                     {
                         Console.WriteLine("Benutzer oder Passwort ist falsch.");
@@ -135,6 +135,7 @@ namespace ConsoleApp1
                     return;
                 default:
                     Console.Clear();
+
                     goto LoginBegin;
             }
 
@@ -144,16 +145,19 @@ namespace ConsoleApp1
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Was willst du machen?");
-            Console.WriteLine("[1] : Fahrgemeinschaft finden?");
-            Console.WriteLine("[2] : Fahrer werden");
-            Console.WriteLine("[3] : Auflistung der Bisherige Fahrer");
-            Console.WriteLine("[4] : Eigenen Account Bearbeiten");
-            Console.WriteLine("[5] : Neuen Account Registrieren");
-            Console.WriteLine("[6] : Fahrer mit bestimmtem Auto suchen");
-            Console.WriteLine("[7] : Carpool");
-            Console.WriteLine("[8] : Datenschutz von Fortnite lesen");
-            Console.WriteLine("[9] : App verlassen");
+            Console.WriteLine("Was willst du machen?\n\n\n\n");
+            Console.WriteLine(" ____ \r\n||1 ||\r\n||__|| : Fahrgemeinschaft finden\r\n|/__\\|\n");
+            Console.WriteLine(" ____ \r\n||2 ||\r\n||__|| : Fahrer werden\r\n|/__\\|\n");
+            Console.WriteLine(" ____ \r\n||3 ||\r\n||__|| : Auflistung der Bisherigen Fahrer\r\n|/__\\|\n");
+            Console.WriteLine(" ____ \r\n||4 ||\r\n||__|| : Eigene Anmeldedaten bearbeiten\r\n|/__\\|\n");
+            Console.WriteLine(" ____ \r\n||5 ||\r\n||__|| : Neuen Account Registrieren \r\n|/__\\|\n");
+            Console.WriteLine(" ____ \r\n||6 ||\r\n||__|| : Fahrer mit bestimmtem Auto suchen\r\n|/__\\|\n");
+            Console.WriteLine(" ____ \r\n||7 ||\r\n||__|| : Tanzende Kuh (Wir hafften für keine Schäden mit ihren Augen)\r\n|/__\\| \n");
+            Console.WriteLine(" ____ \r\n||8 ||\r\n||__|| : Datenschutz von Fortnite lesen\r\n|/__\\| \n");
+            Console.WriteLine(" ____ \r\n||9 ||\r\n||__|| : App verlassen\r\n|/__\\|\n");
+            Console.WriteLine(" ____ \r\n||0 ||\r\n||__|| : Gebildete Fahrgemeinschaften anzeigen\r\n|/__\\|\n");
+
+            //          Console.WriteLine(" ____ \r\n||10||\r\n||__|| : Tanzende Kuh (Wir hafften für keine Schäden mit ihren Augen)\r\n|/__\\|\n");
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("--->");
@@ -163,91 +167,41 @@ namespace ConsoleApp1
         {
 
 
-            Hallo();//Willkommensgruß
+        //Hallo();//Willkommensgruß
 
-            Login();//login
+        //Login();//login
         Start:
             AuswahlFenster();//Appeigenschafften um weiter zu machen
 
-            string a = Console.ReadLine();
-
+            string a = Convert.ToString(Console.ReadKey().KeyChar);
+            Fahrer fahrer = new Fahrer();
             switch (a)
             {
+                //todo: qw
                 case "1"://Fahrersuche
                     Console.Clear();
-                case1:
-                    Console.WriteLine("Gebe dein Ziel Ort ein.");
-                    string ort = Console.ReadLine();
-                    Fahrer f = new Fahrer();
-                    if (ort == "wkh")
-                    {//Fahrersuche für Weikersheim
-                        f.FahrersucheSara(ort);
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        goto Start;
-                    }
-                    else if (ort == "mgh")
-                    {//Fahrersuche Bad Mergentheim
-                        f.FahrersucheFerdinant(ort);
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        goto Start;
-
-                    }
-                    else if (ort == "Kaufland")
-                    {//Fahrersuche für Kaufland (10 Sitze)
-                        f.FahrersucheBastian(ort);
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        goto Start;
-                    }
-                    else
-                    {//Wenn Das ZiehlOrt nicht existiert
-                        Console.WriteLine($"Es wird nicht nach {ort} gefahren");
-                        Thread.Sleep(2000);
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        goto case1;
-                    }
+                    fahrer.Fahrersuche2();
+                    goto Start;
                 case "2"://Fahrer werden
-                    Console.ForegroundColor = ConsoleColor.DarkBlue;
                     Console.Clear();
-                    List<Fahrer> fahrers1 = new List<Fahrer>
-                    {
-                        new Ferdinant("Ferdinat ", "Falschparker ", "Toyota Corolla ", "wkh", 1),
-
-                        new Sara("Sara ", "Blond ", "Opel ", "mgh", 3),
-                        new Bastian("Bastian ", "Nachnamiii ", "Lambo","Kaufland", 10)
-                    };
                 //Vergewisserrung Fahrer zu werden
                 Copyright:
                     Console.WriteLine("Willst du auch ein mitglied der Fahrer App werden?");
                     Console.WriteLine("Dann schreibe y! Mit dem Drüben von y bestätigst du automatisch, das wir deine Daten klauen und verkaufen dürfen.\nDich dürden wir dann auch einsperren.");
                     Console.WriteLine("");
                     Console.WriteLine("Oder b um unseren Copyright schutz durchzulessen.");
-                    string b = Console.ReadLine();
+                    string b = Convert.ToString(Console.ReadKey().KeyChar);
                     if (b == "y")
                     {
                         Console.Clear();
                         Console.WriteLine("Willkommen um ein unser der app zu werden");
-                        foreach (Fahrer fahre in fahrers1) { fahre.FahrerEdit(); break; }
+                        fahrer.FahrerEdit();
                         goto Start;
                     }
                     else if (b == "b")
                     {
                         Console.Clear();
-                        Console.WriteLine("Der Copyright-Hinweis war früher \nmal notwendig. Z.B. mussten in den USA die Urheberrechte \n" +
-                            "registriert und mit einem solchen Hinweis versehen \nwerden. Ansonsten konnten die Rechte an dem Werk erlöschen. \n" +
-                            "Daher ist der Hinweis so stark verbreitet. Seit dem 1 April \n1989 entsteht das Copyright in den USA, genauso wie \n" +
-                            "Urheberrechte in Europa, automatisch (z.B., wenn ein Autor ein\n Buch verfasst oder der Fotograf die Kamera auslöst).\r\n\r\n" +
-                            "Ein Copyright-Hinweis ist daher lediglich ein Fingerzeig\n auf das Urheberrecht. Also ein Hinweisschild, das keinen Einfluss \n" +
-                            "auf die Entstehung des Urheberrechts hat.\r\n\r\nDas heißt, der Copyright-Hinweis ist nicht notwendig. Allerdings heißt das \n" +
-                            "nicht, dass er unnütz ist. Ganz im Gegenteil.\r\n\r\nAber bevor es um die Vorteilen des Urheberrechtsvermerks geht, erkläre ich\n" +
-                            " einen anderen, häufig zusammen mit dem Copyright-Hinweis verwendeten Begriff.\r\n\r\n[sc name=“tshinweisboxBEGIN“]Wann ist es ein\n" +
-                            " Copyright, wann ein Urheberrecht? Grundsätzlich bestimmt sich\n das maßgebliche Recht nach dem Land, in dem ein Werk entsteht.\n" +
-                            " Wobei in vielen nationale Urheberrechtsgesetzen steht, dass\n sie auch für Werke gelten, die von ihren Bürgern im Ausland erstellt \n" +
-                            "wurden. Es kann also im Fall von Unterschieden durchaus\n kompliziert werden, das passende Recht zu bestimmen. Wenn es um die\n" +
-                            "Verteidigung des Urheberrechts geht, dann kommt es auf das\n Recht des Landes an, in dem man sich z.B. auf das eigene Recht\n" +
-                            " beruft (sog. Schutzlandprinzip). Wenn Sie z.B. in den USA \nIhre Schutzrechte an einer Fotografie geltend machen wollen, \n" +
-                            "dann berufen Sie sich auf das US-Copyright.\n[sc name=“tshinweisboxEND“]ahwjldhaöoduahfklafhaklfjhajhk afklajfhafljkafh\n " +
-                            "wdiqjhjldhqwdkqghdqwjhkdgqjkhgdqjghdqgjwwdkhjqwgdqgjkdqdhjqg\nwwqeqwkejqlekqwjeqwljehqklehqwwjklehqkjhqwkjehqwewjkqwhekqjwlwbdqhe");
+                        fahrer.Datenschutz();
                         Console.ReadLine();
                         Console.Clear();
                         goto Copyright;
@@ -258,19 +212,15 @@ namespace ConsoleApp1
                     }
                 case "3"://Fahrer Auflisten Die existieren und wann sie fahren
                     Console.Clear();
-                    Fahrer f2 = new Fahrer();
-                    f2.Write();
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    fahrer.PrintOut();
                     Thread.Sleep(5000);
                     goto Start;
                 case "4":
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Fahrer f4 = new Fahrer();
                     Console.Clear();
                     f4.Registrieren();
                     goto Start;
                 case "5":
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Fahrer f5 = new Fahrer();
                     Console.Clear();
                     f5.Registrieren();
@@ -282,8 +232,7 @@ namespace ConsoleApp1
                     goto Start;
                 case "7":
                     Console.Clear();
-                    Fahrer f7 = new Fahrer();
-                    f7.CarPool();
+                    ADHS();
                     goto Start;
                 case "8":
                     Fahrer f8 = new Fahrer();
@@ -291,10 +240,9 @@ namespace ConsoleApp1
                     Console.ReadLine();
                     goto Start;
                 case "9":
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Clear();
                     Console.WriteLine("Bist du dir sicher das du Die App schließen willst? y/n");
-                    if (Console.ReadLine() == "y")
+                    if ((Convert.ToString(Console.ReadKey().KeyChar) == "y"))
                     {
                         Environment.Exit(0);
                     }
@@ -304,6 +252,11 @@ namespace ConsoleApp1
                         goto Start;
                     }
                     return;
+                case "0":
+                    fahrer.FahrgemeinschaftPrint();
+                    goto Start;
+                
+                
                 default:
                     Console.Clear();
                     Console.WriteLine("Du hast etwas falsches getrückt. Du wirst zum start weitergeleitet");
@@ -320,14 +273,22 @@ namespace ConsoleApp1
         {
             WriteCharacterStrings(1, 1000000000, true);
         }//Für den Flex
-        private static void WriteCharacterStrings(int start, float end, bool changeColor)
+        static void WriteCharacterStrings(int start, float end, bool changeColor)
         {
             for (int ctr = start; ctr <= end; ctr++)
             {
                 if (changeColor)
+                {
                     Console.BackgroundColor = (ConsoleColor)((ctr - 1) % 16);
+                    Console.ForegroundColor = (ConsoleColor)((ctr - 1) % 5);
+                }
                 //Thread.Sleep(100);
-                Console.WriteLine("P");
+                Console.WriteLine("                                                                               \r\n                                           @@                                   \r\n                                         /%(&,                                  \r\n                                         @(((@ .,,,       @(@                   \r\n                             &@.    .@@  @&         ,@@@@@((@.                  \r\n                            @   ......              @@@@@@@@&                   \r\n                            ,@   ....                   .@@@@% */*.             \r\n                                &@@@                    %@@@@@@....@@@@         \r\n                                   @    @,@             (, @@@@......@@@        \r\n                                  */   ,   #           @@/@ %@@@&#%@@@@         \r\n                                  ,(         ,/((*.     *     &                 \r\n                                   @  (@*............../@/    @                 \r\n                                   .@...,@@&.........,@@,..@.@                  \r\n                            &@@*   @.....#&..........,@@,...*%                  \r\n                         @         %*........................%                  \r\n                       .%       @@@  @,......@....@........&#      ,&@@@@       \r\n                        &       (/  ....&@/............/@@@@@@@      @@@@*      \r\n                        #*        @,..................               @@@@&      \r\n                         ,&     @@@@@..................              %@@@(      \r\n                           @%@@@@@@@....................  ##%&@@@&#,            \r\n                           *&@@@@,......................  ./                    \r\n                         *@     ........................  (*                    \r\n                       &(        ......................   @                     \r\n                    /@.              ................    @                      \r\n                   @@@@/      .%@@@/                   ,&                       \r\n                    @@@@@(,@.          ,&@@             @*   &@@,               \r\n                      @@@                  ,#        *#@@. (@%%&@               \r\n                                            @        @                          \r\n                                            @       @                           \r\n                                            @@@@@@@@&                           \r\n                                           ,@@@@@@@@*                           \r\n                                                                              ");
+                Thread.Sleep(100);
+                Console.Clear();
+                Console.WriteLine("                                                                                \r\n                                                                                \r\n                                                                                \r\n                                    @@                                          \r\n                                   &((@                                         \r\n                   /%%%      .,,,. @(((%                                        \r\n                   ##((@@@@@          @@  @@     *@,                            \r\n                    @@@@@@@@@              ......   @                           \r\n              ,//, @@@@@                    ....   @                            \r\n          @@@#...,@@@@@@.                   #@@@#                               \r\n         @@#......@@@@ /*            (%*@    @                                  \r\n          @@@@##@@@@, @%@@           #   .   @                                  \r\n                 #,    ..     .*((/.         @                                  \r\n                  @    %@*..............(@.  @                                  \r\n                   &##..%@@..........@@@...*@                                   \r\n                   @....%@&...........&*....,%   (@@#                           \r\n                   @........................&.        .@                        \r\n        @@@@#       @/.......(&...*@......(@  @@(       @                       \r\n       @@@@@      @@@@@@@,............#@#...   @.       @                       \r\n       @@@@*              .................../@        &                        \r\n       @@@@               .................*@@@@&     @                         \r\n             *%&@@@&#@   ....................@@@@@@@%#                          \r\n                     @   ....................../@@@&@                           \r\n                     %   ........................     @                         \r\n                      @   .....................         @/                      \r\n                       &   .................              &@                    \r\n                        @                    %@@@#       &@@@@                  \r\n                (@@#   %@            .@@%.          (@ @@@@@@                   \r\n               .@%%%@  *@%@         @                  ,@@@                     \r\n                           @       .%                                           \r\n                           */      ,#                                           \r\n                            @@@@@@@@@                                           \r\n                            &@@@@@@@@                                           \r\n                                                                                ");
+                Thread.Sleep(100);
+                Console.Clear();
             }
             Console.ResetColor();
             Console.Clear();

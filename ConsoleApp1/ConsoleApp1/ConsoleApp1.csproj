@@ -45,15 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Anmeldung.cs" />
-    <Compile Include="Bastian.cs" />
     <Compile Include="Fahrer.cs" />
     <Compile Include="FahrerInterface.cs" />
-    <Compile Include="Ferdinant.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.cs" />
     <Compile Include="rgb.cs" />
-    <Compile Include="Sara.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
