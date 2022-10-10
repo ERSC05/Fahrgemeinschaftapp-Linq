@@ -119,9 +119,9 @@ namespace ConsoleApp1
         }//Appeigenschafften um witer zu machen
         static void Menue()//Alle anderen Methoden zusammengefasst
         {
-        Hallo();//Willkommensgruß
+        //Hallo();//Willkommensgruß
 
-        Login();//login
+        //Login();//login
         Start:
             AuswahlFenster();
             string a = Convert.ToString(Console.ReadKey().KeyChar);
@@ -168,7 +168,8 @@ namespace ConsoleApp1
                     Console.ReadLine();
                     goto Start;
                 case "4":
-                    fahrer.Registrieren();
+                    fahrer.AenderrungVomAccount();
+                    Console.ReadLine();
                     goto Start;
                 case "5":
                     fahrer.Registrieren();

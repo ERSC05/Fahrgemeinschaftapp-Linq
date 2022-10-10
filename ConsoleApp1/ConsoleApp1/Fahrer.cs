@@ -130,6 +130,107 @@ namespace ConsoleApp1
             Console.WriteLine("Deine Daten wurden erfolgreich hinzugefügt.");
             Console.WriteLine("Du bist jezt ein Teil der App");
         }//Fahrer werden option
+        public void AenderrungVomAccount()
+        {
+            Console.Clear();
+            Console.WriteLine("Was willst du ändern?");
+            Console.WriteLine("u/p");
+            string a = Convert.ToString(Console.ReadKey().KeyChar);
+            int counter = 0;
+            string ListeUsername = "0";
+            string ListePasswort = "0";
+            string alteListe = "0";
+            switch (a)
+            {
+                case "u":
+                    Console.WriteLine("Gebe dein alten Username ein");
+                    string username = Console.ReadLine();
+                    Console.Clear();
+                    while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv") >= counter)
+                    {
+                        using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
+                        {
+                            
+                            ListeUsername = sr.ReadLine();
+                            ListePasswort = sr.ReadLine();
+                            if (username != ListeUsername)
+                            {
+                                ListeUsername = sr.ReadLine();
+                                Console.WriteLine("Usernames stimmen nicht überein");
+                                counter++;
+                            }
+                            else
+                            {
+                                alteListe = sr.ReadToEnd();
+                            }
+
+                        }
+
+                        if (username == ListeUsername)
+                        {
+                            using (StreamWriter sw = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
+                            {
+                                Console.WriteLine("Gebe deinen neuen Username ein");
+                                string newUsername = Console.ReadLine();
+                                sw.WriteLine(newUsername);
+                                sw.WriteLine(ListePasswort);
+                                sw.WriteLine(alteListe);
+                                counter = 100000;
+                                Console.ReadLine();
+                            }
+                        }
+                        
+                    }
+
+
+                    return;
+                case "p":
+                    Console.WriteLine("Gebe dein alten Username ein");
+                    string Passwort = Console.ReadLine();
+                    Console.Clear();
+
+                    while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv") >= counter)
+                    {
+                        using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
+                        {
+
+                            ListeUsername = sr.ReadLine();
+                            ListePasswort = sr.ReadLine();
+                            if (Passwort != ListePasswort)
+                            {
+                                ListePasswort = sr.ReadLine();
+                                Console.WriteLine("Usernames stimmen nicht überein");
+                                counter++;
+                            }
+                            else
+                            {
+                                alteListe = sr.ReadToEnd();
+                            }
+
+                        }
+
+                        if (Passwort == ListeUsername)
+                        {
+                            using (StreamWriter sw = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
+                            {
+                                Console.WriteLine("Gebe deinen neuen Username ein");
+                                string newUsername = Console.ReadLine();
+                                sw.WriteLine(newUsername);
+                                sw.WriteLine(ListePasswort);
+                                sw.WriteLine(alteListe);
+                                counter = 100000;
+                                Console.ReadLine();
+                            }
+                        }
+
+                    }
+                    return;
+                default:
+                    Console.WriteLine("Du hast was falsches eingegeben...");
+                    return;
+
+            }
+        }
         public void Registrieren()//Anlegen eines neuen Accounts
         {
             Console.Clear();
@@ -210,7 +311,7 @@ namespace ConsoleApp1
         {
             Console.WriteLine($"willst du mit {preName} {lastname} in einem {Fahrzeug} mitfahren?");
             Console.WriteLine("Dann drücke y");
-            if (Console.ReadLine() == "y")
+            if (Convert.ToString(Console.ReadKey().KeyChar) == "y")
             {
                 string copiedItems = "0";
                 Console.WriteLine($"Du darfst mit {preName} {lastname} am {ZielZeit} in einem {Fahrzeug} fahren");
