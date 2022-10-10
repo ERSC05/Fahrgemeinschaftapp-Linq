@@ -18,7 +18,8 @@ namespace ConsoleApp1
         {
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             int a = 0;
-            while (a == a)
+            int b = 0;
+            while (a == b)
             {
                 Console.WriteLine("                                                                               \r\n                                           @@                                   \r\n                                         /%(&,                                  \r\n                                         @(((@ .,,,       @(@                   \r\n                             &@.    .@@  @&         ,@@@@@((@.                  \r\n                            @   ......              @@@@@@@@&                   \r\n                            ,@   ....                   .@@@@% */*.             \r\n                                &@@@                    %@@@@@@....@@@@         \r\n                                   @    @,@             (, @@@@......@@@        \r\n                                  */   ,   #           @@/@ %@@@&#%@@@@         \r\n                                  ,(         ,/((*.     *     &                 \r\n                                   @  (@*............../@/    @                 \r\n                                   .@...,@@&.........,@@,..@.@                  \r\n                            &@@*   @.....#&..........,@@,...*%                  \r\n                         @         %*........................%                  \r\n                       .%       @@@  @,......@....@........&#      ,&@@@@       \r\n                        &       (/  ....&@/............/@@@@@@@      @@@@*      \r\n                        #*        @,..................               @@@@&      \r\n                         ,&     @@@@@..................              %@@@(      \r\n                           @%@@@@@@@....................  ##%&@@@&#,            \r\n                           *&@@@@,......................  ./                    \r\n                         *@     ........................  (*                    \r\n                       &(        ......................   @                     \r\n                    /@.              ................    @                      \r\n                   @@@@/      .%@@@/                   ,&                       \r\n                    @@@@@(,@.          ,&@@             @*   &@@,               \r\n                      @@@                  ,#        *#@@. (@%%&@               \r\n                                            @        @                          \r\n                                            @       @                           \r\n                                            @@@@@@@@&                           \r\n                                           ,@@@@@@@@*                           \r\n                                                                              ");
                 Thread.Sleep(500);
@@ -78,55 +79,9 @@ namespace ConsoleApp1
             switch (b)
             {
                 case "1":
-                Login:
-                    Console.Clear();
-                    string Username = "0";
-                    int v = 0;
-                    string Usereingabe = "0";
 
-                    List<string> list = new List<string>();
-                    FileInfo info = new FileInfo("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Test.csv");
-                    long length = info.Length;
-                    do
-                    {
-                        using (var reader = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Test.csv"))
-                        {
-                            Usereingabe = reader.ReadToEnd();
-                            Usereingabe.Split(',', ';');
-                            list.Add(Usereingabe);
-                        }
-                    } while (v == 1);
-
-                    Console.WriteLine("Gebe deinen nutzernamen ein");
-                    string Nuzername = Console.ReadLine();
-                    if (Nuzername == (""))
-                    {
-                        Console.WriteLine("Du hast nichts eingegeben");
-                    }
-                    Console.Clear();
-                    Console.WriteLine("Gebe dein passwort ein");
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    string Passwort = Console.ReadLine();
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    var matchinngvalues = list
-                        .Where(stringToCheck => stringToCheck.Contains(Username));
-
-
-                    var match = list
-                        .FirstOrDefault(stringToCheck => stringToCheck.Contains(Nuzername));
-
-                    if (match != null)
-                    {
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Benutzer oder Passwort ist falsch.");
-                        Thread.Sleep(1000);
-                        Console.WriteLine("Du wirst wieder auf die Loginseite weitergeleitet");
-                        Thread.Sleep(2000);
-                        goto Login;
-                    }
+                    Fahrer fahrer2 = new Fahrer();
+                    fahrer2.Anmelden();
                     return;
                 case "2":
                     Console.Clear();
@@ -135,14 +90,13 @@ namespace ConsoleApp1
                     return;
                 default:
                     Console.Clear();
-
                     goto LoginBegin;
             }
 
 
         }//login
         static void AuswahlFenster()
-        {
+        {//Erstes Fenster, die sich nach dem Login öffnet
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Was willst du machen?\n\n\n\n");
@@ -163,39 +117,38 @@ namespace ConsoleApp1
             Console.Write("--->");
 
         }//Appeigenschafften um witer zu machen
-        static void Menue()//Eigentliches Programm
+        static void Menue()//Alle anderen Methoden zusammengefasst
         {
+        Hallo();//Willkommensgruß
 
-
-        //Hallo();//Willkommensgruß
-
-        //Login();//login
+        Login();//login
         Start:
-            AuswahlFenster();//Appeigenschafften um weiter zu machen
-
+            AuswahlFenster();
             string a = Convert.ToString(Console.ReadKey().KeyChar);
             Fahrer fahrer = new Fahrer();
             switch (a)
             {
-                //todo: qw
                 case "1"://Fahrersuche
                     Console.Clear();
                     fahrer.Fahrersuche2();
+                    Console.ReadLine();
+
                     goto Start;
                 case "2"://Fahrer werden
                     Console.Clear();
                 //Vergewisserrung Fahrer zu werden
                 Copyright:
                     Console.WriteLine("Willst du auch ein mitglied der Fahrer App werden?");
-                    Console.WriteLine("Dann schreibe y! Mit dem Drüben von y bestätigst du automatisch, das wir deine Daten klauen und verkaufen dürfen.\nDich dürden wir dann auch einsperren.");
+                    Console.WriteLine("Dann schreibe y! Mit dem Drücken von y bestätigst du automatisch, das wir deine Daten klauen und verkaufen dürfen.\nDich dürden wir dann auch einsperren.");
                     Console.WriteLine("");
-                    Console.WriteLine("Oder b um unseren Copyright schutz durchzulessen.");
+                    Console.WriteLine("Oder b um unseren Datenschutz durchzulessen.");
                     string b = Convert.ToString(Console.ReadKey().KeyChar);
                     if (b == "y")
                     {
                         Console.Clear();
                         Console.WriteLine("Willkommen um ein unser der app zu werden");
                         fahrer.FahrerEdit();
+                        Console.ReadLine();
                         goto Start;
                     }
                     else if (b == "b")
@@ -211,32 +164,26 @@ namespace ConsoleApp1
                         goto Start;
                     }
                 case "3"://Fahrer Auflisten Die existieren und wann sie fahren
-                    Console.Clear();
                     fahrer.PrintOut();
-                    Thread.Sleep(5000);
+                    Console.ReadLine();
                     goto Start;
                 case "4":
-                    Fahrer f4 = new Fahrer();
-                    Console.Clear();
-                    f4.Registrieren();
+                    fahrer.Registrieren();
                     goto Start;
                 case "5":
-                    Fahrer f5 = new Fahrer();
-                    Console.Clear();
-                    f5.Registrieren();
+                    fahrer.Registrieren();
                     goto Start;
                 case "6":
-                    Console.Clear();
-                    Fahrer f6 = new Fahrer();
-                    f6.BestimmteAutoSuche();
+                    fahrer.BestimmteAutoSuche();
+                    Console.ReadLine();
                     goto Start;
                 case "7":
                     Console.Clear();
                     ADHS();
+                    Console.ReadLine();
                     goto Start;
                 case "8":
-                    Fahrer f8 = new Fahrer();
-                    f8.Datenschutz();
+                    fahrer.Datenschutz();
                     Console.ReadLine();
                     goto Start;
                 case "9":
@@ -254,13 +201,14 @@ namespace ConsoleApp1
                     return;
                 case "0":
                     fahrer.FahrgemeinschaftPrint();
+                    Console.ReadLine();
                     goto Start;
-                
-                
+
+
                 default:
                     Console.Clear();
                     Console.WriteLine("Du hast etwas falsches getrückt. Du wirst zum start weitergeleitet");
-                    Thread.Sleep(3000);
+                    Console.ReadLine();
                     Console.Clear();
                     goto Start;
 
