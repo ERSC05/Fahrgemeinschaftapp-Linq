@@ -29,20 +29,33 @@ namespace ConsoleApp1
                 Console.Clear();
             }
 
-        }//Eine tolle Kuh
+        }
+        /// <summary>
+        /// Der Willkommensgruß
+        /// </summary>
         static void Hallo()
         {
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
-            Console.WriteLine("                                                                          \r\n                                                                          \r\nHHHHHHHHH     HHHHHHHHH                  lllllll lllllll                  \r\nH:::::::H     H:::::::H                  l:::::l l:::::l                  \r\nH:::::::H     H:::::::H                  l:::::l l:::::l                  \r\nHH::::::H     H::::::HH                  l:::::l l:::::l                  \r\n  H:::::H     H:::::H    aaaaaaaaaaaaa    l::::l  l::::l    ooooooooooo   \r\n  H:::::H     H:::::H    a::::::::::::a   l::::l  l::::l  oo:::::::::::oo \r\n  H::::::HHHHH::::::H    aaaaaaaaa:::::a  l::::l  l::::l o:::::::::::::::o\r\n  H:::::::::::::::::H             a::::a  l::::l  l::::l o:::::ooooo:::::o\r\n  H:::::::::::::::::H      aaaaaaa:::::a  l::::l  l::::l o::::o     o::::o\r\n  H::::::HHHHH::::::H    aa::::::::::::a  l::::l  l::::l o::::o     o::::o\r\n  H:::::H     H:::::H   a::::aaaa::::::a  l::::l  l::::l o::::o     o::::o\r\n  H:::::H     H:::::H  a::::a    a:::::a  l::::l  l::::l o::::o     o::::o\r\nHH::::::H     H::::::HHa::::a    a:::::a l::::::ll::::::lo:::::ooooo:::::o\r\nH:::::::H     H:::::::Ha:::::aaaa::::::a l::::::ll::::::lo:::::::::::::::o\r\nH:::::::H     H:::::::H a::::::::::aa:::al::::::ll::::::l oo:::::::::::oo \r\nHHHHHHHHH     HHHHHHHHH  aaaaaaaaaa  aaaallllllllllllllll   ooooooooooo   \r\n                                                                          \r\n                                                                          ");
-            //Console.WriteLine("                       **        **          ****           **            **                 ***       ");
-            //Console.WriteLine("                      **        **         **  **          **            **              ***   ***    ");
-            //Console.WriteLine("                     **        **        **    **         **            **             ***     ***   ");
-            //Console.WriteLine("                    ************       **      **        **            **             **        **  ");
-            //Console.WriteLine("                   ************      **        **       **            **             **        **  ");
-            //Console.WriteLine("                  **        **     ***************     **            **             ***      **   ");
-            //Console.WriteLine("                 **        **    **             **    ***********   ***********      ***  ***    ");
-            //Console.WriteLine("                **        **   **               **   ***********   ***********        ****      ");
+            Console.WriteLine("                                                                          \r\n" +
+                "                                                                          \r\n" +
+                "HHHHHHHHH     HHHHHHHHH                  lllllll lllllll                  \r\n" +
+                "H:::::::H     H:::::::H                  l:::::l l:::::l                  \r\n" +
+                "H:::::::H     H:::::::H                  l:::::l l:::::l                  \r\n" +
+                "HH::::::H     H::::::HH                  l:::::l l:::::l                  \r\n" +
+                "  H:::::H     H:::::H    aaaaaaaaaaaaa    l::::l  l::::l    ooooooooooo   \r\n" +
+                "  H:::::H     H:::::H    a::::::::::::a   l::::l  l::::l  oo:::::::::::oo \r\n" +
+                "  H::::::HHHHH::::::H    aaaaaaaaa:::::a  l::::l  l::::l o:::::::::::::::o\r\n" +
+                "  H:::::::::::::::::H             a::::a  l::::l  l::::l o:::::ooooo:::::o\r\n" +
+                "  H:::::::::::::::::H      aaaaaaa:::::a  l::::l  l::::l o::::o     o::::o\r\n" +
+                "  H::::::HHHHH::::::H    aa::::::::::::a  l::::l  l::::l o::::o     o::::o\r\n" +
+                "  H:::::H     H:::::H   a::::aaaa::::::a  l::::l  l::::l o::::o     o::::o\r\n" +
+                "  H:::::H     H:::::H  a::::a    a:::::a  l::::l  l::::l o::::o     o::::o\r\n" +
+                "HH::::::H     H::::::HHa::::a    a:::::a l::::::ll::::::lo:::::ooooo:::::o\r\n" +
+                "H:::::::H     H:::::::Ha:::::aaaa::::::a l::::::ll::::::lo:::::::::::::::o\r\n" +
+                "H:::::::H     H:::::::H a::::::::::aa:::al::::::ll::::::l oo:::::::::::oo \r\n" +
+                "HHHHHHHHH     HHHHHHHHH  aaaaaaaaaa  aaaallllllllllllllll   ooooooooooo   \r\n  " +
+                "                                                                        \r\n                                                                          ");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("            und willkomme zu der Fahrgemeinschaft App!!!\n\n\n");
             Thread.Sleep(2000);
@@ -54,7 +67,10 @@ namespace ConsoleApp1
 
 
 
-        }//Willkommensgruß
+        }
+        /// <summary>
+        /// Fenster um zum login zu kommen
+        /// </summary>
         static void Login()
         {
         LoginBegin:
@@ -94,7 +110,10 @@ namespace ConsoleApp1
             }
 
 
-        }//login
+        }
+        /// <summary>
+        /// Menue for continue
+        /// </summary>
         static void AuswahlFenster()
         {//Erstes Fenster, die sich nach dem Login öffnet
             Console.Clear();
@@ -110,20 +129,22 @@ namespace ConsoleApp1
             Console.WriteLine(" ____ \r\n||8 ||\r\n||__|| : Datenschutz von Fortnite lesen\r\n|/__\\| \n");
             Console.WriteLine(" ____ \r\n||9 ||\r\n||__|| : App verlassen\r\n|/__\\|\n");
             Console.WriteLine(" ____ \r\n||0 ||\r\n||__|| : Gebildete Fahrgemeinschaften anzeigen\r\n|/__\\|\n");
-
-            //          Console.WriteLine(" ____ \r\n||10||\r\n||__|| : Tanzende Kuh (Wir hafften für keine Schäden mit ihren Augen)\r\n|/__\\|\n");
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("--->");
 
-        }//Appeigenschafften um witer zu machen
-        static void Menue()//Alle anderen Methoden zusammengefasst
+        }
+        /// <summary>
+        /// Alles zusammengefasst
+        /// </summary>
+        static void Menue()
         {
-        //Hallo();//Willkommensgruß
+            Hallo();
 
-        //Login();//login
+            Login();
         Start:
             AuswahlFenster();
+
             string a = Convert.ToString(Console.ReadKey().KeyChar);
             Fahrer fahrer = new Fahrer();
             switch (a)
@@ -138,8 +159,8 @@ namespace ConsoleApp1
                     Console.Clear();
                 //Vergewisserrung Fahrer zu werden
                 Copyright:
-                    Console.WriteLine("Willst du auch ein mitglied der Fahrer App werden?");
-                    Console.WriteLine("Dann schreibe y! Mit dem Drücken von y bestätigst du automatisch, das wir deine Daten klauen und verkaufen dürfen.\nDich dürden wir dann auch einsperren.");
+                    Console.WriteLine("Willst du auch ein Mitglied der Fahrer App werden?");
+                    Console.WriteLine("Dann drücke y! Mit dem Drücken von y bestätigst du automatisch, das wir deine Daten klauen und verkaufen dürfen.\nDich dürden wir dann auch einsperren.");
                     Console.WriteLine("");
                     Console.WriteLine("Oder b um unseren Datenschutz durchzulessen.");
                     string b = Convert.ToString(Console.ReadKey().KeyChar);
@@ -208,7 +229,7 @@ namespace ConsoleApp1
 
                 default:
                     Console.Clear();
-                    Console.WriteLine("Du hast etwas falsches getrückt. Du wirst zum start weitergeleitet");
+                    Console.WriteLine("Du hast etwas falsches getrückt. Du wirst zum Start weitergeleitet");
                     Console.ReadLine();
                     Console.Clear();
                     goto Start;
@@ -218,10 +239,13 @@ namespace ConsoleApp1
 
 
         }
+        /// <summary>
+        /// Erzeugt eine tanzende Magenta Kuh
+        /// </summary>
         static void ADHS()
         {
             WriteCharacterStrings(1, 1000000000, true);
-        }//Für den Flex
+        }
         static void WriteCharacterStrings(int start, float end, bool changeColor)
         {
             for (int ctr = start; ctr <= end; ctr++)
@@ -233,16 +257,14 @@ namespace ConsoleApp1
                 }
                 //Thread.Sleep(100);
                 Console.WriteLine("                                                                               \r\n                                           @@                                   \r\n                                         /%(&,                                  \r\n                                         @(((@ .,,,       @(@                   \r\n                             &@.    .@@  @&         ,@@@@@((@.                  \r\n                            @   ......              @@@@@@@@&                   \r\n                            ,@   ....                   .@@@@% */*.             \r\n                                &@@@                    %@@@@@@....@@@@         \r\n                                   @    @,@             (, @@@@......@@@        \r\n                                  */   ,   #           @@/@ %@@@&#%@@@@         \r\n                                  ,(         ,/((*.     *     &                 \r\n                                   @  (@*............../@/    @                 \r\n                                   .@...,@@&.........,@@,..@.@                  \r\n                            &@@*   @.....#&..........,@@,...*%                  \r\n                         @         %*........................%                  \r\n                       .%       @@@  @,......@....@........&#      ,&@@@@       \r\n                        &       (/  ....&@/............/@@@@@@@      @@@@*      \r\n                        #*        @,..................               @@@@&      \r\n                         ,&     @@@@@..................              %@@@(      \r\n                           @%@@@@@@@....................  ##%&@@@&#,            \r\n                           *&@@@@,......................  ./                    \r\n                         *@     ........................  (*                    \r\n                       &(        ......................   @                     \r\n                    /@.              ................    @                      \r\n                   @@@@/      .%@@@/                   ,&                       \r\n                    @@@@@(,@.          ,&@@             @*   &@@,               \r\n                      @@@                  ,#        *#@@. (@%%&@               \r\n                                            @        @                          \r\n                                            @       @                           \r\n                                            @@@@@@@@&                           \r\n                                           ,@@@@@@@@*                           \r\n                                                                              ");
-                Thread.Sleep(100);
+                Thread.Sleep(200);
                 Console.Clear();
                 Console.WriteLine("                                                                                \r\n                                                                                \r\n                                                                                \r\n                                    @@                                          \r\n                                   &((@                                         \r\n                   /%%%      .,,,. @(((%                                        \r\n                   ##((@@@@@          @@  @@     *@,                            \r\n                    @@@@@@@@@              ......   @                           \r\n              ,//, @@@@@                    ....   @                            \r\n          @@@#...,@@@@@@.                   #@@@#                               \r\n         @@#......@@@@ /*            (%*@    @                                  \r\n          @@@@##@@@@, @%@@           #   .   @                                  \r\n                 #,    ..     .*((/.         @                                  \r\n                  @    %@*..............(@.  @                                  \r\n                   &##..%@@..........@@@...*@                                   \r\n                   @....%@&...........&*....,%   (@@#                           \r\n                   @........................&.        .@                        \r\n        @@@@#       @/.......(&...*@......(@  @@(       @                       \r\n       @@@@@      @@@@@@@,............#@#...   @.       @                       \r\n       @@@@*              .................../@        &                        \r\n       @@@@               .................*@@@@&     @                         \r\n             *%&@@@&#@   ....................@@@@@@@%#                          \r\n                     @   ....................../@@@&@                           \r\n                     %   ........................     @                         \r\n                      @   .....................         @/                      \r\n                       &   .................              &@                    \r\n                        @                    %@@@#       &@@@@                  \r\n                (@@#   %@            .@@%.          (@ @@@@@@                   \r\n               .@%%%@  *@%@         @                  ,@@@                     \r\n                           @       .%                                           \r\n                           */      ,#                                           \r\n                            @@@@@@@@@                                           \r\n                            &@@@@@@@@                                           \r\n                                                                                ");
-                Thread.Sleep(100);
+                Thread.Sleep(200);
                 Console.Clear();
             }
             Console.ResetColor();
             Console.Clear();
         }//Der Flex
-
-
     }
 }

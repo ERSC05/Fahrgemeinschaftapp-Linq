@@ -12,18 +12,32 @@ using System.Xml.Schema;
 
 namespace ConsoleApp1
 {
+    /// <summary>
+    /// Alle nutzer in dieser App müssen diese Kriterien erfüllem
+    /// </summary>
     public class Fahrer : FahrerInterface
     {
+        /// <summary>
+        /// File counter um die Länge einer csv Datein in einem int zu bekommen
+        /// </summary>
+        /// <param name="fileToCount"></param>
+        /// <returns></returns>
         public static int CountLines(string fileToCount)
         {
             int counter = 0;
             using (StreamReader countReader = new StreamReader(fileToCount))
             {
-                while (countReader.ReadLine() != null) { counter++; }
+                while (countReader.ReadLine() != null)
+                {
+                    counter++; 
+                }
                 return counter;
             }
 
         }
+        /// <summary>
+        /// Print für alle angemeldeten Fahrer
+        /// </summary>
         public virtual void PrintOut()
         {
             Console.Clear();
@@ -40,7 +54,7 @@ namespace ConsoleApp1
                     }
                     else
                     {
-
+                        //                  Vorname             Nachname                    Fahrzeug                Ort                 Datum               Anzahl der Sitze    
                         Console.WriteLine($"{sr.ReadLine()} {sr.ReadLine()} fährt mit einem {sr.ReadLine()} nach {sr.ReadLine()} am {sr.ReadLine()} und hat {sr.ReadLine()} Plätze in seinem Gefährt.");
                         countEtries++;
 
@@ -51,12 +65,15 @@ namespace ConsoleApp1
 
 
         }//Schreibt alle Fahrer niede
+        /// <summary>
+        /// Zeigt den Nutzer das Auto an, mit dem er Fahren will
+        /// </summary>
         public void BestimmteAutoSuche()
         {
             Console.Clear();
             using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
             {
-                Console.WriteLine("Mit welchem Auto willst du unbeedingt fahren?");
+                Console.WriteLine("Mit welchem Auto willst du unbedingt fahren?");
                 string AusgewaeltesAuto = Console.ReadLine();
                 int counter = 0;
                 bool a = false;
@@ -96,6 +113,9 @@ namespace ConsoleApp1
 
             Thread.Sleep(7000);
         }//Sucht von allen Autos ein Bestimmtes herraus
+        /// <summary>
+        /// Property um Fahrer hinzu zu fügen um ein Fahrere zu werden
+        /// </summary>
         public void FahrerEdit()
         {//Method to add the User as a driver
             string b = "0";
@@ -107,20 +127,20 @@ namespace ConsoleApp1
             using (StreamWriter sw = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
             {//Neue UserInfo bekommen
 
-                Console.WriteLine("Gebe deinen Vor namen ein");
+                Console.WriteLine("Gebe deinen Vornamen ein");
                 sw.WriteLine(Console.ReadLine());
                 Console.Clear();
                 Console.WriteLine("Gebe deinen Nachnamen ein");
                 sw.WriteLine(Console.ReadLine());
                 Console.Clear();
-                Console.WriteLine("Gebe dein auto ein");
+                Console.WriteLine("Gebe dein Auto ein");
                 sw.WriteLine(Console.ReadLine());
                 Console.Clear();
                 Console.WriteLine("Gebe an wo hin du hinfährst");
                 sw.WriteLine(Console.ReadLine());
                 Console.WriteLine("Gebe an wann du Fährst(eine Angabe)");
                 sw.WriteLine(Console.ReadLine());
-                Console.WriteLine("Gebe an wie viele sitzplätze dein Auto hat");
+                Console.WriteLine("Gebe an wie viele Sitzplätze dein Auto hat");
                 sw.WriteLine(Console.ReadLine());
                 sw.WriteLine(b);//Alter UserInfo hinzufügen
             }
@@ -130,6 +150,9 @@ namespace ConsoleApp1
             Console.WriteLine("Deine Daten wurden erfolgreich hinzugefügt.");
             Console.WriteLine("Du bist jezt ein Teil der App");
         }//Fahrer werden option
+        /// <summary>
+        /// Anmelde Daten vom Nutzer werden geändert
+        /// </summary>
         public void AenderrungVomAccount()
         {
             Console.Clear();
@@ -156,7 +179,7 @@ namespace ConsoleApp1
                             if (username != ListeUsername)
                             {
                                 ListeUsername = sr.ReadLine();
-                                Console.WriteLine("Usernames stimmen nicht überein");
+                                Console.WriteLine("Usernamen stimmen nicht überein");
                                 counter++;
                             }
                             else
@@ -227,10 +250,14 @@ namespace ConsoleApp1
                     return;
                 default:
                     Console.WriteLine("Du hast was falsches eingegeben...");
+                    Console.WriteLine("deswegen wirst du zur Startseite weiter geleitet.");
                     return;
 
             }
         }
+        /// <summary>
+        /// Anlegen eines neues Accounts, falls noch keins vorhanden ist.
+        /// </summary>
         public void Registrieren()//Anlegen eines neuen Accounts
         {
             Console.Clear();
@@ -264,6 +291,9 @@ namespace ConsoleApp1
             }
 
         }
+        /// <summary>
+        /// Datenschutzt von Fortnite
+        /// </summary>
         public void Datenschutz()
         {
             Console.Clear();
@@ -307,10 +337,19 @@ namespace ConsoleApp1
                 "oder uns über Spieler-Support-Anfragen oder den Kundendienst zu kontaktieren. Wenn Sie an einem Wettbewerb, einer wettbewerbsorientierten Veranstaltung,\n" +
                 " oder an unserem Programm Support-A-Creator teilnehmen, erfassen wir Ihre Antragsinformationen und andere Informationen, die wir benötigen, um Ihre ");
         }
+        /// <summary>
+        /// Fahrgemeinschaften werden hier in einer CSV Datei niedergeschrieben
+        /// </summary>
+        /// <param name="preName"></param>
+        /// <param name="lastname"></param>
+        /// <param name="ZielZeit"></param>
+        /// <param name="Fahrzeug"></param>
+        /// <param name="prenameMitfahrer"></param>
+        /// <param name="lastnameMitfahrer"></param>
         public void FahrersucheListeAdd(string preName, string lastname, string ZielZeit, string Fahrzeug, string prenameMitfahrer, string lastnameMitfahrer)
         {
             Console.WriteLine($"willst du mit {preName} {lastname} in einem {Fahrzeug} mitfahren?");
-            Console.WriteLine("Dann drücke y");
+            Console.WriteLine("y/n");
             if (Convert.ToString(Console.ReadKey().KeyChar) == "y")
             {
                 string copiedItems = "0";
@@ -332,6 +371,9 @@ namespace ConsoleApp1
             }
 
         }
+        /// <summary>
+        /// Fahrgemeinschaften werden gebildet
+        /// </summary>
         public void Fahrersuche2()
         {
             using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
@@ -394,6 +436,9 @@ namespace ConsoleApp1
 
             }
         }
+        /// <summary>
+        /// Fahrgemeinschaften werden afugelistet
+        /// </summary>
         public void FahrgemeinschaftPrint()
         {
             Console.Clear();
@@ -410,6 +455,9 @@ namespace ConsoleApp1
                 }
             }
         }
+        /// <summary>
+        /// Anmeldung von dem User, wenn er schon ein Account hat
+        /// </summary>
         public void Anmelden()
         {
             Console.Clear();
