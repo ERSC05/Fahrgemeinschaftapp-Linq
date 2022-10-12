@@ -22,14 +22,14 @@ namespace ConsoleApp1
         /// </summary>
         /// <param name="fileToCount"></param>
         /// <returns></returns>
-        public static int CountLines(string fileToCount)
+        private static int CountLines(string fileToCount)
         {
             int counter = 0;
             using (StreamReader countReader = new StreamReader(fileToCount))
             {
                 while (countReader.ReadLine() != null)
                 {
-                    counter++; 
+                    counter++;
                 }
                 return counter;
             }
@@ -50,7 +50,18 @@ namespace ConsoleApp1
                     if (countEtries % 6 >= 1)
                     {
                         Console.WriteLine();
+                        int a = 0;
+                        if (a % 2 == 2)
+                        {
+                            int b = 0;
+                            if (b % 2 == 2)
+                                Console.WriteLine();
+                            else { b++; }
+
+                        }
+                        else { a++; }
                         countEtries++;
+
                     }
                     else
                     {
@@ -124,26 +135,96 @@ namespace ConsoleApp1
                 b = sr.ReadToEnd();
             }
 
-            using (StreamWriter sw = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
-            {//Neue UserInfo bekommen
+        //Neue UserInfo bekommen
+        start:
+            Console.WriteLine("Gebe deinen Vornamen ein");
+            string c = Console.ReadLine();
+            Console.Clear();
 
-                Console.WriteLine("Gebe deinen Vornamen ein");
-                sw.WriteLine(Console.ReadLine());
+            if (c == "")
+            {
+                Console.WriteLine("Deine Angebe ist Leer!!!");
+                Thread.Sleep(1000);
                 Console.Clear();
-                Console.WriteLine("Gebe deinen Nachnamen ein");
-                sw.WriteLine(Console.ReadLine());
-                Console.Clear();
-                Console.WriteLine("Gebe dein Auto ein");
-                sw.WriteLine(Console.ReadLine());
-                Console.Clear();
-                Console.WriteLine("Gebe an wo hin du hinfährst");
-                sw.WriteLine(Console.ReadLine());
-                Console.WriteLine("Gebe an wann du Fährst(eine Angabe)");
-                sw.WriteLine(Console.ReadLine());
-                Console.WriteLine("Gebe an wie viele Sitzplätze dein Auto hat");
-                sw.WriteLine(Console.ReadLine());
-                sw.WriteLine(b);//Alter UserInfo hinzufügen
+                goto start;
             }
+            else
+            { Console.Clear(); }
+            Console.WriteLine("Gebe deinen Nachnamen ein");
+            string d = Console.ReadLine();
+            Console.Clear();
+
+            if (d == "")
+            {
+                Console.WriteLine("Deine Angebe ist Leer!!!");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start;
+            }
+            else
+            { Console.Clear(); }
+            Console.WriteLine("Gebe dein Auto ein");
+            string e = Console.ReadLine();
+            Console.Clear();
+
+            if (e == "")
+            {
+                Console.WriteLine("Deine Angebe ist Leer!!!");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start;
+            }
+            else
+            { Console.Clear(); }
+            Console.WriteLine("Gebe an wo hin du hinfährst");
+            string f = Console.ReadLine();
+            Console.Clear();
+
+            if (f == "")
+            {
+                Console.WriteLine("Deine Angebe ist Leer!!!");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start;
+            }
+            else
+            { Console.WriteLine("Gebe an wann du Fährst(eine Angabe)"); }
+            string g = Console.ReadLine();
+            Console.Clear();
+
+            if (g == "")
+            {
+                Console.WriteLine("Deine Angebe ist Leer!!!");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start;
+            }
+            else
+            { Console.WriteLine("Gebe an wie viele Sitzplätze dein Auto hat"); }
+            string h = Console.ReadLine();
+            Console.Clear();
+            if (h == "")
+            {
+                Console.WriteLine("Deine Angebe ist Leer!!!");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start;
+            }
+            else
+            {
+                using (StreamWriter sw = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
+                {
+
+                    sw.WriteLine(c);
+                    sw.WriteLine(d);
+                    sw.WriteLine(e);
+                    sw.WriteLine(f);
+                    sw.WriteLine(g);
+                    sw.WriteLine(h);
+                    sw.WriteLine(b);//Alter UserInfo hinzufügen
+                }
+            }
+
 
 
 
@@ -155,11 +236,13 @@ namespace ConsoleApp1
         /// </summary>
         public void AenderrungVomAccount()
         {
+        start:
             Console.Clear();
             Console.WriteLine("Was willst du ändern?");
             Console.WriteLine("u/p");
             string a = Convert.ToString(Console.ReadKey().KeyChar);
             int counter = 0;
+            int counter2 = 0;
             string ListeUsername = "0";
             string ListePasswort = "0";
             string alteListe = "0";
@@ -173,18 +256,22 @@ namespace ConsoleApp1
                     {
                         using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
                         {
-                            
+
                             ListeUsername = sr.ReadLine();
                             ListePasswort = sr.ReadLine();
                             if (username != ListeUsername)
                             {
                                 ListeUsername = sr.ReadLine();
-                                Console.WriteLine("Usernamen stimmen nicht überein");
                                 counter++;
                             }
                             else
                             {
                                 alteListe = sr.ReadToEnd();
+                            }
+                            if (counter == CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
+                            {
+                                Console.WriteLine("Dein Username stimmt nicht mit dem deines Accounts überein.");
+                                goto start;
                             }
 
                         }
@@ -195,23 +282,37 @@ namespace ConsoleApp1
                             {
                                 Console.WriteLine("Gebe deinen neuen Username ein");
                                 string newUsername = Console.ReadLine();
-                                sw.WriteLine(newUsername);
-                                sw.WriteLine(ListePasswort);
-                                sw.WriteLine(alteListe);
-                                counter = 100000;
-                                Console.ReadLine();
+                                Console.WriteLine($"Gebe dein Passwort ein, damit wir prüfen können ob du wirklich {username} bist");
+                                string Passwortcheck = Console.ReadLine();
+                                if (Passwortcheck == ListePasswort)
+                                {
+                                    sw.WriteLine(newUsername);
+                                    sw.WriteLine(ListePasswort);
+                                    sw.WriteLine(alteListe);
+                                    counter = 100000;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Das ist das falsche Passwort. versüche es erneut.");
+                                    Passwortcheck = Console.ReadLine();
+                                    counter2++;
+                                }
+                                if (counter2 >= 3)
+                                {
+                                    Console.WriteLine("Du hast 3 mal dein Passwort falsch eingegebn. du wirst zum start weiter geleitet.");
+
+                                }
                             }
                         }
-                        
+
                     }
 
 
                     return;
                 case "p":
-                    Console.WriteLine("Gebe dein alten Username ein");
-                    string Passwort = Console.ReadLine();
+                    Console.WriteLine("Gebe dein Username ein");
+                    username = Console.ReadLine();
                     Console.Clear();
-
                     while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv") >= counter)
                     {
                         using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
@@ -219,30 +320,49 @@ namespace ConsoleApp1
 
                             ListeUsername = sr.ReadLine();
                             ListePasswort = sr.ReadLine();
-                            if (Passwort != ListePasswort)
+                            if (username != ListeUsername)
                             {
-                                ListePasswort = sr.ReadLine();
-                                Console.WriteLine("Usernames stimmen nicht überein");
+                                ListeUsername = sr.ReadLine();
                                 counter++;
                             }
                             else
                             {
                                 alteListe = sr.ReadToEnd();
                             }
+                            if (counter == CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
+                            {
+                                Console.WriteLine("Dein Username stimmt nicht mit dem deines Accounts überein.");
+                                goto start;
+                            }
 
                         }
 
-                        if (Passwort == ListeUsername)
+                        if (username == ListeUsername)
                         {
                             using (StreamWriter sw = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
                             {
-                                Console.WriteLine("Gebe deinen neuen Username ein");
-                                string newUsername = Console.ReadLine();
-                                sw.WriteLine(newUsername);
-                                sw.WriteLine(ListePasswort);
-                                sw.WriteLine(alteListe);
-                                counter = 100000;
-                                Console.ReadLine();
+                                Console.WriteLine("Gebe deinen neues Passwort ein");
+                                string newPasswort = Console.ReadLine();
+                                Console.WriteLine($"Wiederhole dein Passwort");
+                                string Passwortcheck = Console.ReadLine();
+                                if (Passwortcheck == newPasswort)
+                                {
+                                    sw.WriteLine(ListeUsername);
+                                    sw.WriteLine(newPasswort);
+                                    sw.WriteLine(alteListe);
+                                    counter = 100000;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Das ist das falsche Passwort. Wiederhole ihn");
+                                    Passwortcheck = Console.ReadLine();
+                                    counter2++;
+                                }
+                                if (counter2 >= 3)
+                                {
+                                    Console.WriteLine("Du hast 3 mal dein Passwort falsch eingegebn. du wirst zum start weiter geleitet.");
+
+                                }
                             }
                         }
 
@@ -264,30 +384,39 @@ namespace ConsoleApp1
         start:
             Console.Write("Enter Username: ");
             string Username = Console.ReadLine();
-
-            Console.Write("Enter Passwort: ");
-            string Passwort = Console.ReadLine();
-            Console.WriteLine("Wiederhole dein Passwort: ");
-            string PasswortKontrolle = Console.ReadLine();
-            if (Passwort == PasswortKontrolle)
+            if (Username == "")
             {
-                Console.WriteLine("Dein Passwort ist richtig");
+                Console.WriteLine("Deine Eingabe ist leer");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start;
             }
             else
             {
-                Console.WriteLine("Passwörter stimmen nicht über ein");
-                goto start;
-            }
-            string VohrerigeCSV = "0";
-            using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
-            {
-                VohrerigeCSV = sr.ReadToEnd();
-            }
-            using (StreamWriter sr = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
-            {
-                sr.WriteLine(Username);
-                sr.WriteLine(Passwort);
-                sr.WriteLine(VohrerigeCSV);
+                Console.Write("Enter Passwort: ");
+                string Passwort = Console.ReadLine();
+                Console.WriteLine("Wiederhole dein Passwort: ");
+                string PasswortKontrolle = Console.ReadLine();
+                if (Passwort == PasswortKontrolle)
+                {
+                    Console.WriteLine("Dein Passwort ist richtig");
+                }
+                else
+                {
+                    Console.WriteLine("Passwörter stimmen nicht über ein");
+                    goto start;
+                }
+                string VohrerigeCSV = "0";
+                using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
+                {
+                    VohrerigeCSV = sr.ReadToEnd();
+                }
+                using (StreamWriter sr = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Passwoerter.csv"))
+                {
+                    sr.WriteLine(Username);
+                    sr.WriteLine(Passwort);
+                    sr.WriteLine(VohrerigeCSV);
+                }
             }
 
         }
@@ -346,7 +475,7 @@ namespace ConsoleApp1
         /// <param name="Fahrzeug"></param>
         /// <param name="prenameMitfahrer"></param>
         /// <param name="lastnameMitfahrer"></param>
-        public void FahrersucheListeAdd(string preName, string lastname, string ZielZeit, string Fahrzeug, string prenameMitfahrer, string lastnameMitfahrer)
+        public void FahrersucheListeAdd(string preName, string lastname, string ZielZeit, string Fahrzeug, string prenameMitfahrer, string lastnameMitfahrer, int sitzplaetze)
         {
             Console.WriteLine($"willst du mit {preName} {lastname} in einem {Fahrzeug} mitfahren?");
             Console.WriteLine("y/n");
@@ -357,11 +486,10 @@ namespace ConsoleApp1
                 using (StreamReader sr2 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv"))
                 {
                     copiedItems = sr2.ReadToEnd();
-
                 }
                 using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv"))
                 {
-                    sw2.WriteLine($"{prenameMitfahrer} {lastnameMitfahrer} ist der Beifahrer von {preName} {lastname} am {ZielZeit} in einem {Fahrzeug} fahren");
+                    sw2.WriteLine($"{prenameMitfahrer} {lastnameMitfahrer} ist der Beifahrer von {preName} {lastname} am {ZielZeit} in einem {Fahrzeug} und hat noch{sitzplaetze} Sitzplätze frei");
                     sw2.WriteLine(copiedItems);
                 }
             }
@@ -374,64 +502,106 @@ namespace ConsoleApp1
         /// <summary>
         /// Fahrgemeinschaften werden gebildet
         /// </summary>
-        public void Fahrersuche2()
+        public void Fahrersuche3()
         {
+            int AnzahlMitfahrer = 0;
             using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
             {
+            start2:
                 Console.WriteLine("Gebe deinen Vornamen ein");
                 string prenameMitfahrer = Console.ReadLine();
+
+                if (prenameMitfahrer == "")
+                {
+                    Console.WriteLine("Deine Eingabe ist leer");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    goto start2;
+                }
+                else
+                { }
                 Console.WriteLine("gebe deinen Nachnamen ein");
                 string lastnameMitfahrer = Console.ReadLine();
+                if (lastnameMitfahrer == "")
+                {
+                    Console.WriteLine("Deine Eingabe ist leer");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    goto start2;
+                }
+                else
+                { }
                 Console.WriteLine("Wo willst du hin?");
                 string ZielOrt = Console.ReadLine();
+                if (ZielOrt == "")
+                {
+                    Console.WriteLine("Deine Eingabe ist leer");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    goto start2;
+                }
+                else
+                { }
                 Console.WriteLine("Wann willst du dahin?");
                 string ZielZeit = Console.ReadLine();
-                Console.WriteLine("Wie viele seid ihr?");
-                int AnzahlMitfahrer = Convert.ToInt32(Console.ReadLine());
-                int counterForLines = CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv");
-                int counter = 1;
-                while (counter < counterForLines)
+                if (ZielZeit == "")
                 {
-                   
-                    if (counter % 4 == 1)
-                    {//Einlesung der verschiedenen Einträge durch überschreiben.
-                        string preName = sr.ReadLine();
-                        string lastname = sr.ReadLine();
-                        string Fahrzeug = sr.ReadLine();
-                        string Ort = sr.ReadLine();
-                        string Zeit = sr.ReadLine();
-                        int Sitzplaetze = Convert.ToInt32(sr.ReadLine());
-                        if (ZielOrt == Ort)
-                        {
-                            if (ZielZeit == Zeit)
+                    Console.WriteLine("Deine Eingabe ist leer");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    goto start2;
+                }
+                else
+                { }
+            start:
+                Console.WriteLine("Wie viele seid ihr?");
+                string input = Console.ReadLine(); //get the input
+                AnzahlMitfahrer = -1;
+                if (!int.TryParse(input, out AnzahlMitfahrer))          //
+                {
+                    Console.WriteLine("Das ist keine Zahl!!!");         //
+                    Thread.Sleep(1000);                                 //    
+                    Console.Clear();                                    //
+                    goto start;                                         //
+                }                                                       //
+                else                                                    //                    
+                {
+                    int counterForLines = CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv");
+                    int counter = 1;
+                    while (counter < counterForLines)
+                    {
+                        if (counter % 4 == 1)
+                        {//Einlesung der verschiedenen Einträge durch überschreiben.
+                            string preName = sr.ReadLine();
+                            string lastname = sr.ReadLine();
+                            string Fahrzeug = sr.ReadLine();
+                            string Ort = sr.ReadLine();
+                            string Zeit = sr.ReadLine();
+                            int Sitzplaetze = Convert.ToInt32(sr.ReadLine());
+                            if (ZielOrt == Ort && ZielZeit == Zeit && AnzahlMitfahrer <= Sitzplaetze)
                             {
-                                if (AnzahlMitfahrer <= Sitzplaetze)
-                                {
-                                    FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer);
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"Es fährt keiner zu dieser Zeit");
-                                }
+                                Sitzplaetze = Sitzplaetze - AnzahlMitfahrer;
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer, Sitzplaetze);
+                                break;
                             }
                             else
                             {
-                                //Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                                Console.WriteLine($"Du wirst wieder auf die Startseite geleitet");
+                                break;
                             }
 
+
+
                         }
+
                         else
                         {
+                            counter++;
                         }
-                        counter++;
-                    }
-                    else
-                    {
-                        counter++;
-                    }
 
+                    }
                 }
-                
                 //Console.ReadLine();
 
             }
@@ -477,6 +647,10 @@ namespace ConsoleApp1
                     string Username = Console.ReadLine();
                     while (Username != UsernameListe)
                     {
+                        if (Username == "")
+                        {
+                            goto UsernameCheck;
+                        }
                         if (Username == UsernameListe)
                         {
                             UsernameListe = Username;
@@ -494,8 +668,6 @@ namespace ConsoleApp1
                                 goto UsernameCheck;
                             }
                         }
-
-
                     }
 
 

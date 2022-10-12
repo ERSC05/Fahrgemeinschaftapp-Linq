@@ -76,7 +76,7 @@ namespace ConsoleApp1
         LoginBegin:
             Console.WriteLine("╔═══════════════════════════════════════════════════════════╗");
             Console.WriteLine("║                                                           ║");
-            Console.WriteLine("║                   Wass willst du machen?                  ║");
+            Console.WriteLine("║                   Was willst du machen?                   ║");
             Console.WriteLine("║                                                           ║");
             Console.WriteLine("╠═══════════════════════════════════════════════════════════╣");
             Console.WriteLine("║                                                           ║");
@@ -90,7 +90,8 @@ namespace ConsoleApp1
             Console.WriteLine("║");
             Console.WriteLine("║");
             Console.WriteLine("║");
-            Console.Write("╚════════════════════");
+            Console.Write    ("╚════════════════════");
+
             string b = Convert.ToString(Console.ReadKey().KeyChar);
             switch (b)
             {
@@ -104,6 +105,8 @@ namespace ConsoleApp1
                     Fahrer f = new Fahrer();
                     f.Registrieren();
                     return;
+                case null:
+                    goto LoginBegin;
                 default:
                     Console.Clear();
                     goto LoginBegin;
@@ -118,7 +121,7 @@ namespace ConsoleApp1
         {//Erstes Fenster, die sich nach dem Login öffnet
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Was willst du machen?\n\n\n\n");
+            //Console.WriteLine("Was willst du machen?\n\n\n\n");
             Console.WriteLine(" ____ \r\n||1 ||\r\n||__|| : Fahrgemeinschaft finden\r\n|/__\\|\n");
             Console.WriteLine(" ____ \r\n||2 ||\r\n||__|| : Fahrer werden\r\n|/__\\|\n");
             Console.WriteLine(" ____ \r\n||3 ||\r\n||__|| : Auflistung der Bisherigen Fahrer\r\n|/__\\|\n");
@@ -139,9 +142,9 @@ namespace ConsoleApp1
         /// </summary>
         static void Menue()
         {
-            Hallo();
+            //Hallo();
 
-            Login();
+            //Login();
         Start:
             AuswahlFenster();
 
@@ -151,7 +154,7 @@ namespace ConsoleApp1
             {
                 case "1"://Fahrersuche
                     Console.Clear();
-                    fahrer.Fahrersuche2();
+                    fahrer.Fahrersuche3();
                     Console.ReadLine();
 
                     goto Start;
@@ -159,7 +162,7 @@ namespace ConsoleApp1
                     Console.Clear();
                 //Vergewisserrung Fahrer zu werden
                 Copyright:
-                    Console.WriteLine("Willst du auch ein Mitglied der Fahrer App werden?");
+                    Console.WriteLine("Willst du auch ein Fahrer der App werden?");
                     Console.WriteLine("Dann drücke y! Mit dem Drücken von y bestätigst du automatisch, das wir deine Daten klauen und verkaufen dürfen.\nDich dürden wir dann auch einsperren.");
                     Console.WriteLine("");
                     Console.WriteLine("Oder b um unseren Datenschutz durchzulessen.");
@@ -203,6 +206,7 @@ namespace ConsoleApp1
                     Console.Clear();
                     ADHS();
                     Console.ReadLine();
+                    
                     goto Start;
                 case "8":
                     fahrer.Datenschutz();
