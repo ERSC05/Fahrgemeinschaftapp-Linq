@@ -11,6 +11,8 @@ namespace ConsoleApp1
     {
         static void Main()
         {
+            Fahrer fahrer = new Fahrer();
+            fahrer.BeifahrerAendern();
             Menue();
         }
 
@@ -71,7 +73,7 @@ namespace ConsoleApp1
         /// <summary>
         /// Fenster um zum login zu kommen
         /// </summary>
-        static void Login()
+        public static void Login()
         {
         LoginBegin:
             Console.WriteLine("╔═══════════════════════════════════════════════════════════╗");
@@ -90,7 +92,7 @@ namespace ConsoleApp1
             Console.WriteLine("║");
             Console.WriteLine("║");
             Console.WriteLine("║");
-            Console.Write    ("╚════════════════════");
+            Console.Write("╚════════════════════");
 
             string b = Convert.ToString(Console.ReadKey().KeyChar);
             switch (b)
@@ -117,21 +119,32 @@ namespace ConsoleApp1
         /// <summary>
         /// Menue for continue
         /// </summary>
-        static void AuswahlFenster()
+        public static void AuswahlFenster()
         {//Erstes Fenster, die sich nach dem Login öffnet
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             //Console.WriteLine("Was willst du machen?\n\n\n\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||1 ||\r\n||__|| : Fahrgemeinschaft finden\r\n|/__\\|\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||2 ||\r\n||__|| : Fahrer werden\r\n|/__\\|\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||3 ||\r\n||__|| : Auflistung der Bisherigen Fahrer\r\n|/__\\|\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||4 ||\r\n||__|| : Eigene Anmeldedaten bearbeiten\r\n|/__\\|\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||5 ||\r\n||__|| : Neuen Account Registrieren \r\n|/__\\|\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||6 ||\r\n||__|| : Fahrer mit bestimmtem Auto suchen\r\n|/__\\|\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||7 ||\r\n||__|| : Tanzende Kuh (Wir hafften für keine Schäden mit ihren Augen)\r\n|/__\\| \n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||8 ||\r\n||__|| : Datenschutz von Fortnite lesen\r\n|/__\\| \n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||9 ||\r\n||__|| : App verlassen\r\n|/__\\|\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine(" ____ \r\n||0 ||\r\n||__|| : Gebildete Fahrgemeinschaften anzeigen\r\n|/__\\|\n");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("--->");
@@ -140,11 +153,11 @@ namespace ConsoleApp1
         /// <summary>
         /// Alles zusammengefasst
         /// </summary>
-        static void Menue()
+        public static void Menue()
         {
-            //Hallo();
+        //Hallo();
 
-            //Login();
+        //Login();
         Start:
             AuswahlFenster();
 
@@ -155,7 +168,7 @@ namespace ConsoleApp1
                 case "1"://Fahrersuche
                     Console.Clear();
                     fahrer.Fahrersuche4();
-                    Console.ReadLine();
+                    _ = Console.ReadLine();
 
                     goto Start;
                 case "2"://Fahrer werden
@@ -172,7 +185,7 @@ namespace ConsoleApp1
                         Console.Clear();
                         Console.WriteLine("Willkommen um ein unser der app zu werden");
                         fahrer.FahrerEdit();
-                        Console.ReadLine();
+                        _ = Console.ReadLine();
                         goto Start;
                     }
                     else if (b == "b")
@@ -244,7 +257,7 @@ namespace ConsoleApp1
 
         }
         /// <summary>
-        /// Erzeugt eine tanzende Magenta Kuh
+        /// Erzeugt eine tanzende Magenta mit epileptischen Farben
         /// </summary>
         static void ADHS()
         {

@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 
 namespace ConsoleApp1
 {
@@ -38,7 +32,7 @@ namespace ConsoleApp1
         /// <summary>
         /// Print für alle angemeldeten Fahrer
         /// </summary>
-        public virtual void PrintOut()
+        public void PrintOut()
         {
             Console.Clear();
             using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
@@ -567,7 +561,6 @@ namespace ConsoleApp1
             {
                 AnzahlMitfahrer = Convert.ToInt32(input);
                 int counter = 1;
-                int counter2 = 1;
                 string rest1 = "0";
                 string rest2 = "0";
                 string oldpreName = "0";
@@ -617,11 +610,11 @@ namespace ConsoleApp1
                                 oldSitzplaetze = oldSitzplaetze - AnzahlMitfahrer;
                                 using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenNeuGeschrieben.csv"))
                                 {
-                                    sw2.WriteLine(oldpreName);
-                                    sw2.WriteLine(oldlastname);
-                                    sw2.WriteLine(oldFahrzeug);
-                                    sw2.WriteLine(oldOrt);
-                                    sw2.WriteLine(oldZeit);
+                                    sw2.WriteLine(preName);
+                                    sw2.WriteLine(lastname);
+                                    sw2.WriteLine(Fahrzeug);
+                                    sw2.WriteLine(Ort);
+                                    sw2.WriteLine(Zeit);
                                     sw2.WriteLine(Convert.ToString(oldSitzplaetze));
                                 }
                                 using (StreamReader sr2 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenNeuGeschrieben.csv"))
@@ -766,5 +759,82 @@ namespace ConsoleApp1
 
 
         }
+        public void BeifahrerAendern()
+        {
+            int counter = 0;
+            string x = "x";
+            string y = "y";
+            string Usereingabe1 = "0";
+            string RestlicheEingaben = "0";
+            string VorherigeEingaben = "0";
+            string[] Usereingabe = new string[] { };
+            int Kopie = CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv");
+            int a = 0;
+            List<string> UsereingabeListe = new List<string>();
+            Console.WriteLine("gebe deinen Vornamen ein (der name, der in der Liste ist)");
+            string UserVorname = Console.ReadLine();
+            Console.WriteLine("gebe deinen Nachnamen ein (der name, der in der Liste ist)");
+            string UserNachname = Console.ReadLine();
+            using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv"))
+            {
+                while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv") >= a)
+                {
+                    Usereingabe1 = sr.ReadLine();
+
+                    if (Usereingabe1 == null)
+                    {
+                        break;
+                    }
+                    Usereingabe = Usereingabe1.Split(new char[] { ' ' });
+                    x = Usereingabe[0];
+                    y = Usereingabe[1];
+                    using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv"))
+                    {
+                        while (Kopie >= counter)
+                        {
+                            sw2.WriteLine();
+                            counter++;
+                        }
+                    }
+                    using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv",true))
+                    {
+                        if (x != UserVorname && y != UserNachname)
+                        {
+                            sw2.WriteLine(Usereingabe1);
+                        }
+                        else
+                        {
+                            Console.WriteLine("else");
+                        }
+                    }
+                    if (x == UserVorname && y == UserNachname)
+                    {
+                        _ = sr.ReadLine();
+                        RestlicheEingaben = sr.ReadToEnd();
+                        VorherigeEingaben = sr.ReadToEnd();
+
+                    }
+                    using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv", true))
+                    {
+                        sw2.WriteLine(VorherigeEingaben);
+                        sw2.WriteLine(RestlicheEingaben);
+                        UsereingabeListe.Add(x);
+                        UsereingabeListe.Add(y);
+                    }
+
+                    a++;
+
+                }
+                if (UsereingabeListe == null)
+                {
+                    Console.WriteLine($"Es gibt keinen Eintrag mit {UserVorname} {UserNachname}.");
+                }
+
+
+
+            }
+            Console.ReadLine();
+        }
+
     }
 }
