@@ -496,7 +496,7 @@ namespace ConsoleApp1
         /// <summary>
         /// Fahrgemeinschaften werden gebildet
         /// </summary>
-        public void Fahrersuche4()
+        public void Fahrersuche3()
         {
             int AnzahlMitfahrer = 0;
 
@@ -571,6 +571,98 @@ namespace ConsoleApp1
                 int oldSitzplaetze = 0;
                 while (counter < CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
                 {
+                    if (counter == 1)
+                    {//Einlesung der verschiedenen Einträge durch überschreiben.
+                        using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
+                        {
+                            string preName = sr.ReadLine();
+                            string lastname = sr.ReadLine();
+                            string Fahrzeug = sr.ReadLine();
+                            string Ort = sr.ReadLine();
+                            string Zeit = sr.ReadLine();
+                            int Sitzplaetze = Convert.ToInt32(sr.ReadLine());
+
+                            if (ZielOrt == Ort && ZielZeit == Zeit && AnzahlMitfahrer <= Sitzplaetze)
+                            {
+                                using (StreamReader sr3 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    oldpreName = sr3.ReadLine();
+                                    oldlastname = sr3.ReadLine();
+                                    oldFahrzeug = sr3.ReadLine();
+                                    oldOrt = sr3.ReadLine();
+                                    oldZeit = sr3.ReadLine();
+                                    oldSitzplaetze = Convert.ToInt32(sr3.ReadLine());
+                                }
+
+                                rest1 = sr.ReadToEnd();
+                                using (StreamWriter sw3 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    sw3.WriteLine(preName);
+                                    sw3.WriteLine(lastname);
+                                    sw3.WriteLine(Fahrzeug);
+                                    sw3.WriteLine(Ort);
+                                    sw3.WriteLine(Zeit);
+                                    sw3.WriteLine(Convert.ToString(Sitzplaetze));
+                                    sw3.WriteLine(rest1);
+                                }
+
+
+                                oldSitzplaetze = oldSitzplaetze - AnzahlMitfahrer;
+                                using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenNeuGeschrieben.csv"))
+                                {
+                                    sw2.WriteLine(preName);
+                                    sw2.WriteLine(lastname);
+                                    sw2.WriteLine(Fahrzeug);
+                                    sw2.WriteLine(Ort);
+                                    sw2.WriteLine(Zeit);
+                                    sw2.WriteLine(Convert.ToString(oldSitzplaetze));
+                                }
+                                using (StreamReader sr2 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenNeuGeschrieben.csv"))
+                                {
+
+                                    preName = sr2.ReadLine();
+                                    lastname = sr2.ReadLine();
+                                    Fahrzeug = sr2.ReadLine();
+                                    Ort = sr2.ReadLine();
+                                    Zeit = sr2.ReadLine();
+                                    Sitzplaetze = Convert.ToInt32(sr2.ReadLine());
+                                    if (Sitzplaetze <= -1)
+                                    {
+                                        Console.WriteLine($"Das Auto, welches nach {Ort} am {Zeit} fährt, ist schon voll.");
+                                        break;
+                                    }
+                                    else { rest2 = sr2.ReadToEnd(); }
+                                }
+                                using (StreamWriter sw3 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    sw3.WriteLine(preName);
+                                    sw3.WriteLine(lastname);
+                                    sw3.WriteLine(Fahrzeug);
+                                    sw3.WriteLine(Ort);
+                                    sw3.WriteLine(Zeit);
+                                    sw3.WriteLine(Sitzplaetze);
+                                    sw3.WriteLine(rest2);
+                                    sw3.WriteLine(rest1);
+                                }
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer, Sitzplaetze);
+
+
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                                Console.WriteLine($"Du wirst wieder auf die Startseite geleitet");
+                                break;
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        counter++;
+                    }
                     if (counter % 4 == 1)
                     {//Einlesung der verschiedenen Einträge durch überschreiben.
                         using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
@@ -759,6 +851,9 @@ namespace ConsoleApp1
 
 
         }
+        /// <summary>
+        /// User kann sich aus deiner Fahrgemeinschaft löschen
+        /// </summary>
         public void BeifahrerAendern()
         {
             int counter = 0;
@@ -779,24 +874,22 @@ namespace ConsoleApp1
             {
                 while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv") >= a)
                 {
-                    UsereingabeVonListe = sr.ReadLine();
-                    if (Usereingabe == null)
+                    using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv"))
                     {
-                        break;
-                    }
-                    if (UsereingabeVonListe != null)
-                    {
-                        Usereingabe = UsereingabeVonListe.Split(new char[] { ' ' });
-                        x = Usereingabe[0];
-                        y = Usereingabe[1];
-
-                        using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv"))
-                        {                            
-                                sw2.WriteLine();                                                        
-                        }
-                        using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv", true))
+                        UsereingabeVonListe = sr.ReadLine();
+                        if (Usereingabe == null)
                         {
-                            if (x != UserVorname && y != UserNachname)
+                            break;
+                        }
+                        if (UsereingabeVonListe != null)
+                        {
+                            Usereingabe = UsereingabeVonListe.Split(new char[] { ' ' });
+                            x = Usereingabe[0];
+                            y = Usereingabe[1];
+
+
+
+                            if (x != UserVorname || y != UserNachname)
                             {
                                 sw2.WriteLine(UsereingabeVonListe);
                             }
@@ -804,18 +897,18 @@ namespace ConsoleApp1
                             {
                                 Console.WriteLine("else");
                             }
-                        }
-                        if (x == UserVorname && y == UserNachname)
-                        {
-                            _ = sr.ReadLine();
-                            RestlicheEingaben = sr.ReadToEnd();
-                            VorherigeEingaben = sr.ReadToEnd();
-                            break;
-                        }
-                        using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv", true))
-                        {
-                            sw2.WriteLine(VorherigeEingaben);
-                            sw2.WriteLine(RestlicheEingaben);
+
+                            if (x == UserVorname && y == UserNachname)
+                            {
+                                _ = sr.ReadLine();
+                                RestlicheEingaben = sr.ReadToEnd();
+                                VorherigeEingaben = sr.ReadToEnd();
+                                break;
+                            }
+                            //using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv", true))
+
+                            //sw2.WriteLine(VorherigeEingaben);
+                            //sw2.WriteLine(RestlicheEingaben);
                             UsereingabeListe.Add(x);
                             UsereingabeListe.Add(y);
                         }
@@ -831,6 +924,262 @@ namespace ConsoleApp1
             }
             Console.ReadLine();
         }
+        public void Fahrersuche4()
+        {
+            int AnzahlMitfahrer = 0;
 
+        start2:
+            Console.WriteLine("Gebe deinen Vornamen ein");
+            string prenameMitfahrer = Console.ReadLine();
+
+            if (prenameMitfahrer == "")
+            {
+                Console.WriteLine("Deine Eingabe ist leer");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start2;
+            }
+            else
+            { }
+                Console.WriteLine("gebe deinen Nachnamen ein");
+                string lastnameMitfahrer = Console.ReadLine();
+            
+            if (lastnameMitfahrer == "")
+            {
+                Console.WriteLine("Deine Eingabe ist leer");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start2;
+            }
+            else
+            { }
+            Console.WriteLine("Wo willst du hin?");
+            string ZielOrt = Console.ReadLine();
+            if (ZielOrt == "")
+            {
+                Console.WriteLine("Deine Eingabe ist leer");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start2;
+            }
+            else
+            { }
+            Console.WriteLine("Wann willst du dahin?");
+            string ZielZeit = Console.ReadLine();
+            if (ZielZeit == "")
+            {
+                Console.WriteLine("Deine Eingabe ist leer");
+                Thread.Sleep(1000);
+                Console.Clear();
+                goto start2;
+            }
+            else
+            { }
+        start:
+            Console.WriteLine("Wie viele seid ihr?");
+            string input = Console.ReadLine(); //get the input
+
+            if (!int.TryParse(input, out AnzahlMitfahrer))          //
+            {
+                Console.WriteLine("Das ist keine Zahl!!!");         //
+                Thread.Sleep(1000);                                 //    
+                Console.Clear();                                    //
+                goto start;                                         //
+            }                                                       //
+            else                                                    //                    
+            {
+                AnzahlMitfahrer = Convert.ToInt32(input);
+                int counter = 1;
+                int counter2 = 1;
+                string rest1 = "0";
+                string rest2 = "0";
+                string oldpreName = "0";
+                string oldlastname = "0";
+                string oldFahrzeug = "0";
+                string oldOrt = "0";
+                string oldZeit = "0";
+                int oldSitzplaetze = 0;
+                while (counter < CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
+                {
+                    if (counter == 1)
+                    {//Einlesung der verschiedenen Einträge durch überschreiben.
+                        using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
+                        {
+                            string preName = sr.ReadLine();
+                            string lastname = sr.ReadLine();
+                            string Fahrzeug = sr.ReadLine();
+                            string Ort = sr.ReadLine();
+                            string Zeit = sr.ReadLine();
+                            int Sitzplaetze = Convert.ToInt32(sr.ReadLine());
+
+                            if (ZielOrt == Ort && ZielZeit == Zeit && AnzahlMitfahrer <= Sitzplaetze)
+                            {
+                                using (StreamReader sr3 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    oldpreName = sr3.ReadLine();
+                                    oldlastname = sr3.ReadLine();
+                                    oldFahrzeug = sr3.ReadLine();
+                                    oldOrt = sr3.ReadLine();
+                                    oldZeit = sr3.ReadLine();
+                                    oldSitzplaetze = Convert.ToInt32(sr3.ReadLine());
+                                }
+
+                                rest1 = sr.ReadToEnd();
+                                using (StreamWriter sw3 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    sw3.WriteLine(preName);
+                                    sw3.WriteLine(lastname);
+                                    sw3.WriteLine(Fahrzeug);
+                                    sw3.WriteLine(Ort);
+                                    sw3.WriteLine(Zeit);
+                                    sw3.WriteLine(Convert.ToString(Sitzplaetze));
+                                    sw3.WriteLine(rest1);
+                                }
+
+
+                                oldSitzplaetze = oldSitzplaetze - AnzahlMitfahrer;
+                                using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenNeuGeschrieben.csv"))
+                                {
+                                    sw2.WriteLine(oldpreName);
+                                    sw2.WriteLine(oldlastname);
+                                    sw2.WriteLine(oldFahrzeug);
+                                    sw2.WriteLine(oldOrt);
+                                    sw2.WriteLine(oldZeit);
+                                    sw2.WriteLine(Convert.ToString(oldSitzplaetze));
+                                }
+                                using (StreamReader sr2 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenNeuGeschrieben.csv"))
+                                {
+
+                                    preName = sr2.ReadLine();
+                                    lastname = sr2.ReadLine();
+                                    Fahrzeug = sr2.ReadLine();
+                                    Ort = sr2.ReadLine();
+                                    Zeit = sr2.ReadLine();
+                                    Sitzplaetze = Convert.ToInt32(sr2.ReadLine());
+                                    if (Sitzplaetze <= -1)
+                                    {
+                                        Console.WriteLine($"Das Auto, welches nach {Ort} am {Zeit} fährt, ist schon voll.");
+                                        break;
+                                    }
+                                    else { rest2 = sr2.ReadToEnd(); }
+                                }
+                                using (StreamWriter sw3 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    sw3.WriteLine(preName);
+                                    sw3.WriteLine(lastname);
+                                    sw3.WriteLine(Fahrzeug);
+                                    sw3.WriteLine(Ort);
+                                    sw3.WriteLine(Zeit);
+                                    sw3.WriteLine(Sitzplaetze);
+                                    sw3.WriteLine(rest2);
+                                    sw3.WriteLine(rest1);
+                                }
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer, Sitzplaetze);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                                Console.WriteLine($"Du wirst wieder auf die Startseite geleitet");
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+                    if (counter % 4 == 1)
+                    {//Einlesung der verschiedenen Einträge durch überschreiben.
+                        using (StreamReader sr = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Fahrgemeinschaften.csv"))
+                        {
+                            string preName = sr.ReadLine();
+                            string lastname = sr.ReadLine();
+                            string Fahrzeug = sr.ReadLine();
+                            string Ort = sr.ReadLine();
+                            string Zeit = sr.ReadLine();
+                            int Sitzplaetze = Convert.ToInt32(sr.ReadLine());
+
+                            if (ZielOrt == Ort && ZielZeit == Zeit && AnzahlMitfahrer <= Sitzplaetze)
+                            {
+                                using (StreamReader sr3 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    oldpreName = sr3.ReadLine();
+                                    oldlastname = sr3.ReadLine();
+                                    oldFahrzeug = sr3.ReadLine();
+                                    oldOrt = sr3.ReadLine();
+                                    oldZeit = sr3.ReadLine();
+                                    oldSitzplaetze = Convert.ToInt32(sr3.ReadLine());
+                                }
+
+                                rest1 = sr.ReadToEnd();
+                                using (StreamWriter sw3 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    sw3.WriteLine(preName);
+                                    sw3.WriteLine(lastname);
+                                    sw3.WriteLine(Fahrzeug);
+                                    sw3.WriteLine(Ort);
+                                    sw3.WriteLine(Zeit);
+                                    sw3.WriteLine(Convert.ToString(Sitzplaetze));
+                                    sw3.WriteLine(rest1);
+                                }
+
+
+                                oldSitzplaetze = oldSitzplaetze - AnzahlMitfahrer;
+                                using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenNeuGeschrieben.csv"))
+                                {
+                                    sw2.WriteLine(oldpreName);
+                                    sw2.WriteLine(oldlastname);
+                                    sw2.WriteLine(oldFahrzeug);
+                                    sw2.WriteLine(oldOrt);
+                                    sw2.WriteLine(oldZeit);
+                                    sw2.WriteLine(Convert.ToString(oldSitzplaetze));
+                                }
+                                using (StreamReader sr2 = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenNeuGeschrieben.csv"))
+                                {
+
+                                    preName = sr2.ReadLine();
+                                    lastname = sr2.ReadLine();
+                                    Fahrzeug = sr2.ReadLine();
+                                    Ort = sr2.ReadLine();
+                                    Zeit = sr2.ReadLine();
+                                    Sitzplaetze = Convert.ToInt32(sr2.ReadLine());
+                                    if (Sitzplaetze <= -1)
+                                    {
+                                        Console.WriteLine($"Das Auto, welches nach {Ort} am {Zeit} fährt, ist schon voll.");
+                                        break;
+                                    }
+                                    else { rest2 = sr2.ReadToEnd(); }
+                                }
+                                using (StreamWriter sw3 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\FahrgemeinschaftenKopie.csv"))
+                                {
+                                    sw3.WriteLine(preName);
+                                    sw3.WriteLine(lastname);
+                                    sw3.WriteLine(Fahrzeug);
+                                    sw3.WriteLine(Ort);
+                                    sw3.WriteLine(Zeit);
+                                    sw3.WriteLine(Sitzplaetze);
+                                    sw3.WriteLine(rest2);
+                                    sw3.WriteLine(rest1);
+                                }
+                                FahrersucheListeAdd(preName, lastname, ZielZeit, Fahrzeug, prenameMitfahrer, lastnameMitfahrer, Sitzplaetze);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Es fährt keiner zu dieser Zeit");
+                                Console.WriteLine($"Du wirst wieder auf die Startseite geleitet");
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+                }
+            }
+        }
     }
 }
+
