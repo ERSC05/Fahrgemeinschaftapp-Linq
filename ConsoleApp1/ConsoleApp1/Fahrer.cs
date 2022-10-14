@@ -764,11 +764,11 @@ namespace ConsoleApp1
             int counter = 0;
             string x = "x";
             string y = "y";
-            string Usereingabe1 = "0";
+            string UsereingabeVonListe = "0";
             string RestlicheEingaben = "0";
             string VorherigeEingaben = "0";
             string[] Usereingabe = new string[] { };
-            int Kopie = CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv");
+            int Kopie = 50;
             int a = 0;
             List<string> UsereingabeListe = new List<string>();
             Console.WriteLine("gebe deinen Vornamen ein (der name, der in der Liste ist)");
@@ -779,51 +779,47 @@ namespace ConsoleApp1
             {
                 while (CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaften.csv") >= a)
                 {
-                    Usereingabe1 = sr.ReadLine();
-
-                    if (Usereingabe1 == null)
+                    UsereingabeVonListe = sr.ReadLine();
+                    if (Usereingabe == null)
                     {
                         break;
                     }
-                    Usereingabe = Usereingabe1.Split(new char[] { ' ' });
-                    x = Usereingabe[0];
-                    y = Usereingabe[1];
-                    using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv"))
+                    if (UsereingabeVonListe != null)
                     {
-                        while (Kopie >= counter)
+                        Usereingabe = UsereingabeVonListe.Split(new char[] { ' ' });
+                        x = Usereingabe[0];
+                        y = Usereingabe[1];
+
+                        using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv"))
+                        {                            
+                                sw2.WriteLine();                                                        
+                        }
+                        using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv", true))
                         {
-                            sw2.WriteLine();
-                            counter++;
+                            if (x != UserVorname && y != UserNachname)
+                            {
+                                sw2.WriteLine(UsereingabeVonListe);
+                            }
+                            else
+                            {
+                                Console.WriteLine("else");
+                            }
+                        }
+                        if (x == UserVorname && y == UserNachname)
+                        {
+                            _ = sr.ReadLine();
+                            RestlicheEingaben = sr.ReadToEnd();
+                            VorherigeEingaben = sr.ReadToEnd();
+                            break;
+                        }
+                        using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv", true))
+                        {
+                            sw2.WriteLine(VorherigeEingaben);
+                            sw2.WriteLine(RestlicheEingaben);
+                            UsereingabeListe.Add(x);
+                            UsereingabeListe.Add(y);
                         }
                     }
-                    using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv",true))
-                    {
-                        if (x != UserVorname && y != UserNachname)
-                        {
-                            sw2.WriteLine(Usereingabe1);
-                        }
-                        else
-                        {
-                            Console.WriteLine("else");
-                        }
-                    }
-                    if (x == UserVorname && y == UserNachname)
-                    {
-                        _ = sr.ReadLine();
-                        RestlicheEingaben = sr.ReadToEnd();
-                        VorherigeEingaben = sr.ReadToEnd();
-
-                    }
-                    using (StreamWriter sw2 = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\GefundeneFahrgemeinschaftenKopie.csv", true))
-                    {
-                        sw2.WriteLine(VorherigeEingaben);
-                        sw2.WriteLine(RestlicheEingaben);
-                        UsereingabeListe.Add(x);
-                        UsereingabeListe.Add(y);
-                    }
-
-                    a++;
-
                 }
                 if (UsereingabeListe == null)
                 {
@@ -831,7 +827,7 @@ namespace ConsoleApp1
                 }
 
 
-
+                a++;
             }
             Console.ReadLine();
         }
