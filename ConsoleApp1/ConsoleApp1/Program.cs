@@ -12,7 +12,7 @@ namespace ConsoleApp1
         static void Main()
         {
             Fahrer fahrer = new Fahrer();
-            fahrer.BeifahrerAendern();
+            //fahrer.BeifahrerAendern();
             Menue();
         }
 
