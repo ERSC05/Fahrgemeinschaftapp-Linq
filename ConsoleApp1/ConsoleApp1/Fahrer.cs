@@ -765,14 +765,13 @@ namespace ConsoleApp1
         /// </summary>
         public void BeifahrerAendern()
         {
-            int counter = 0;
+            
             string x = "x";
             string y = "y";
             string UsereingabeVonListe = "0";
             string RestlicheEingaben = "0";
             string VorherigeEingaben = "0";
             string[] Usereingabe = new string[] { };
-            int Kopie = 50;
             int a = 0;
             List<string> UsereingabeListe = new List<string>();
             Console.WriteLine("gebe deinen Vornamen ein (der name, der in der Liste ist)");

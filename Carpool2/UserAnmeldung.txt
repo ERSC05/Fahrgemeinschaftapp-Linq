@@ -1,0 +1,9 @@
+{
+    "id": 2,
+    "name": "Erwin",
+    "isComlete": true,
+    "sitzplaetze": 4,
+    "autoMarke": "bmw",
+    "fahrtZiehl": "wkh",
+    "abfahrtZeit": "morgen"
+}
