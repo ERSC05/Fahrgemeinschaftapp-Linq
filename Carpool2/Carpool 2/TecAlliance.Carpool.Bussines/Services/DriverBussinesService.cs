@@ -21,7 +21,9 @@ namespace TecAlliance.Carpool.Bussines.Services
         public void AddDriver(DriverDto driverDto)
         {
             var driver = new Driver(driverDto.Id, driverDto.Name,driverDto.Sitzplaetze,driverDto.AutoMarke,driverDto.FahrtZiehl,driverDto.AbfahrtZeit);
-            
+            var driver1 = new DriverDataService();
+            driver1.DriverAddCsv(driver);
+
         }
     }
 }

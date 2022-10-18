@@ -24,10 +24,7 @@ namespace TecAlliance.Carpool.Data.Models
             FahrtZiehl = fahrtZiehl;
             AbfahrtZeit = abfahrtZeit;
         }
-        public void DriverAddCsv()
-        {
-            
-        }
+        
     }
     
 }
