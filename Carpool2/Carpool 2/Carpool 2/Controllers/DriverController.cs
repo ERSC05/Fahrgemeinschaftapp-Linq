@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using TecAlliance.Carpool.Bussines.Models;
 using TecAlliance.Carpool.Bussines.Services;
 using TecAlliance.Carpool.Data.Models;
+using TecAlliance.Carpool.Data.Services;
 
 namespace Carpool_2.Controllers
 {
@@ -13,54 +14,46 @@ namespace Carpool_2.Controllers
         DriverBussinesService driverBussinesService;
 
 
-
         public DriverController()
         {
             driverBussinesService = new DriverBussinesService();
         }
 
 
-        //[HttpGet]
-        //public List<DriverDto> Get() =>
-        //    _repository.GetProducts();
-
-
-
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DriverDto))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<List <DriverDto>>> GetDriver()
         {
-            return Ok(id);
+            var test = driverBussinesService.ReadDriver();
+            return test;
         }
 
-        public IActionResult GetById(long id)
+
+
+        [HttpGet("{id}")]        //Liste mit Usern befpllen und nach der eingegebenne Id checken
+        public async Task<ActionResult<List<DriverDto>>> GetDriverId(long id)
         {
             if (id == 0)
-            {
-                return NotFound();
-            }
-            else if (id == null)
-            {
-                return NotFound();
-            }
+                throw new Exception("id = 0");
             else
             {
-                return NotFound();
+                var test = driverBussinesService.Get(id);
+
+                return test;
             }
         }
+
+
 
 
 
 
         [HttpPost]
-        public static Task<ActionResult<DriverDto>> CreateDriver(DriverDto driverDto)
-        {
-            var driver = new Driver(driverDto.Id, driverDto.Name, driverDto.Sitzplaetze, driverDto.AutoMarke, driverDto.FahrtZiehl, driverDto.AbfahrtZeit);
-            return driver;
-
+        public IActionResult CreateDriver(DriverDto driverdto)
+        {            
+            Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
+            driverBussinesService.AddDriver(driverdto);
+            return CreatedAtAction("AddDriver", new { id = driverdto.Id }, driverdto);
         }
-
 
     }
     

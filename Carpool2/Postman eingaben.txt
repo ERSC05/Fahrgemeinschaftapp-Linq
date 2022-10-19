@@ -7,3 +7,4 @@
     "fahrtZiehl": "wkh",
     "abfahrtZeit": "morgen"
 }
+
