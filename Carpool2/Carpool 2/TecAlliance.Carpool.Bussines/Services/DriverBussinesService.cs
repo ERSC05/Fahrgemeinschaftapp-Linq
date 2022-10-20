@@ -28,14 +28,35 @@ namespace TecAlliance.Carpool.Bussines.Services
         }
         public List<DriverDto> Get(long id)
         {
+            int a = 0;
+            long listwert = 0;
+            var therightitem = 0;
             var driver1 = new DriverDataService();
             List<DriverDto> driverDtos = new List<DriverDto>();
-            List<Driver> drivers = driver1.DriverReadOneCsv(id);
-            foreach (Driver driver in drivers)
+            List<Driver> drivers = driver1.DriverReadCsv();
+            List<Driver> savingdrivers = new List<Driver>();
+            foreach(Driver driver2 in drivers)
             {
-                var sdto = ToDriverDto(driver);
-                driverDtos.Add(sdto);
+                
+                if (listwert != id)
+                {
+                    listwert = drivers[a].Id;
+                    savingdrivers = drivers;
+                }
+                else
+                {
+                    driverDtos.Add(ToDriverDto(savingdrivers[1]));
+                    break;
+                }
+                a++;
             }
+
+
+            //foreach (Driver driver in drivers)
+            //{
+            //    var sdto = ToDriverDto(driver);
+            //    driverDtos.Add(sdto);
+            //}
             return driverDtos;
 
 

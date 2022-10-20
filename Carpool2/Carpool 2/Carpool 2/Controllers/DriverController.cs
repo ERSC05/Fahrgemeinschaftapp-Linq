@@ -20,7 +20,7 @@ namespace Carpool_2.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet]       /////////
         public async Task<ActionResult<List <DriverDto>>> GetDriver()
         {
             var test = driverBussinesService.ReadDriver();
@@ -38,6 +38,11 @@ namespace Carpool_2.Controllers
             {
                 var test = driverBussinesService.Get(id);
 
+                if (test.Count == 0)
+                {
+                    throw new Exception($"{id} does not exist. You have to create a drivre first.");
+                }
+
                 return test;
             }
         }
@@ -47,7 +52,7 @@ namespace Carpool_2.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost]      /////////
         public IActionResult CreateDriver(DriverDto driverdto)
         {            
             Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
