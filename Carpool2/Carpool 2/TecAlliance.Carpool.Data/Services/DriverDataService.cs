@@ -22,21 +22,21 @@ namespace TecAlliance.Carpool.Data.Services
             }
 
         }
-        public List<Driver> DriverReadCsv()
+        public List<Driver> DriverReadCsv(string path)
         {
             List<Driver> driverItems = new List<Driver>();
             int counter = 1;
-            using (StreamReader reader = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv"))
+            using (StreamReader reader = new StreamReader(path))
             {
 
 
-                while (counter <= CountLines("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv"))
+                while (counter <= CountLines(path))
                 {
 
                     //2;Lucas;4;bmw;wkh;morgen
                     string csveintraege = reader.ReadLine();
                     string[] splittedstring = csveintraege.Split(';');
-                    long id = Convert.ToInt64(splittedstring[0]);
+                    var id = Convert.ToInt64(splittedstring[0]);
                     string name = splittedstring[1];
                     int sitzplaetze = Convert.ToInt32(splittedstring[2]);
                     string automarke = splittedstring[3];
@@ -50,51 +50,6 @@ namespace TecAlliance.Carpool.Data.Services
             }
             return driverItems;
         }
-        public List<Driver> DriverReadOneCsv(long id)
-        {
-
-            string idAusCsvLesen = "0";
-            int counter = 1;
-            int ArrayNumber = 0;
-            string b = "0";
-            List<Driver> driverItems = new List<Driver>();
-            using (StreamReader reader = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv"))
-            {
-                while (true)
-                {
-                    if (id != Convert.ToInt32(b))
-                    {
-                        //1;Erwin;4;Toyota;wkh;morgen
-                        //2;Erwin;4;Toyota;wkh;morgen
-                        //4;Erwin;4;Toyota;wkh;morgen
-
-                        
-                    }
-                    else
-                    {
-                        //2;Lucas;4;bmw;wkh;morgen
-                        //string csveintraege = reader.ReadLine();
-                        string[] splittedstring = idAusCsvLesen.Split(';');
-                        id = Convert.ToInt64(splittedstring[0]);
-                        string name = splittedstring[1];
-                        int sitzplaetze = Convert.ToInt32(splittedstring[2]);
-                        string automarke = splittedstring[3];
-                        string fahrtziel = splittedstring[4];
-                        string abfahrtzeit = splittedstring[5];
-                        var newDriver = new Driver(id, name, sitzplaetze, automarke, fahrtziel, abfahrtzeit);
-                        driverItems.Add(newDriver);
-                        break;
-                    }
-                }
-                if (driverItems.Count == 0)
-                {
-
-                }
-
-
-            }
-            return driverItems;
-        }
         public void DriverAddCsv(Driver driver)
         {
 
@@ -105,6 +60,43 @@ namespace TecAlliance.Carpool.Data.Services
                 var newLine = $"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit}";
                 writer.WriteLine(newLine);
             }
+        }
+        private List<Driver> SortList(List<Driver> drivers)
+        {
+            List<Driver> driverList = new List<Driver>();
+            List<Driver> sortetdriverlist = new List<Driver>();
+            sortetdriverlist = drivers.OrderBy(s => s.Id).ToList();
+
+
+            return sortetdriverlist;
+        }
+        public List<Driver> DeliteDriver(long id)
+        {
+            DriverDataService sorter = new DriverDataService();
+            
+            List<Driver>drivers = new List<Driver>();
+            var oldcsv = DriverReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv");
+            foreach(Driver driver in oldcsv)
+            {
+                if (driver.Id == id)
+                {
+                    long trash = driver.Id;
+                }
+                else
+                {
+                    drivers.Add(driver);
+                }
+            }
+            sorter.SortList(drivers);
+            //using(StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv"))
+            //{
+            //    writer.WriteLine(drivers);
+            //}
+
+            return drivers;
+            
+
+
         }
         public void DrivingSearch(Driver driver, int eintraege, string eintrag)
         {
@@ -126,5 +118,6 @@ namespace TecAlliance.Carpool.Data.Services
                 }
             }
         }
+        
     }
 }

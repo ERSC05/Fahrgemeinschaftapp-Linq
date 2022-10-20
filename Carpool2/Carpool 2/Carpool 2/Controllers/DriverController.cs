@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TecAlliance.Carpool.Bussines.Models;
 using TecAlliance.Carpool.Bussines.Services;
 using TecAlliance.Carpool.Data.Models;
@@ -26,9 +27,6 @@ namespace Carpool_2.Controllers
             var test = driverBussinesService.ReadDriver();
             return test;
         }
-
-
-
         [HttpGet("{id}")]        //Liste mit Usern befpllen und nach der eingegebenne Id checken
         public async Task<ActionResult<List<DriverDto>>> GetDriverId(long id)
         {
@@ -47,17 +45,21 @@ namespace Carpool_2.Controllers
             }
         }
 
-
-
-
-
-
         [HttpPost]      /////////
         public IActionResult CreateDriver(DriverDto driverdto)
         {            
-            Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
+            //Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
             driverBussinesService.AddDriver(driverdto);
             return CreatedAtAction("AddDriver", new { id = driverdto.Id }, driverdto);
+        }
+        
+        [HttpDelete("{id}")]
+        public ActionResult<List<DriverDto>> DeliteDriver(long id)
+        {
+
+            var newlist= driverBussinesService.DeliteDriver(id);
+
+            return newlist;
         }
 
     }

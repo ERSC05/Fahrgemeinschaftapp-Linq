@@ -8,3 +8,16 @@
     "abfahrtZeit": "morgen"
 }
 
+
+
+{
+  "id": 0,
+  "nameBeifahrer": "string",
+  "nameFahrer": "string",
+  "sitzplaetze": 0,
+  "autoMarke": "string",
+  "autoZiel": "string",
+  "abfahrtZeit": "string"
+}
+
+
