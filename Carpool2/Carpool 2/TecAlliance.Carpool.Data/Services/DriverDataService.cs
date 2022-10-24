@@ -73,28 +73,43 @@ namespace TecAlliance.Carpool.Data.Services
         public List<Driver> DeliteDriver(long id)
         {
             DriverDataService sorter = new DriverDataService();
-            
-            List<Driver>drivers = new List<Driver>();
+            long a = 0;
+            List<Driver> drivers = new List<Driver>();
             var oldcsv = DriverReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv");
-            foreach(Driver driver in oldcsv)
+            using (StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv"))
             {
-                if (driver.Id == id)
+                foreach (Driver driver in oldcsv)
                 {
-                    long trash = driver.Id;
-                }
-                else
-                {
-                    drivers.Add(driver);
+                    if (driver.Id == id)
+                    {
+                        long trash = driver.Id;
+                        a++;
+                    }
+                    else
+                    {
+                        if (a == 1)
+                        {
+                            writer.WriteLine($"{driver.Id - 1};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit}");
+                        }
+                        else
+                        {
+                            drivers.Add(driver);
+                            writer.WriteLine($"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit}");
+                            
+                        }
+                    }
                 }
             }
             sorter.SortList(drivers);
+
+
             //using(StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv"))
             //{
             //    writer.WriteLine(drivers);
             //}
 
             return drivers;
-            
+
 
 
         }
@@ -118,6 +133,6 @@ namespace TecAlliance.Carpool.Data.Services
                 }
             }
         }
-        
+
     }
 }

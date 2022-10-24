@@ -14,19 +14,40 @@ namespace Carpool_2.Controllers
             carpoolBussinesService = new CarpoolBussinesService();
         }
 
+        [HttpPost("Fahrgemeinschaft finden")]
+        public string FindCarpool(string Zielort)
+        {
+            var returntext = carpoolBussinesService.FindCarpool(Zielort);
 
-        [HttpPost("{Fahrgemeinschaft}")]
+            return returntext;
+        }
+
+        [HttpPost("{Eine Fahrgemeinschaft Bilden}")]
         public IActionResult CreateCarpool(CarPool carPool)
         {
             carpoolBussinesService.AddCarpool(carPool);
             return CreatedAtAction("AddCarpool", new { id = carPool.Id }, carPool);
         }
-        [HttpPost("{Zeige Fahrer}")]
-        public ActionResult<List<CarpoolDto>> ShowCarpool(CarPool carpool)
+        [HttpGet("Zeige Fahrer")]
+        public ActionResult<List<CarpoolDto>> ShowingCarpool()
         {
             var done = carpoolBussinesService.ShowCarpool();
             return done;
         }
+        [HttpDelete("{Id eingeben}")]
+        public ActionResult<List<CarpoolDto>> DeliteCarpool(long id)
+        {
+            long idcheck = id;
+            try
+            {
 
+                var delitedList = carpoolBussinesService.DeliteCarpool(id);
+                return delitedList;
+            }
+            catch
+            {
+                return BadRequest($"Deine id ist {id} und diese gibt es nicht. Du kannst diese Id also nicht deliten.");
+            }
+        }
     }
 }

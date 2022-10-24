@@ -22,46 +22,55 @@ namespace Carpool_2.Controllers
 
 
         [HttpGet]       /////////
-        public async Task<ActionResult<List <DriverDto>>> GetDriver()
+        public async Task<ActionResult<List<DriverDto>>> GetDriver()
         {
             var test = driverBussinesService.ReadDriver();
             return test;
         }
-        [HttpGet("{id}")]        //Liste mit Usern befpllen und nach der eingegebenne Id checken
+        [HttpGet("{id}")]        /////////
         public async Task<ActionResult<List<DriverDto>>> GetDriverId(long id)
         {
-            if (id == 0)
-                throw new Exception("id = 0");
-            else
+            try
             {
                 var test = driverBussinesService.Get(id);
 
                 if (test.Count == 0)
                 {
-                    throw new Exception($"{id} does not exist. You have to create a drivre first.");
+                    return BadRequest($"{id} does not exist");
                 }
-
                 return test;
+            }
+            catch
+            {
+                return BadRequest($"{id} does not exist");
             }
         }
 
         [HttpPost]      /////////
         public IActionResult CreateDriver(DriverDto driverdto)
-        {            
+        {
             //Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
             driverBussinesService.AddDriver(driverdto);
             return CreatedAtAction("AddDriver", new { id = driverdto.Id }, driverdto);
         }
-        
+
         [HttpDelete("{id}")]
         public ActionResult<List<DriverDto>> DeliteDriver(long id)
         {
+            try
+            {
 
-            var newlist= driverBussinesService.DeliteDriver(id);
+            
+            var newlist = driverBussinesService.DeliteDriver(id);
 
             return newlist;
         }
+            catch
+            {
+                return BadRequest($"{id} does not exist");
+            }
+        }
 
     }
-    
+
 }
