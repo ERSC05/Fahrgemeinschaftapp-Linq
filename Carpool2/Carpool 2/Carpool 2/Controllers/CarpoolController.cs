@@ -5,16 +5,17 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace Carpool_2.Controllers
 {
+    [ApiController]
     public class CarpoolController : Controller
     {
-        CarpoolBussinesService carpoolBussinesService;
+        CarpoolBussinesService carpoolBussinesService = new CarpoolBussinesService();
 
-        public CarpoolController()
-        {
-            carpoolBussinesService = new CarpoolBussinesService();
-        }
+        //carpoolBussinesService = new CarpoolBussinesService();
 
-        [HttpPost("Fahrgemeinschaft finden")]
+        
+
+        [HttpPost]//("FahrgemeinschaftFinden")]
+        [Route("api/Carpool_2/FahrgemeinschaftFinden{Zielort}")]
         public string FindCarpool(string Zielort)
         {
             var returntext = carpoolBussinesService.FindCarpool(Zielort);
@@ -22,19 +23,22 @@ namespace Carpool_2.Controllers
             return returntext;
         }
 
-        [HttpPost("{Eine Fahrgemeinschaft Bilden}")]
-        public IActionResult CreateCarpool(CarPool carPool)
+        [HttpPost]//("{EineFahrgemeinschaftBilden")]
+        [Route("api/Carpool_2/EineFahrgemeinschaftBilden")]
+        public ActionResult<List<CarpoolDto>> CreateCarpool(CarPool carPool)
         {
             carpoolBussinesService.AddCarpool(carPool);
             return CreatedAtAction("AddCarpool", new { id = carPool.Id }, carPool);
         }
-        [HttpGet("Zeige Fahrer")]
+        [HttpGet]//("Zeige Fahrer")]
+        [Route("api/Carpool_2/ZeigeFahrer")]
         public ActionResult<List<CarpoolDto>> ShowingCarpool()
         {
             var done = carpoolBussinesService.ShowCarpool();
             return done;
         }
-        [HttpDelete("{Id eingeben}")]
+        [HttpDelete]//("{Id eingeben}")]
+        [Route("api/Carpool_2/IdEingeben")]
         public ActionResult<List<CarpoolDto>> DeliteCarpool(long id)
         {
             long idcheck = id;

@@ -8,6 +8,7 @@ namespace TecAlliance.Carpool.Bussines.Models
 {
     public class CarpoolDto
     {
+        
         public long Id { get; set; }
         public string NameBeifahrer { get; set; }
         public string NameFahrer { get; set; }

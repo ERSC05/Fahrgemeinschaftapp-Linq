@@ -25,7 +25,10 @@ namespace TecAlliance.Carpool.Data.Models
             AutoMarke = autoMarke;
             AutoZiel = autoZiel;
             AbfahrtZeit = abfahrtZeit;
+
         }
+
+        
     }
 
 }
