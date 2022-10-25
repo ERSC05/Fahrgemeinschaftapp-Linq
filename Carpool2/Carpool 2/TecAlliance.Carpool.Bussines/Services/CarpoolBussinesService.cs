@@ -49,7 +49,7 @@ namespace TecAlliance.Carpool.Bussines.Services
             var carPool1 = new CarpoolDataService();
             List<CarpoolDto> carPooldto = new List<CarpoolDto>();
             var pfad1 = Assembly.GetEntryAssembly().Location;
-            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv"; ///////////////
             List<CarPool> carPool = carPool1.CarpoolReadCsv(pfad1);
             List<string> liststring = new List<string>();
             liststring = carPool1.ReadCarpoolCsv(pfad1);

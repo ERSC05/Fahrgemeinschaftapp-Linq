@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Swashbuckle.AspNetCore.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace TecAlliance.Carpool.Bussines.Models
 {
     public class DriverDto
     {
+        
         public long Id { get; set; }
         public string Name { get; set; }
         public int Sitzplaetze { get; set; }

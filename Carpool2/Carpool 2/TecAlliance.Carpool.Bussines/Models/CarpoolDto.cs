@@ -8,7 +8,6 @@ namespace TecAlliance.Carpool.Bussines.Models
 {
     public class CarpoolDto
     {
-        
         public long Id { get; set; }
         public string NameBeifahrer { get; set; }
         public string NameFahrer { get; set; }
@@ -26,6 +25,10 @@ namespace TecAlliance.Carpool.Bussines.Models
             AutoMarke = autoMarke;
             AutoZiel = autoZiel;
             AbfahrtZeit = abfahrtZeit;
+        }
+        public CarpoolDto()
+        {
+
         }
     }
 }

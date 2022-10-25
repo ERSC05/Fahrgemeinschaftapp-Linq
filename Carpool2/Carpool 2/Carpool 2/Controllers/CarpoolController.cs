@@ -17,6 +17,9 @@ namespace Carpool_2.Controllers
 
         [HttpPost]//("FahrgemeinschaftFinden")]
         [Route("api/Carpool_2/FahrgemeinschaftFinden{Zielort}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
         public string FindCarpool(string Zielort)
         {
             var returntext = carpoolBussinesService.FindCarpool(Zielort);
@@ -26,10 +29,12 @@ namespace Carpool_2.Controllers
 
         [HttpPost]//("{EineFahrgemeinschaftBilden")]
         [Route("api/Carpool_2/EineFahrgemeinschaftBilden")]
-        
-        public ActionResult<List<CarpoolDto>> CreateCarpool(CarPool carPool)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public ActionResult<List<CarpoolDto>> CreateCarpool(CarpoolDto carPool)
         {
-            carpoolBussinesService.AddCarpool(carPool);
+            carpoolBussinesService.AddCarpool(null);
             return CreatedAtAction("AddCarpool", new { id = carPool.Id }, carPool);
         }
         [HttpGet]//("Zeige Fahrer")]
@@ -39,6 +44,13 @@ namespace Carpool_2.Controllers
             var done = carpoolBussinesService.ShowCarpool();
             return done;
         }
+
+
+        /// <summary>
+        /// Deletes a specific TodoItem.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]//("{Id eingeben}")]
         [Route("api/Carpool_2/IdEingeben")]
         public ActionResult<List<CarpoolDto>> DeliteCarpool(long id)
