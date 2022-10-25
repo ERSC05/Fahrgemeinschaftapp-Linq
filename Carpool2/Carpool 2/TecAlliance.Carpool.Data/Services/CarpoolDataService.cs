@@ -49,25 +49,42 @@ namespace TecAlliance.Carpool.Data.Services
         }       /////
         public List<CarPool> CarpoolReadCsv(string path)
         {
+            int a = 0;
             List<CarPool> carpoolItems = new List<CarPool>();
             int counter = 1;
-            using (StreamReader reader = new StreamReader(path))
+            if (a == 0)
             {
-                while (counter <= CountLines(path))
+
+
+                using (StreamReader reader = new StreamReader(path))
                 {
-                    //2;Lucas;4;bmw;wkh;morgen
-                    string csveintraege = reader.ReadLine();
-                    string[] splittedstring = csveintraege.Split(';');
-                    var id = Convert.ToInt64(splittedstring[0]);
-                    string NameBeifahrer = splittedstring[1];
-                    string NameFahrer = splittedstring[2];
-                    int sitzplaetze = Convert.ToInt32(splittedstring[3]);
-                    string automarke = splittedstring[4];
-                    string autoziel = splittedstring[5];
-                    string abfahrzeit = splittedstring[6];
-                    var newcarpool = new CarPool(id, NameBeifahrer, NameFahrer, sitzplaetze, automarke, autoziel, abfahrzeit);
-                    carpoolItems.Add(newcarpool);
-                    counter++;
+                    while (counter <= CountLines(path))
+                    {
+                        //2;Lucas;4;bmw;wkh;morgen
+                        string csveintraege = reader.ReadLine();
+                        string[] splittedstring = csveintraege.Split(';');
+                        var id = Convert.ToInt64(splittedstring[0]);
+                        string NameBeifahrer = splittedstring[1];
+                        string NameFahrer = splittedstring[2];
+                        int sitzplaetze = Convert.ToInt32(splittedstring[3]);
+                        string automarke = splittedstring[4];
+                        string autoziel = splittedstring[5];
+                        string abfahrzeit = splittedstring[6];
+                        var newcarpool = new CarPool(id, NameBeifahrer, NameFahrer, sitzplaetze, automarke, autoziel, abfahrzeit);
+                        carpoolItems.Add(newcarpool);
+                        counter++;
+                    }
+                }
+                a++;
+            }
+            else
+            {
+                using (StreamWriter writer = new StreamWriter(path))
+                {
+                    foreach (CarPool carpool in carpoolItems)
+                    {
+                        writer.WriteLine($"{carpool.Id};{carpool.NameBeifahrer}; {carpool.NameFahrer};{carpool.Sitzplaetze};{carpool.AutoMarke};{carpool.AutoZiel};{carpool.AbfahrtZeit}");
+                    }
                 }
             }
             return carpoolItems;

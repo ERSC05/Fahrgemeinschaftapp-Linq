@@ -68,9 +68,7 @@ namespace TecAlliance.Carpool.Bussines.Services
                 var newCarpool = new CarpoolDto(id, nameBeifahrer, nameFahrer, sitzplaetze, automarke, autoZiel, abfahrtzeit);
                 carPooldto.Add(newCarpool);
             }
-            using(StreamWriter writer = new StreamWriter(pfad1))
-            {                
-            }
+           
             return carPooldto;
         }
         /// <summary>

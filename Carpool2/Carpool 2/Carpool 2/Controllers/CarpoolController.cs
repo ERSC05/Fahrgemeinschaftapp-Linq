@@ -32,9 +32,9 @@ namespace Carpool_2.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public ActionResult<List<CarpoolDto>> CreateCarpool(CarpoolDto carPool)
+        public ActionResult<List<CarpoolDto>> CreateCarpool(CarPool carPool)
         {
-            carpoolBussinesService.AddCarpool(null);
+            carpoolBussinesService.AddCarpool(carPool);
             return CreatedAtAction("AddCarpool", new { id = carPool.Id }, carPool);
         }
         [HttpGet]//("Zeige Fahrer")]
