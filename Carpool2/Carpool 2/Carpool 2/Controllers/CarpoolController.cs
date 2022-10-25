@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
 using TecAlliance.Carpool.Bussines.Models;
 using TecAlliance.Carpool.Bussines.Services;
 using TecAlliance.Carpool.Data.Models;
@@ -8,11 +9,11 @@ namespace Carpool_2.Controllers
     [ApiController]
     public class CarpoolController : Controller
     {
-        CarpoolBussinesService carpoolBussinesService = new CarpoolBussinesService();
-
-        //carpoolBussinesService = new CarpoolBussinesService();
-
-        
+        CarpoolBussinesService carpoolBussinesService;
+        public CarpoolController()
+        {
+            this.carpoolBussinesService = new CarpoolBussinesService();
+        }
 
         [HttpPost]//("FahrgemeinschaftFinden")]
         [Route("api/Carpool_2/FahrgemeinschaftFinden{Zielort}")]
@@ -25,6 +26,7 @@ namespace Carpool_2.Controllers
 
         [HttpPost]//("{EineFahrgemeinschaftBilden")]
         [Route("api/Carpool_2/EineFahrgemeinschaftBilden")]
+        
         public ActionResult<List<CarpoolDto>> CreateCarpool(CarPool carPool)
         {
             carpoolBussinesService.AddCarpool(carPool);

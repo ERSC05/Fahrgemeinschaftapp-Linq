@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,19 +13,11 @@ namespace TecAlliance.Carpool.Bussines.Services
 {
     public class CarpoolBussinesService
     {
-        private static int CountLines(string fileToCount)
-        {
-            int counter = 0;
-            using (StreamReader countReader = new StreamReader(fileToCount))
-            {
-                while (countReader.ReadLine() != null)
-                {
-                    counter++;
-                }
-                return counter;
-            }
-
-        }  //////////////
+        /// <summary>
+        /// Mapper from Carpool to CarpoolDto
+        /// </summary>
+        /// <param name="carpoolToMap"></param>
+        /// <returns></returns>
         private CarpoolDto ToCarpoolDto(CarPool carpoolToMap)
         {
 
@@ -33,17 +26,10 @@ namespace TecAlliance.Carpool.Bussines.Services
             return mappedDriver;
 
         }  //////////////
-        private long ReturnLastId()
-        {
-            var carpool1 = new CarpoolDataService();
-            List<CarPool> carpool2 = carpool1.CarpoolReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv");
-            long id = 0;
-            foreach (CarPool car in carpool2)
-            {
-                id = car.Id;
-            }
-            return id;
-        }                                   //////////////
+        /// <summary>
+        /// Add a Carpool to the CSV
+        /// </summary>
+        /// <param name="carPool"></param>
         public void AddCarpool(CarPool carPool)
         {
             var idreturner = new CarpoolDataService();
@@ -54,13 +40,19 @@ namespace TecAlliance.Carpool.Bussines.Services
             var carpool1 = new CarpoolDataService();
             carpool1.CarpoolAddCsv(carpool);
         }
+        /// <summary>
+        /// Shows all Carpool in the CSV File
+        /// </summary>
+        /// <returns></returns>
         public List<CarpoolDto> ShowCarpool()
         {
             var carPool1 = new CarpoolDataService();
             List<CarpoolDto> carPooldto = new List<CarpoolDto>();
-            List<CarPool> carPool = carPool1.CarpoolReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv");
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
+            List<CarPool> carPool = carPool1.CarpoolReadCsv(pfad1);
             List<string> liststring = new List<string>();
-            liststring = carPool1.ReadCarpoolCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv");
+            liststring = carPool1.ReadCarpoolCsv(pfad1);
             string[] strings = new string[6];
             string[] allItems = liststring.ToArray();
             foreach (string item in allItems)
@@ -76,18 +68,27 @@ namespace TecAlliance.Carpool.Bussines.Services
                 var newCarpool = new CarpoolDto(id, nameBeifahrer, nameFahrer, sitzplaetze, automarke, autoZiel, abfahrtzeit);
                 carPooldto.Add(newCarpool);
             }
-            using(StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv"))
-            {
-                
+            using(StreamWriter writer = new StreamWriter(pfad1))
+            {                
             }
             return carPooldto;
         }
+        /// <summary>
+        /// Search between all Carpools for the special index
+        /// </summary>
+        /// <param name="Zielort"></param>
+        /// <returns></returns>
         public string FindCarpool(string Zielort)
         {
             var returner = new CarpoolDataService();
             var returntext = returner.FindCarpool(Zielort);
             return returntext;
         }
+        /// <summary>
+        /// Deliting the Carpool at special index
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<CarpoolDto> DeliteCarpool(long id)
         {
             var carpool = new CarpoolDataService();

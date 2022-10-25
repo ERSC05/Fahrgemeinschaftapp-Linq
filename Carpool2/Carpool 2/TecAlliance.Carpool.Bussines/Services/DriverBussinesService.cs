@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TecAlliance.Carpool.Bussines.Models;
@@ -17,7 +18,11 @@ namespace TecAlliance.Carpool.Bussines.Services
         {
             dataService = new DriverDataService();
         }
-
+        /// <summary>
+        /// Mapper from Driver to DriverDto
+        /// </summary>
+        /// <param name="driverToMap"></param>
+        /// <returns></returns>
         private DriverDto ToDriverDto(Driver driverToMap)
         {
 
@@ -26,20 +31,34 @@ namespace TecAlliance.Carpool.Bussines.Services
             return mappedDriver;
 
         }
+        /// <summary>
+        /// Get a driver on index
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<DriverDto> Get(long id)
         {
             var driver1 = new DriverDataService();
             List<DriverDto> driverDtos = new List<DriverDto>();
-            List<Driver> drivers = driver1.DriverReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv");
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
+
+            List<Driver> drivers = driver1.DriverReadCsv(pfad1);
             driverDtos.Add(ToDriverDto(drivers[Convert.ToInt32(id - 1)]));
             return driverDtos;
         }
+        /// <summary>
+        /// Read all driver in CSV file
+        /// </summary>
+        /// <returns></returns>
         public List<DriverDto> ReadDriver()
         {
 
             var driver1 = new DriverDataService();
             List<DriverDto> driverDtos = new List<DriverDto>();
-            List<Driver> drivers = driver1.DriverReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv");
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
+            List<Driver> drivers = driver1.DriverReadCsv(pfad1);
             foreach (Driver driver in drivers)
             {
                 var sdto = ToDriverDto(driver);
@@ -47,21 +66,30 @@ namespace TecAlliance.Carpool.Bussines.Services
             }
             return driverDtos;
         }
+        /// <summary>
+        /// Gives you the last Id back
+        /// </summary>
+        /// <returns></returns>
         private long ReturnLastId()
         {
             var drivers1 = new DriverDataService();
-            List<Driver> drivers2 = drivers1.DriverReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv");
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
+            List<Driver> drivers2 = drivers1.DriverReadCsv(pfad1);
             long id = 0;
             foreach (Driver driver in drivers2)
             {
                 id = driver.Id;
             }
-            //var lastDriver = drivers.Last().Id;               /////////////
             return id;
 
 
 
         }
+        /// <summary>
+        /// Add a Driver from the user
+        /// </summary>
+        /// <param name="driverDto"></param>
         public void AddDriver(DriverDto driverDto)
         {
             var readAllItems = new DriverBussinesService();
@@ -72,7 +100,11 @@ namespace TecAlliance.Carpool.Bussines.Services
             driver1.DriverAddCsv(driver);
 
         }
-
+        /// <summary>
+        /// Delite a driver
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<DriverDto> DeliteDriver(long id)
         {
             var driver = new DriverDataService();

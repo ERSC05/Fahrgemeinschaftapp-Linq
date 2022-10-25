@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TecAlliance.Carpool.Data.Models;
@@ -12,25 +13,27 @@ namespace TecAlliance.Carpool.Data.Services
     {
         public long ReturnLastId()
         {
-            var carpool1 = new CarpoolDataService();
-            List<CarPool> carpool2 = carpool1.CarpoolReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv");
-            //long id = 0;
-            //foreach (CarPool car in carpool2)
-            //{
-            //    id = car.Id;
-            //}
+            var carpool1 = new CarpoolDataService();            
+            var pfad = Assembly.GetEntryAssembly().Location;
+            pfad = pfad + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
+
+            //var path = Assembly.GetCallingAssembly().Location;
+
+            List<CarPool> carpool2 = carpool1.CarpoolReadCsv(pfad);
             return carpool2.Last().Id;
 
 
 
-        }
+        }           /////
         public void CarpoolAddCsv(CarPool carpool)
         {
-            using (StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv", true))
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
+            using (StreamWriter writer = new StreamWriter(pfad1, true))
             {
                 writer.WriteLine($"{carpool.Id};{carpool.NameBeifahrer};{carpool.NameFahrer};{carpool.Sitzplaetze};{carpool.AutoMarke};{carpool.AutoZiel};{carpool.AbfahrtZeit}");
             }
-        }
+        }         //////
         private static int CountLines(string fileToCount)
         {
             int counter = 0;
@@ -43,7 +46,7 @@ namespace TecAlliance.Carpool.Data.Services
                 return counter;
             }
 
-        }
+        }       /////
         public List<CarPool> CarpoolReadCsv(string path)
         {
             List<CarPool> carpoolItems = new List<CarPool>();
@@ -68,7 +71,7 @@ namespace TecAlliance.Carpool.Data.Services
                 }
             }
             return carpoolItems;
-        }
+        }           /////
         public List<string> ReadCarpoolCsv(string path)
         {
             int counter = 1;
@@ -84,7 +87,7 @@ namespace TecAlliance.Carpool.Data.Services
                 }
             }
             return liststring;
-        }
+        }           /////
         public string FindCarpool(string zielort)
         {
             string a = "";              //tell me which return should be trow out
@@ -100,7 +103,9 @@ namespace TecAlliance.Carpool.Data.Services
             string sitzarefull = "";    //shows if the seats are full
             string foundandsitz = "";   //shows if there is a car for the user and the seats are still avalible
 
-            List<string> allCarpool = ReadCarpoolCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv");
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
+            List<string> allCarpool = ReadCarpoolCsv(pfad1);
             //string[] strings = new string[6];
             string[] allItems = allCarpool.ToArray();
             List<CarPool> carPoolsAllNew = new List<CarPool>();
@@ -139,7 +144,7 @@ namespace TecAlliance.Carpool.Data.Services
                     foundandsitz = $"You found a Carpool. you are now driving with {nameFahrer}. The car is called {automarke} and got {sitzte - 1} left. you are driving to {autoZiel}. the time is {abfahrtzeit}.";
                 }
             }
-            using (StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv"))
+            using (StreamWriter writer = new StreamWriter(pfad1))
             {
                 foreach (var carPool in carPoolsAllNew)
                 {
@@ -158,8 +163,8 @@ namespace TecAlliance.Carpool.Data.Services
             {
                 return $"No one is driving to {zielort}. You can see al carpools in 'Zeige Fahrer'.";
             }
-        }
-        private List<CarPool> SortList(List<CarPool> carpool)
+        }               /////
+        private List<CarPool> SortList(List<CarPool> carpool)       /////
         {
             List<CarPool> sortetdriverlist = new List<CarPool>();
             sortetdriverlist = carpool.OrderBy(s => s.Id).ToList();
@@ -171,7 +176,9 @@ namespace TecAlliance.Carpool.Data.Services
             CarpoolDataService sorter = new CarpoolDataService();
             List<CarPool> carpool = new List<CarPool>();
             List<string> trash = new List<string>();
-            var oldcsv = CarpoolReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv");
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
+            var oldcsv = CarpoolReadCsv(pfad1);
             foreach (CarPool carPool in oldcsv)
             {
                 if (carPool.Id == id)
@@ -184,7 +191,7 @@ namespace TecAlliance.Carpool.Data.Services
                 }
             }
             sorter.SortList(carpool);
-            using (StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrgemeinschaften.csv"))
+            using (StreamWriter writer = new StreamWriter(pfad1))
             {
                 foreach (CarPool carPool in carpool)
                 {

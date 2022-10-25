@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TecAlliance.Carpool.Data.Models;
@@ -9,6 +10,11 @@ namespace TecAlliance.Carpool.Data.Services
 {
     public class DriverDataService
     {
+        /// <summary>
+        /// Count all Lines
+        /// </summary>
+        /// <param name="fileToCount"></param>
+        /// <returns></returns>
         private static int CountLines(string fileToCount)
         {
             int counter = 0;
@@ -22,6 +28,11 @@ namespace TecAlliance.Carpool.Data.Services
             }
 
         }
+        /// <summary>
+        /// Read all Driver in CSV File
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public List<Driver> DriverReadCsv(string path)
         {
             List<Driver> driverItems = new List<Driver>();
@@ -50,17 +61,26 @@ namespace TecAlliance.Carpool.Data.Services
             }
             return driverItems;
         }
+        /// <summary>
+        /// Driver are getting add to CSV file
+        /// </summary>
+        /// <param name="driver"></param>
         public void DriverAddCsv(Driver driver)
         {
-
-            //int a = 
-            using (StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv", true))
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
+            using (StreamWriter writer = new StreamWriter(pfad1, true))
             {
 
                 var newLine = $"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit}";
                 writer.WriteLine(newLine);
             }
         }
+        /// <summary>
+        /// Sort the given list
+        /// </summary>
+        /// <param name="drivers"></param>
+        /// <returns></returns>
         private List<Driver> SortList(List<Driver> drivers)
         {
             List<Driver> driverList = new List<Driver>();
@@ -70,13 +90,20 @@ namespace TecAlliance.Carpool.Data.Services
 
             return sortetdriverlist;
         }
+        /// <summary>
+        /// Deliting driver from CSV file
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<Driver> DeliteDriver(long id)
         {
             DriverDataService sorter = new DriverDataService();
             long a = 0;
             List<Driver> drivers = new List<Driver>();
-            var oldcsv = DriverReadCsv("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv");
-            using (StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv"))
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
+            var oldcsv = DriverReadCsv(pfad1);
+            using (StreamWriter writer = new StreamWriter(pfad1))
             {
                 foreach (Driver driver in oldcsv)
                 {
@@ -113,26 +140,5 @@ namespace TecAlliance.Carpool.Data.Services
 
 
         }
-        public void DrivingSearch(Driver driver, int eintraege, string eintrag)
-        {
-            using (StreamReader reader = new StreamReader("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\GebildeteFahrgemeinschaft\\GebildeteFahrgemeinschaft.csv"))
-            {
-                var csv = reader.ReadToEnd();
-            }
-            using (StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\GebildeteFahrgemeinschaft\\GebildeteFahrgemeinschaft.csv"))
-            {
-                List<string> listeDerEintraege = new List<string>();
-                listeDerEintraege.Add(eintrag);
-                List<string> finallist = new List<string>();
-                for (int i = 0; i < listeDerEintraege.Count; i++)
-                {
-                    if (listeDerEintraege[i].Contains("Computers"))
-                    {
-                        listeDerEintraege[i] = "Calculators";
-                    }
-                }
-            }
-        }
-
     }
 }
