@@ -14,13 +14,10 @@ namespace TecAlliance.Carpool.Bussines.Services
     public class CarpoolBussinesService : ICarpoolBussinesService
     {
         private ICarpoolDataService carpooldataService;
-
         public CarpoolBussinesService(ICarpoolDataService carpoolDataService)
         {
             carpooldataService = carpoolDataService;
-
         }
-
         /// <summary>
         /// Mapper from Carpool to CarpoolDto
         /// </summary>
@@ -33,7 +30,7 @@ namespace TecAlliance.Carpool.Bussines.Services
 
             return mappedDriver;
 
-        }  //////////////
+        }
         /// <summary>
         /// Add a Carpool to the CSV
         /// </summary>

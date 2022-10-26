@@ -43,8 +43,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<CarpoolDtoProvider>();
 builder.Services.AddScoped<ICarpoolBussinesService, CarpoolBussinesService>();
 builder.Services.AddScoped<ICarpoolDataService, CarpoolDataService>();
 
-
-builder.Services.AddSingleton<IDriverBussinesService, DriverBussinesService>();
+builder.Services. AddSingleton<IDriverBussinesService, DriverBussinesService>();
 builder.Services.AddTransient<IDriverDataService, DriverDataService>();
 
 

@@ -11,6 +11,10 @@ namespace TecAlliance.Carpool.Data.Services
 {
     public class CarpoolDataService : ICarpoolDataService
     {
+        /// <summary>
+        /// Return the last Id from Carpool List
+        /// </summary>
+        /// <returns></returns>
         public long ReturnLastId()
         {
             var carpool1 = new CarpoolDataService();
@@ -25,6 +29,10 @@ namespace TecAlliance.Carpool.Data.Services
 
 
         }
+        /// <summary>
+        /// Carpools are added in to the CSV file
+        /// </summary>
+        /// <param name="carpool"></param>
         public void CarpoolAddCsv(CarPool carpool)
         {
             var pfad1 = Assembly.GetEntryAssembly().Location;
@@ -34,6 +42,11 @@ namespace TecAlliance.Carpool.Data.Services
                 writer.WriteLine($"{carpool.Id};{carpool.NameBeifahrer};{carpool.NameFahrer};{carpool.Sitzplaetze};{carpool.AutoMarke};{carpool.AutoZiel};{carpool.AbfahrtZeit}");
             }
         }
+        /// <summary>
+        /// Count lines in CSV file
+        /// </summary>
+        /// <param name="fileToCount"></param>
+        /// <returns></returns>
         private static int CountLines(string fileToCount)
         {
             int counter = 0;
@@ -47,6 +60,11 @@ namespace TecAlliance.Carpool.Data.Services
             }
 
         }
+        /// <summary>
+        /// Read all Carpools in the CSV file. Return a List<CarPool>
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public List<CarPool> CarpoolReadCsv(string path)
         {
             int a = 0;
@@ -89,6 +107,11 @@ namespace TecAlliance.Carpool.Data.Services
             }
             return carpoolItems;
         }
+        /// <summary>
+        /// Read all Carpools in the CSV file. Return a string
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public List<string> ReadCarpoolCsv(string path)
         {
             int counter = 1;
@@ -105,6 +128,11 @@ namespace TecAlliance.Carpool.Data.Services
             }
             return liststring;
         }
+        /// <summary>
+        /// Serach for a specific Carpool in the CSV file
+        /// </summary>
+        /// <param name="zielort"></param>
+        /// <returns></returns>
         public string FindCarpool(string zielort)
         {
             string a = "";              //tell me which return should be trow out
@@ -181,18 +209,29 @@ namespace TecAlliance.Carpool.Data.Services
                 return $"No one is driving to {zielort}. You can see al carpools in 'Zeige Fahrer'.";
             }
         }
+        /// <summary>
+        /// Sort a List by Id
+        /// </summary>
+        /// <param name="carpool"></param>
+        /// <returns></returns>
         private List<CarPool> SortList(List<CarPool> carpool)
         {
             List<CarPool> sortetdriverlist = new List<CarPool>();
             sortetdriverlist = carpool.OrderBy(s => s.Id).ToList();
             return sortetdriverlist;
         }
+        /// <summary>
+        /// Delete a item from a List at the index of the given Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<CarPool> DelitedList(long id)
         {
 
             CarpoolDataService sorter = new CarpoolDataService();
             List<CarPool> carpool = new List<CarPool>();
             List<string> trash = new List<string>();
+            
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
             var oldcsv = CarpoolReadCsv(pfad1);

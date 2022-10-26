@@ -7,7 +7,8 @@ namespace TecAlliance.Carpool.Bussines
     {
         public CarpoolDto GetExamples()
         {
-            return new CarpoolDto(1, "Name deines Beifahrers", "Name des Fahrers", 5, "Auto Marke", "Zielort", "Wann fährst du");
+            return new CarpoolDto(
+                1, "NameDeinesBeifahrers", "NameDesFahrers", 5, "AutoMarke", "Zielort", "WannFährstDu");
         }
 
     }
