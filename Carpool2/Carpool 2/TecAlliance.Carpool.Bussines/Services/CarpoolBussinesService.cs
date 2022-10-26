@@ -11,8 +11,16 @@ using TecAlliance.Carpool.Data.Services;
 
 namespace TecAlliance.Carpool.Bussines.Services
 {
-    public class CarpoolBussinesService
+    public class CarpoolBussinesService : ICarpoolBussinesService
     {
+        private ICarpoolDataService carpooldataService;
+
+        public CarpoolBussinesService(ICarpoolDataService carpoolDataService)
+        {
+            carpooldataService = carpoolDataService;
+
+        }
+
         /// <summary>
         /// Mapper from Carpool to CarpoolDto
         /// </summary>
@@ -32,9 +40,8 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <param name="carPool"></param>
         public void AddCarpool(CarPool carPool)
         {
-            var idreturner = new CarpoolDataService();
 
-            long id = idreturner.ReturnLastId();
+            long id = carpooldataService.ReturnLastId();
             id++;
             var carpool = new CarPool(id, carPool.NameBeifahrer, carPool.NameFahrer, carPool.Sitzplaetze, carPool.AutoMarke, carPool.AutoZiel, carPool.AbfahrtZeit);
             var carpool1 = new CarpoolDataService();
@@ -46,13 +53,12 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         public List<CarpoolDto> ShowCarpool()
         {
-            var carPool1 = new CarpoolDataService();
             List<CarpoolDto> carPooldto = new List<CarpoolDto>();
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv"; ///////////////
-            List<CarPool> carPool = carPool1.CarpoolReadCsv(pfad1);
+            List<CarPool> carPool = carpooldataService.CarpoolReadCsv(pfad1);
             List<string> liststring = new List<string>();
-            liststring = carPool1.ReadCarpoolCsv(pfad1);
+            liststring = carpooldataService.ReadCarpoolCsv(pfad1);
             string[] strings = new string[6];
             string[] allItems = liststring.ToArray();
             foreach (string item in allItems)
@@ -68,7 +74,7 @@ namespace TecAlliance.Carpool.Bussines.Services
                 var newCarpool = new CarpoolDto(id, nameBeifahrer, nameFahrer, sitzplaetze, automarke, autoZiel, abfahrtzeit);
                 carPooldto.Add(newCarpool);
             }
-           
+
             return carPooldto;
         }
         /// <summary>
@@ -87,11 +93,10 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public List<CarpoolDto> DeliteCarpool(long id)
+        public List<CarpoolDto> DeleteCarpool(long id)
         {
-            var carpool = new CarpoolDataService();
             List<CarpoolDto> delitedcarpool = new List<CarpoolDto>();
-            var test = carpool.DelitedList(id);
+            var test = carpooldataService.DelitedList(id);
             foreach (var delitet in test)
             {
                 var driver2 = ToCarpoolDto(delitet);

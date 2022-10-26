@@ -8,7 +8,7 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data.Services
 {
-    public class DriverDataService
+    public class DriverDataService : IDriverDataService
     {
         /// <summary>
         /// Count all Lines
@@ -122,7 +122,7 @@ namespace TecAlliance.Carpool.Data.Services
                         {
                             drivers.Add(driver);
                             writer.WriteLine($"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit}");
-                            
+
                         }
                     }
                 }

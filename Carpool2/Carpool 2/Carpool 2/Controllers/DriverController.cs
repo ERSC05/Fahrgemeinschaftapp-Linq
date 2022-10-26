@@ -12,12 +12,12 @@ namespace Carpool_2.Controllers
 
     public class DriverController : ControllerBase
     {
-        DriverBussinesService driverBussinesService;
+        IDriverBussinesService driverBussinesService;
 
 
-        public DriverController()
+        public DriverController(IDriverBussinesService driverBussinesService)
         {
-            driverBussinesService = new DriverBussinesService();
+            this.driverBussinesService = driverBussinesService;
         }
 
 

@@ -10,13 +10,13 @@ using TecAlliance.Carpool.Data.Services;
 
 namespace TecAlliance.Carpool.Bussines.Services
 {
-    public class DriverBussinesService
+    public class DriverBussinesService : IDriverBussinesService
     {
-        DriverDataService dataService;
+        private IDriverDataService driverdataService;
 
-        public DriverBussinesService()
+        public DriverBussinesService(IDriverDataService driverDataService)
         {
-            dataService = new DriverDataService();
+            this.driverdataService = driverDataService;
         }
         /// <summary>
         /// Mapper from Driver to DriverDto
@@ -38,7 +38,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         public List<DriverDto> Get(long id)
         {
-            var driver1 = new DriverDataService();
+            var driver1 = driverdataService;
             List<DriverDto> driverDtos = new List<DriverDto>();
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
@@ -54,7 +54,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         public List<DriverDto> ReadDriver()
         {
 
-            var driver1 = new DriverDataService();
+            var driver1 = driverdataService;
             List<DriverDto> driverDtos = new List<DriverDto>();
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
@@ -72,7 +72,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         private long ReturnLastId()
         {
-            var drivers1 = new DriverDataService();
+            var drivers1 = driverdataService;
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
             List<Driver> drivers2 = drivers1.DriverReadCsv(pfad1);
@@ -91,14 +91,12 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <param name="driverDto"></param>
         public void AddDriver(DriverDto driverDto)
-        {
-            var readAllItems = new DriverBussinesService();
-            long id = readAllItems.ReturnLastId();
+        {            
+            long id = ReturnLastId();
             id++;
             var driver = new Driver(id, driverDto.Name, driverDto.Sitzplaetze, driverDto.AutoMarke, driverDto.FahrtZiehl, driverDto.AbfahrtZeit);
-            var driver1 = new DriverDataService();
+            var driver1 = driverdataService;
             driver1.DriverAddCsv(driver);
-
         }
         /// <summary>
         /// Delite a driver
@@ -107,7 +105,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         public List<DriverDto> DeliteDriver(long id)
         {
-            var driver = new DriverDataService();
+            var driver = driverdataService;
             List<DriverDto> finaldelite = new List<DriverDto>();
             var delitetlist = driver.DeliteDriver(id);
             foreach (var delitet in delitetlist)

@@ -9,11 +9,11 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data.Services
 {
-    public class CarpoolDataService
+    public class CarpoolDataService : ICarpoolDataService
     {
         public long ReturnLastId()
         {
-            var carpool1 = new CarpoolDataService();            
+            var carpool1 = new CarpoolDataService();
             var pfad = Assembly.GetEntryAssembly().Location;
             pfad = pfad + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
 
@@ -24,7 +24,7 @@ namespace TecAlliance.Carpool.Data.Services
 
 
 
-        }           /////
+        }
         public void CarpoolAddCsv(CarPool carpool)
         {
             var pfad1 = Assembly.GetEntryAssembly().Location;
@@ -33,7 +33,7 @@ namespace TecAlliance.Carpool.Data.Services
             {
                 writer.WriteLine($"{carpool.Id};{carpool.NameBeifahrer};{carpool.NameFahrer};{carpool.Sitzplaetze};{carpool.AutoMarke};{carpool.AutoZiel};{carpool.AbfahrtZeit}");
             }
-        }         //////
+        }
         private static int CountLines(string fileToCount)
         {
             int counter = 0;
@@ -46,7 +46,7 @@ namespace TecAlliance.Carpool.Data.Services
                 return counter;
             }
 
-        }       /////
+        }
         public List<CarPool> CarpoolReadCsv(string path)
         {
             int a = 0;
@@ -88,7 +88,7 @@ namespace TecAlliance.Carpool.Data.Services
                 }
             }
             return carpoolItems;
-        }           /////
+        }
         public List<string> ReadCarpoolCsv(string path)
         {
             int counter = 1;
@@ -104,7 +104,7 @@ namespace TecAlliance.Carpool.Data.Services
                 }
             }
             return liststring;
-        }           /////
+        }
         public string FindCarpool(string zielort)
         {
             string a = "";              //tell me which return should be trow out
@@ -180,8 +180,8 @@ namespace TecAlliance.Carpool.Data.Services
             {
                 return $"No one is driving to {zielort}. You can see al carpools in 'Zeige Fahrer'.";
             }
-        }               /////
-        private List<CarPool> SortList(List<CarPool> carpool)       /////
+        }
+        private List<CarPool> SortList(List<CarPool> carpool)
         {
             List<CarPool> sortetdriverlist = new List<CarPool>();
             sortetdriverlist = carpool.OrderBy(s => s.Id).ToList();

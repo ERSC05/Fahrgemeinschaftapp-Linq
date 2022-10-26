@@ -1,10 +1,13 @@
 using Carpool_2;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyModel;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using TecAlliance.Carpool.Bussines;
 using TecAlliance.Carpool.Bussines.Models;
+using TecAlliance.Carpool.Bussines.Services;
+using TecAlliance.Carpool.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,15 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddSingleton<DriverDtoDtoProvider>();
 builder.Services.AddSingleton<CarpoolDtoProvider>();
 builder.Services.AddSwaggerExamplesFromAssemblyOf<CarpoolDtoProvider>();
+
+builder.Services.AddScoped<ICarpoolBussinesService, CarpoolBussinesService>();
+builder.Services.AddScoped<ICarpoolDataService, CarpoolDataService>();
+
+
+builder.Services.AddSingleton<IDriverBussinesService, DriverBussinesService>();
+builder.Services.AddTransient<IDriverDataService, DriverDataService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
