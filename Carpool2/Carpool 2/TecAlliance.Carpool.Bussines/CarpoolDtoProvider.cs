@@ -3,13 +3,26 @@ using TecAlliance.Carpool.Bussines.Models;
 
 namespace TecAlliance.Carpool.Bussines
 {
-    public class CarpoolDtoProvider : IExamplesProvider<CarpoolDto>
+    public class CarpoolDtoProvider : IExamplesProvider<List<CarpoolDto>>
     {
-        public CarpoolDto GetExamples()
+        public List<CarpoolDto> GetExamples()
         {
-            return new CarpoolDto(
-                1, "NameDeinesBeifahrers", "NameDesFahrers", 5, "AutoMarke", "Zielort", "WannFährstDu");
+
+            return new List<CarpoolDto>
+            { new CarpoolDto(1, "NameDeinesBeifahrers", "NameDesFahrers", 5, "AutoMarke", "Zielort", "WannFährstDu")
+            };
         }
 
     }
+    public class CarpoolDProvider : IExamplesProvider<CarpoolDto>
+    {
+        public CarpoolDto GetExamples()
+        {
+            return new CarpoolDto(1, "NameDeinesBeifahrers", "NameDesFahrers", 5, "AutoMarke", "Zielort", "WannFährstDu");
+        }
+    }
+
 }
+
+
+

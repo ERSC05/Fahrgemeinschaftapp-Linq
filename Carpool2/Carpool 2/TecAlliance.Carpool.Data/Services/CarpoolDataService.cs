@@ -227,11 +227,9 @@ namespace TecAlliance.Carpool.Data.Services
         /// <returns></returns>
         public List<CarPool> DelitedList(long id)
         {
-
             CarpoolDataService sorter = new CarpoolDataService();
             List<CarPool> carpool = new List<CarPool>();
-            List<string> trash = new List<string>();
-            
+            List<string> trash = new List<string>();  
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
             var oldcsv = CarpoolReadCsv(pfad1);
@@ -254,9 +252,7 @@ namespace TecAlliance.Carpool.Data.Services
                     writer.WriteLine($"{carPool.Id};{carPool.NameBeifahrer};{carPool.NameFahrer};{carPool.Sitzplaetze};{carPool.AutoMarke};{carPool.AutoZiel};{carPool.AbfahrtZeit}");
                 }
             }
-
             return carpool;
-
         }
     }
 }

@@ -37,12 +37,21 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <param name="carPool"></param>
         public void AddCarpool(CarPool carPool)
         {
+            try
+            {
 
-            long id = carpooldataService.ReturnLastId();
-            id++;
-            var carpool = new CarPool(id, carPool.NameBeifahrer, carPool.NameFahrer, carPool.Sitzplaetze, carPool.AutoMarke, carPool.AutoZiel, carPool.AbfahrtZeit);
-            var carpool1 = new CarpoolDataService();
-            carpool1.CarpoolAddCsv(carpool);
+                long id = carpooldataService.ReturnLastId();
+                id++;
+                var carpool = new CarPool(id, carPool.NameBeifahrer, carPool.NameFahrer, carPool.Sitzplaetze, carPool.AutoMarke, carPool.AutoZiel, carPool.AbfahrtZeit);
+                var carpool1 = new CarpoolDataService();
+                carpool1.CarpoolAddCsv(carpool);
+            }
+            catch { throw new ArgumentException("carpool got not created"); }
+            if (carPool.Id > 0)
+            {
+                return;
+            }
+            else { throw new ArgumentException("haaaaalooo"); }
         }
         /// <summary>
         /// Shows all Carpool in the CSV File

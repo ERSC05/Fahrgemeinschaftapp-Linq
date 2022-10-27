@@ -4,21 +4,25 @@ using System.Reflection.Metadata;
 using TecAlliance.Carpool.Bussines.Models;
 using TecAlliance.Carpool.Bussines.Services;
 using TecAlliance.Carpool.Data.Models;
+using TecAlliance.Carpool.Data.Services;
 
 namespace Carpool_2.Controllers
 {
     [ApiController]
+    [Route("[Controller]")]
 
     public class CarpoolController : Controller
     {
         ICarpoolBussinesService carpoolBussinesService;
+        ICarpoolBussinesService1 carpoolBussinesService1;
 
-        public CarpoolController(ICarpoolBussinesService carpoolBussinesService)
+        public CarpoolController(ICarpoolBussinesService carpoolBussinesServicem, ICarpoolBussinesService1 carpoolBussinesService1)
         {
             this.carpoolBussinesService = carpoolBussinesService;
-        }        
+            this.carpoolBussinesService1 = carpoolBussinesService1;
+        }
 
-
+       
         [HttpGet]//("Zeige Fahrer")]
         [Route("api/Carpool_2/ZeigeFahrer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
