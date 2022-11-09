@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Reflection.Metadata.Ecma335;
 using TecAlliance.Carpool.Bussines.Models;
@@ -11,18 +12,17 @@ namespace TestProject3
     [TestClass]
     public class UnitTest1
     {
-        public ICarpoolBussinesService carpoolBussinesService;
-        public ICarpoolDataService carpoolDataService;
-       
+        //private ICarpoolBussinesService carpoolBussines;
+        //private CarpoolBussinesService carpoolBussinesService = new CarpoolBussinesService();
+        private CarpoolDataService carpoolDataService = new CarpoolDataService();
+
 
         [TestMethod]
 
         public void AddCarpool()
         {
-
-
             int counter = 0;
-            while (counter <= 1000000)
+            while (counter <= 1000)
             {
                 var finalString = Randomentry();
                 int randomintnumber = Randointmnumber();
@@ -82,7 +82,6 @@ namespace TestProject3
             }
             return finalint;
         }
-
         [TestMethod]
         public void FindCarpool()
         {
@@ -93,9 +92,33 @@ namespace TestProject3
             carpoolDataService.FindCarpool(autoZiel);
 
             var b = carpoolDataService.FindCarpool("wkh");
-            b.Should().Be(notexist1).And.Be(notexist1);
+            b.Should().NotBe(notexist).And.Be(notexist1);
 
 
         }
+
+        
+        [TestMethod]
+        public void DeleteList()
+        {
+            int randomintnumber = Randointmnumber();
+            int saver = randomintnumber;
+            List<CarPool> carPools = new List<CarPool>();
+            CarpoolDataService carpoolDataService = new CarpoolDataService();
+            var b = carpoolDataService.DelitedList(randomintnumber);
+            //int b21 = 0;
+            foreach (CarPool carPool in carPools)
+            {
+                if (carPool.Id == saver)
+                {
+                    carPool.Id.Should().Be(saver);
+                }
+            }
+        }
+        
     }
+    //var carpools = carpoolDataService.Showcarpool();
+    //int b = 0;
+    //carpools.Should().NotBeNull().And.HaveCountGreaterThan(0);
+    
 }

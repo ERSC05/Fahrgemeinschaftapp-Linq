@@ -14,28 +14,30 @@ namespace Carpool_2.Controllers
     public class CarpoolController : Controller
     {
         ICarpoolBussinesService carpoolBussinesService;
-        ICarpoolBussinesService1 carpoolBussinesService1;
 
-        public CarpoolController(ICarpoolBussinesService carpoolBussinesServicem, ICarpoolBussinesService1 carpoolBussinesService1)
+        public CarpoolController(ICarpoolBussinesService carpoolBussinesService)
         {
             this.carpoolBussinesService = carpoolBussinesService;
-            this.carpoolBussinesService1 = carpoolBussinesService1;
         }
 
        
         [HttpGet]//("Zeige Fahrer")]
         [Route("api/Carpool_2/ZeigeFahrer")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<CarpoolDto>> ShowingCarpool()
         {
-            var done = carpoolBussinesService.ShowCarpool();
+            var done = carpoolBussinesService.ShowAllExistCarpool();
             return done;
         }
 
         [HttpPost]//("FahrgemeinschaftFinden")]
         [Route("api/Carpool_2/FahrgemeinschaftFinden{Zielort}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
         public string FindCarpool(string Zielort)
@@ -47,8 +49,11 @@ namespace Carpool_2.Controllers
 
         [HttpPost]//("{EineFahrgemeinschaftBilden")]
         [Route("api/Carpool_2/EineFahrgemeinschaftBilden")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
         public ActionResult<List<CarpoolDto>> CreateCarpool(CarPool carPool)
         {
@@ -62,7 +67,9 @@ namespace Carpool_2.Controllers
 
         [HttpDelete]//("{Id eingeben}")]
         [Route("api/Carpool_2/IdEingeben")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<CarpoolDto>> DeliteCarpool(long id)
         {

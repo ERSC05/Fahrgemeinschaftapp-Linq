@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using TecAlliance.Carpool.Bussines.Models;
 using TecAlliance.Carpool.Data.Models;
 using TecAlliance.Carpool.Data.Services;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TecAlliance.Carpool.Bussines.Services
 {
     public class CarpoolBussinesService : ICarpoolBussinesService
     {
         private ICarpoolDataService carpooldataService;
+
         public CarpoolBussinesService(ICarpoolDataService carpoolDataService)
         {
             carpooldataService = carpoolDataService;
@@ -39,49 +41,28 @@ namespace TecAlliance.Carpool.Bussines.Services
         {
             try
             {
-
-                long id = carpooldataService.ReturnLastId();
-                id++;
-                var carpool = new CarPool(id, carPool.NameBeifahrer, carPool.NameFahrer, carPool.Sitzplaetze, carPool.AutoMarke, carPool.AutoZiel, carPool.AbfahrtZeit);
+                var carpool = new CarPool(0, carPool.NameBeifahrer, carPool.NameFahrer, carPool.Sitzplaetze, carPool.AutoMarke, carPool.AutoZiel, carPool.AbfahrtZeit);
                 var carpool1 = new CarpoolDataService();
                 carpool1.CarpoolAddCsv(carpool);
             }
             catch { throw new ArgumentException("carpool got not created"); }
-            if (carPool.Id > 0)
-            {
-                return;
-            }
-            else { throw new ArgumentException("haaaaalooo"); }
+
         }
         /// <summary>
-        /// Shows all Carpool in the CSV File
+        /// Showing all Carpool that exist in the Database/CSV
         /// </summary>
         /// <returns></returns>
-        public List<CarpoolDto> ShowCarpool()
+        public List<CarpoolDto> ShowAllExistCarpool()
         {
-            List<CarpoolDto> carPooldto = new List<CarpoolDto>();
-            var pfad1 = Assembly.GetEntryAssembly().Location;
-            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv"; ///////////////
-            List<CarPool> carPool = carpooldataService.CarpoolReadCsv(pfad1);
-            List<string> liststring = new List<string>();
-            liststring = carpooldataService.ReadCarpoolCsv(pfad1);
-            string[] strings = new string[6];
-            string[] allItems = liststring.ToArray();
-            foreach (string item in allItems)
+            List<CarpoolDto> carPools = new List<CarpoolDto>();
+            var carpool = carpooldataService.Showcarpool();
+            foreach (var delitet in carpool)
             {
-                strings = item.Split(';');
-                long id = Convert.ToInt64(strings[0]);
-                string nameBeifahrer = strings[1];
-                string nameFahrer = strings[2];
-                int sitzplaetze = Convert.ToInt32(strings[3]);
-                string automarke = strings[4];
-                string autoZiel = strings[5];
-                string abfahrtzeit = strings[6];
-                var newCarpool = new CarpoolDto(id, nameBeifahrer, nameFahrer, sitzplaetze, automarke, autoZiel, abfahrtzeit);
-                carPooldto.Add(newCarpool);
+                var driver2 = ToCarpoolDto(delitet);
+                carPools.Add(driver2);
             }
 
-            return carPooldto;
+            return carPools;
         }
         /// <summary>
         /// Search between all Carpools for the special index
@@ -108,7 +89,6 @@ namespace TecAlliance.Carpool.Bussines.Services
                 var driver2 = ToCarpoolDto(delitet);
                 delitedcarpool.Add(driver2);
             }
-            //var converteddelitedcarpool = ToCarpoolDto(delitedcarpool);
             return delitedcarpool;
         }
     }

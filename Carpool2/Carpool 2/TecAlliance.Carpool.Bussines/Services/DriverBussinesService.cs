@@ -26,7 +26,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         private DriverDto ToDriverDto(Driver driverToMap)
         {
 
-            var mappedDriver = new DriverDto(driverToMap.Id, driverToMap.Name, driverToMap.Sitzplaetze, driverToMap.AutoMarke, driverToMap.FahrtZiehl, driverToMap.AbfahrtZeit);
+            var mappedDriver = new DriverDto(driverToMap.Id, driverToMap.Name, driverToMap.Sitzplaetze, driverToMap.AutoMarke, driverToMap.FahrtZiehl, driverToMap.AbfahrtZeit, driverToMap.DeletedOrNot);
 
             return mappedDriver;
 
@@ -72,6 +72,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         private long ReturnLastId()
         {
+            int a = 1;
             var drivers1 = driverdataService;
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
@@ -79,7 +80,17 @@ namespace TecAlliance.Carpool.Bussines.Services
             long id = 0;
             foreach (Driver driver in drivers2)
             {
-                id = driver.Id;
+
+                if (a == 1)
+                {
+                    id = driver.Id + 1;
+                    a++;
+                }
+                else
+                {
+                    id++;
+                }
+
             }
             return id;
 
@@ -91,10 +102,9 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <param name="driverDto"></param>
         public void AddDriver(DriverDto driverDto)
-        {            
+        {
             long id = ReturnLastId();
-            id++;
-            var driver = new Driver(id, driverDto.Name, driverDto.Sitzplaetze, driverDto.AutoMarke, driverDto.FahrtZiehl, driverDto.AbfahrtZeit);
+            var driver = new Driver(id, driverDto.Name, driverDto.Sitzplaetze, driverDto.AutoMarke, driverDto.FahrtZiehl, driverDto.AbfahrtZeit, driverDto.DeletedOrNot);
             var driver1 = driverdataService;
             driver1.DriverAddCsv(driver);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -37,6 +38,7 @@ namespace TecAlliance.Carpool.Data.Services
         {
             List<Driver> driverItems = new List<Driver>();
             int counter = 1;
+            int a = 0;
             using (StreamReader reader = new StreamReader(path))
             {
 
@@ -53,8 +55,17 @@ namespace TecAlliance.Carpool.Data.Services
                     string automarke = splittedstring[3];
                     string fahrtziel = splittedstring[4];
                     string abfahrtzeit = splittedstring[5];
-                    var newDriver = new Driver(id, name, sitzplaetze, automarke, fahrtziel, abfahrtzeit);
-                    driverItems.Add(newDriver);
+                    string delitetOrNot = splittedstring[6];
+                    if (delitetOrNot == "Yes")
+                    {
+
+                    }
+                    else
+                    {
+
+                        var newDriver = new Driver(id, name, sitzplaetze, automarke, fahrtziel, abfahrtzeit, delitetOrNot);
+                        driverItems.Add(newDriver);
+                    }
 
                     counter++;
                 }
@@ -72,7 +83,7 @@ namespace TecAlliance.Carpool.Data.Services
             using (StreamWriter writer = new StreamWriter(pfad1, true))
             {
 
-                var newLine = $"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit}";
+                var newLine = $"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit};No";
                 writer.WriteLine(newLine);
             }
         }
@@ -100,6 +111,8 @@ namespace TecAlliance.Carpool.Data.Services
             DriverDataService sorter = new DriverDataService();
             long a = 0;
             List<Driver> drivers = new List<Driver>();
+            List<Driver> deletetDriverList = new List<Driver>();
+
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
             var oldcsv = DriverReadCsv(pfad1);
@@ -109,36 +122,22 @@ namespace TecAlliance.Carpool.Data.Services
                 {
                     if (driver.Id == id)
                     {
-                        long trash = driver.Id;
+                        var deletedDriver = new Driver(driver.Id, driver.Name, driver.Sitzplaetze, driver.AutoMarke, driver.FahrtZiehl, driver.AbfahrtZeit, driver.DeletedOrNot);
+                        writer.WriteLine($"{deletedDriver.Id};{deletedDriver.Name};{deletedDriver.Sitzplaetze};{deletedDriver.AutoMarke};{deletedDriver.FahrtZiehl};{deletedDriver.AbfahrtZeit};Yes");
                         a++;
                     }
                     else
                     {
-                        if (a == 1)
-                        {
-                            writer.WriteLine($"{driver.Id - 1};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit}");
-                        }
-                        else
-                        {
-                            drivers.Add(driver);
-                            writer.WriteLine($"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit}");
-
-                        }
+                        drivers.Add(driver);
+                        writer.WriteLine($"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit};No");
                     }
                 }
             }
             sorter.SortList(drivers);
-
-
-            //using(StreamWriter writer = new StreamWriter("C:\\010Projects\\Linq\\Fahrgemeinschaft\\Carpool2\\Fahrer\\Fahrer.csv"))
-            //{
-            //    writer.WriteLine(drivers);
-            //}
-
             return drivers;
 
 
 
-        }
+        }        
     }
 }

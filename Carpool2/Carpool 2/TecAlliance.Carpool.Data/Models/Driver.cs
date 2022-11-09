@@ -14,8 +14,9 @@ namespace TecAlliance.Carpool.Data.Models
         public string AutoMarke { get; set; }
         public string FahrtZiehl { get; set; }
         public string AbfahrtZeit { get; set; }
+        public string DeletedOrNot { get; set; }
 
-        public Driver(long id, string name, int sitzplaetze, string autoMarke, string fahrtZiehl, string abfahrtZeit)
+        public Driver(long id, string name, int sitzplaetze, string autoMarke, string fahrtZiehl, string abfahrtZeit, string deletedOrNot)
         {
             Id = id;
             Name = name;
@@ -23,6 +24,8 @@ namespace TecAlliance.Carpool.Data.Models
             AutoMarke = autoMarke;
             FahrtZiehl = fahrtZiehl;
             AbfahrtZeit = abfahrtZeit;
+            DeletedOrNot = deletedOrNot;
+
         }
         
     }

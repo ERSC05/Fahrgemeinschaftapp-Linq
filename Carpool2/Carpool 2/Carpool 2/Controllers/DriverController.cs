@@ -21,13 +21,28 @@ namespace Carpool_2.Controllers
         }
 
 
-        [HttpGet]       /////////
+        [HttpGet]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<List<DriverDto>>> GetDriver()
         {
-            var test = driverBussinesService.ReadDriver();
-            return test;
+            try
+            {
+                var test = driverBussinesService.ReadDriver();
+                return test;
+            }
+            catch 
+            { 
+                return BadRequest($"Driver does not exist"); 
+            }
         }
-        [HttpGet("{id}")]        /////////
+        [HttpGet("{id}")]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<List<DriverDto>>> GetDriverId(long id)
         {
             try
@@ -46,25 +61,39 @@ namespace Carpool_2.Controllers
             }
         }
 
-        [HttpPost]      /////////
+        [HttpPost]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult CreateDriver(DriverDto driverdto)
         {
-            //Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
-            driverBussinesService.AddDriver(driverdto);
-            return CreatedAtAction("AddDriver", new { id = driverdto.Id }, driverdto);
+            try
+            {
+                //Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
+                driverBussinesService.AddDriver(driverdto);
+                return CreatedAtAction("AddDriver", new { id = driverdto.Id }, driverdto);
+            }
+            catch
+            {
+                return BadRequest($"{driverdto} it not a driver");
+            }
         }
-
         [HttpDelete("{id}")]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<DriverDto>> DeliteDriver(long id)
         {
             try
             {
 
-            
-            var newlist = driverBussinesService.DeliteDriver(id);
 
-            return newlist;
-        }
+                var newlist = driverBussinesService.DeliteDriver(id);
+
+                return newlist;
+            }
             catch
             {
                 return BadRequest($"{id} does not exist");
