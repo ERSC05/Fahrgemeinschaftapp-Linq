@@ -39,10 +39,8 @@ namespace TecAlliance.Carpool.Data.Services
             List<Driver> driverItems = new List<Driver>();
             int counter = 1;
             int a = 0;
-            using (StreamReader reader = new StreamReader(path))
+            using (StreamReader reader = new StreamReader(path, true))
             {
-
-
                 while (counter <= CountLines(path))
                 {
 
@@ -58,15 +56,12 @@ namespace TecAlliance.Carpool.Data.Services
                     string delitetOrNot = splittedstring[6];
                     if (delitetOrNot == "Yes")
                     {
-
                     }
                     else
                     {
-
                         var newDriver = new Driver(id, name, sitzplaetze, automarke, fahrtziel, abfahrtzeit, delitetOrNot);
                         driverItems.Add(newDriver);
                     }
-
                     counter++;
                 }
             }

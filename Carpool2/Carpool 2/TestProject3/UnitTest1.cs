@@ -1,6 +1,8 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
+using Moq;
 using System;
+using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using TecAlliance.Carpool.Bussines.Models;
 using TecAlliance.Carpool.Bussines.Services;
@@ -12,10 +14,15 @@ namespace TestProject3
     [TestClass]
     public class UnitTest1
     {
-        //private ICarpoolBussinesService carpoolBussines;
-        //private CarpoolBussinesService carpoolBussinesService = new CarpoolBussinesService();
-        private CarpoolDataService carpoolDataService = new CarpoolDataService();
+        private readonly CarpoolBussinesService _carpoolBussines;
+        private readonly CarpoolDataService _carpoolData;
+        private readonly Mock<ICarpoolDataService> _CarpoolRepoMock = new Mock<ICarpoolDataService>();
+        private readonly Mock<ICarpoolBussinesService> _CarpoolMock = new Mock<ICarpoolBussinesService>();
 
+        public UnitTest1()
+        {
+            _carpoolData = new CarpoolDataService();
+        }
 
         [TestMethod]
 
@@ -92,12 +99,10 @@ namespace TestProject3
             carpoolDataService.FindCarpool(autoZiel);
 
             var b = carpoolDataService.FindCarpool("wkh");
-            b.Should().NotBe(notexist).And.Be(notexist1);
+            b.Should().NotBe(notexist).And.NotBe(notexist1);
 
 
         }
-
-        
         [TestMethod]
         public void DeleteList()
         {
@@ -115,10 +120,41 @@ namespace TestProject3
                 }
             }
         }
-        
+        [TestMethod]
+        public void ShowCarpool()
+        {
+            //Arange
+
+            //Act
+            var a = _carpoolData.Showcarpool();
+            //Assert
+            a.Should().NotBeNullOrEmpty();
+        }
+        [TestMethod]
+        public void ReadCarpoolCsv()
+        {
+            //Arange
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
+            //Act
+            var returList = _carpoolData.ReadCarpoolCsv(pfad1);
+            //Assert
+            returList.Should().NotBeNullOrEmpty().And.BeOfType<List<string>>();            
+        }
+        [TestMethod]
+        public void CarpoolReadCsv()
+        {
+            //Arange
+            var pfad1 = Assembly.GetEntryAssembly().Location;
+            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
+            //Act
+            var returList = _carpoolData.CarpoolReadCsv(pfad1);
+            //Assert
+            returList.Should().NotBeNullOrEmpty().And.BeOfType<List<CarPool>>();            
+        }
     }
     //var carpools = carpoolDataService.Showcarpool();
     //int b = 0;
     //carpools.Should().NotBeNull().And.HaveCountGreaterThan(0);
-    
+
 }

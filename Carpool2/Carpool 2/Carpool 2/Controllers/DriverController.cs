@@ -28,15 +28,15 @@ namespace Carpool_2.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<List<DriverDto>>> GetDriver()
         {
-            try
-            {
+            //try
+            //{
                 var test = driverBussinesService.ReadDriver();
                 return test;
-            }
-            catch 
-            { 
+            //}
+            //catch 
+            //{ 
                 return BadRequest($"Driver does not exist"); 
-            }
+            //}
         }
         [HttpGet("{id}")]
         [ProducesDefaultResponseType]

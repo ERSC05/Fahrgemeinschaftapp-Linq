@@ -45,7 +45,7 @@ namespace TecAlliance.Carpool.Bussines.Services
                 var carpool1 = new CarpoolDataService();
                 carpool1.CarpoolAddCsv(carpool);
             }
-            catch { throw new ArgumentException("carpool got not created"); }
+            catch { throw new ArgumentException("carpool got not created."); }
 
         }
         /// <summary>
