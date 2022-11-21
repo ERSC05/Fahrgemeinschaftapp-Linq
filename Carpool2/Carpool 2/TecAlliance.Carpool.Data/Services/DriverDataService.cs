@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -73,13 +74,14 @@ namespace TecAlliance.Carpool.Data.Services
         /// <param name="driver"></param>
         public void DriverAddCsv(Driver driver)
         {
-            var pfad1 = Assembly.GetEntryAssembly().Location;
-            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
-            using (StreamWriter writer = new StreamWriter(pfad1, true))
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-
-                var newLine = $"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit};No";
-                writer.WriteLine(newLine);
+                string queryString = "INSERT INTO Fahrer (Firstname,Sitzplaetze,CarName,ZielOrt,ZielZeit,DeletedOrNot)" +
+                                    $"VALUES('{driver.Name}',{driver.Sitzplaetze},'{driver.AutoMarke}','{driver.FahrtZiehl}',GETDATE(),'No')";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                command.BeginExecuteNonQuery();
             }
         }
         /// <summary>
@@ -103,36 +105,22 @@ namespace TecAlliance.Carpool.Data.Services
         /// <returns></returns>
         public List<Driver> DeliteDriver(long id)
         {
-            DriverDataService sorter = new DriverDataService();
-            long a = 0;
-            List<Driver> drivers = new List<Driver>();
-            List<Driver> deletetDriverList = new List<Driver>();
+            var drivers = new List<Driver>();
 
-            var pfad1 = Assembly.GetEntryAssembly().Location;
-            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
-            var oldcsv = DriverReadCsv(pfad1);
-            using (StreamWriter writer = new StreamWriter(pfad1))
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                foreach (Driver driver in oldcsv)
-                {
-                    if (driver.Id == id)
-                    {
-                        var deletedDriver = new Driver(driver.Id, driver.Name, driver.Sitzplaetze, driver.AutoMarke, driver.FahrtZiehl, driver.AbfahrtZeit, driver.DeletedOrNot);
-                        writer.WriteLine($"{deletedDriver.Id};{deletedDriver.Name};{deletedDriver.Sitzplaetze};{deletedDriver.AutoMarke};{deletedDriver.FahrtZiehl};{deletedDriver.AbfahrtZeit};Yes");
-                        a++;
-                    }
-                    else
-                    {
-                        drivers.Add(driver);
-                        writer.WriteLine($"{driver.Id};{driver.Name};{driver.Sitzplaetze};{driver.AutoMarke};{driver.FahrtZiehl};{driver.AbfahrtZeit};No");
-                    }
-                }
+                string queryString = $"DELETE FROM Fahrer WHERE Fahrer.IdFahrer = {id}";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
             }
-            sorter.SortList(drivers);
             return drivers;
 
 
 
-        }        
+
+        }
     }
 }

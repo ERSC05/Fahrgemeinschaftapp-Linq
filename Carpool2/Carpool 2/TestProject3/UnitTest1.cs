@@ -135,6 +135,7 @@ namespace TestProject3
         {
             //Arange
             var pfad1 = Assembly.GetEntryAssembly().Location;
+            var derPfad = Assembly.GetEntryAssembly();
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
             //Act
             var returList = _carpoolData.ReadCarpoolCsv(pfad1);

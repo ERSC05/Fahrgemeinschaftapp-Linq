@@ -32,6 +32,6 @@ namespace TecAlliance.Carpool.Data.Services
         /// Return a List with all existing and Carpools that existed in the past
         /// </summary>
         /// <returns></returns>
-        public List<CarPool> Showcarpool();
+        public List<CarPool>? Showcarpool();
     }
 }

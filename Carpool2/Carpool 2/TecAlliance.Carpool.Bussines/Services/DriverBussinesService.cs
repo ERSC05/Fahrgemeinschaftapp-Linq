@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -53,18 +54,29 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         public List<DriverDto> ReadDriver()
         {
+            var driverdto = new List<DriverDto>();
 
-            var driver1 = driverdataService;
-            List<DriverDto> driverDtos = new List<DriverDto>();
-            var pfad1 = Assembly.GetEntryAssembly().Location;
-            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrer.csv";
-            List<Driver> drivers = driver1.DriverReadCsv(pfad1);
-            foreach (Driver driver in drivers)
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                var sdto = ToDriverDto(driver);
-                driverDtos.Add(sdto);
+                string queryString = "SELECT*FROM Fahrer";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        var driverdtoItems = new DriverDto(Convert.ToInt64(reader["IdFahrer"]), Convert.ToString(reader["Firstname"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]),Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]), Convert.ToString(reader["DeletedOrNot"]));
+                        driverdto.Add(driverdtoItems);
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                }
             }
-            return driverDtos;
+            return driverdto;
         }
         /// <summary>
         /// Gives you the last Id back
