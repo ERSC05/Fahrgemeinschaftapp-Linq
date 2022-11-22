@@ -4,28 +4,10 @@ namespace TecAlliance.Carpool.Bussines.Services
 {
     public interface IDriverBussinesService
     {
-        /// <summary>
-        /// Create a new Driver with the given informations
-        /// </summary>
-        /// <param name="carPool"></param>
-        public DriverDto AddDriver(DriverDto driverDto);
-        /// <summary>
-        /// Delete Driver at given Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        DriverDto AddDriver(DriverDto driverDto);
         List<DriverDto> DeliteDriver(long id);
-        /// <summary>
-        /// Show u a List with one Drive with the given Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         List<DriverDto> Get(long id);
-        /// <summary>
-        /// Read all Driver from database for further processing
-        /// </summary>
-        /// <returns></returns>
+        List<DriverDto> GetDriverById(int id);
         List<DriverDto> ReadDriver();
-        public List<DriverDto> GetDriverById(int id);
     }
 }

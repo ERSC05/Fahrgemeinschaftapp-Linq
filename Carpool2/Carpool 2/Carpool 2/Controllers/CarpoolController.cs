@@ -19,21 +19,24 @@ namespace Carpool_2.Controllers
         {
             this.carpoolBussinesService = carpoolBussinesService;
         }
-
+        #region ReturnCarpoolConections
         [HttpGet]//("Zeige Fahrer")]
         [Route("api/Carpool_2/Zeige_Alle_Beifahrer_Und_Fahrer_In_Einem_Bestimmtem_Carpool")]
         public List<string> ReturnCarpoolConections()
         {
-            
+
             return carpoolBussinesService.ReturnCarpoolConections(); ;
         }
+        #endregion
+        #region GetCarPoolById
         [HttpGet]
         [Route("api/Carpool_2/ZeigeFahrerById{id}")]
         public ActionResult<List<CarpoolDto>> GetCarPoolById(int id)
         {
             return carpoolBussinesService.GetCarPoolById(id);
         }
-
+        #endregion
+        #region ShowAllExistCarpool
         [HttpGet]//("Zeige Fahrer")]
         [Route("api/Carpool_2/ZeigeFahrer")]
         [ProducesDefaultResponseType]
@@ -45,7 +48,8 @@ namespace Carpool_2.Controllers
             var done = carpoolBussinesService.ShowAllExistCarpool();
             return done;
         }
-
+        #endregion
+        #region FindCarpool
         [HttpPost]//("FahrgemeinschaftFinden")]
         [Route("api/Carpool_2/FahrgemeinschaftFinden{Zielort} {DeineId}")]
         [ProducesDefaultResponseType]
@@ -59,7 +63,8 @@ namespace Carpool_2.Controllers
 
             return returntext;
         }
-
+        #endregion
+        #region CreateCarpool
         [HttpPost]//("{EineFahrgemeinschaftBilden")]
         [Route("api/Carpool_2/EineFahrgemeinschaftBilden")]
         [ProducesDefaultResponseType]
@@ -73,11 +78,8 @@ namespace Carpool_2.Controllers
             carpoolBussinesService.AddCarpool(carPool);
             return CreatedAtAction("AddCarpool", new { id = carPool.Id }, carPool);
         }
-
-
-        
-
-
+        #endregion
+        #region DeliteCarpool
         [HttpDelete]//("{Id eingeben}")]
         [Route("api/Carpool_2/IdEingeben")]
         [ProducesDefaultResponseType]
@@ -98,5 +100,6 @@ namespace Carpool_2.Controllers
                 return BadRequest($"Deine id ist {id} und diese gibt es nicht. Du kannst diese Id also nicht deliten.");
             }
         }
+        #endregion
     }
 }

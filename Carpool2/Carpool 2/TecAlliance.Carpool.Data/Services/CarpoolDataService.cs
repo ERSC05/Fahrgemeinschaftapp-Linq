@@ -226,9 +226,9 @@ namespace TecAlliance.Carpool.Data.Services
                     while (reader.Read())
                     {
                         var driveritem = new Driver(Convert.ToInt64(reader["IdFahrer"]), Convert.ToString(reader["Firstname"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]), Convert.ToString(reader["DeletedOrNot"]));
-                        var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+                        var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["SitzplaetzeCarpool"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
 
-                        ReturnTextWithAllCarpoolConections.Add($"{carpoolItem.NameFahrer} fährt mit {carpoolItem.NameBeifahrer} in einem {carpoolItem.AutoMarke} nach {carpoolItem.AutoZiel} und hat noch {driveritem.Sitzplaetze} Sitzplaetze frei.");
+                        ReturnTextWithAllCarpoolConections.Add($"{carpoolItem.NameFahrer} fährt mit {driveritem.Name} in einem {carpoolItem.AutoMarke} nach {carpoolItem.AutoZiel} und hat noch {carpoolItem.Sitzplaetze} Sitzplaetze frei.");
                     }
                 }
                 finally

@@ -139,7 +139,6 @@ namespace TecAlliance.Carpool.Bussines.Services
             }
             return finaldelite;
         }
-
         public List<DriverDto> GetDriverById(int id)
         {
             List<DriverDto> driverDtos = new List<DriverDto>();
