@@ -6,8 +6,8 @@ namespace TecAlliance.Carpool.Bussines.Services
     {
         DriverDto AddDriver(DriverDto driverDto);
         List<DriverDto> DeliteDriver(long id);
-        List<DriverDto> Get(long id);
         List<DriverDto> GetDriverById(int id);
         List<DriverDto> ReadDriver();
+
     }
 }

@@ -26,7 +26,6 @@ namespace TecAlliance.Carpool.Data.Services
 
             }
         }
-
         /// <summary>
         /// Read all Carpools in the CSV file. Return a List<CarPool>
         /// </summary>
@@ -34,7 +33,6 @@ namespace TecAlliance.Carpool.Data.Services
         /// <returns></returns>
         public List<CarPool> CarpoolReadCsv()
         {
-
             var carpools = new List<CarPool>();
 
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
@@ -48,7 +46,7 @@ namespace TecAlliance.Carpool.Data.Services
                 {
                     while (reader.Read())
                     {
-                        var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+                        var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["SitzplaetzeCarpool"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
                         carpools.Add(carpoolItem);
                     }
                 }
@@ -64,6 +62,7 @@ namespace TecAlliance.Carpool.Data.Services
         }
         public CarPool GetCarPoolById(int carpoolId)
         {
+
             CarPool carPool;
 
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
@@ -72,12 +71,12 @@ namespace TecAlliance.Carpool.Data.Services
                 string queryString = $"SELECT*FROM Carpools WHERE IdCarpool = {carpoolId}";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                    SqlDataReader reader = command.ExecuteReader();
                 try
                 {
                     while (reader.Read())
                     {
-                        carPool = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+                        carPool = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["SitzplaetzeCarpool"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
                         return carPool;
 
                     }
@@ -106,7 +105,7 @@ namespace TecAlliance.Carpool.Data.Services
                 {
                     while (reader.Read())
                     {
-                        var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+                        var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["SitzplaetzeCarpool"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
                         carpools.Add(carpoolItem);
                     }
                 }
@@ -127,8 +126,6 @@ namespace TecAlliance.Carpool.Data.Services
             {
                 string queryString = $"UPDATE Carpools SET Sitzplaetze = Sitzplaetze-1 WHERE IdCarpool = {id}";
                 SqlCommand command = new SqlCommand(queryString, connection);
-                //command.Parameters.Add("@IdCarpool", System.Data.SqlDbType.Int);
-                //command.Parameters["@IdCarpool"].Value = id;
                 connection.Open();
                 command.BeginExecuteNonQuery();
             }

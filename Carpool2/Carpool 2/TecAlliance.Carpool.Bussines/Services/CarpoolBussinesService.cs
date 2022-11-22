@@ -28,8 +28,8 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         private CarpoolDto ToCarpoolDto(CarPool carpoolToMap)
         {
-                var mappedDriver = new CarpoolDto(carpoolToMap.Id, carpoolToMap.NameBeifahrer, carpoolToMap.NameFahrer, carpoolToMap.Sitzplaetze, carpoolToMap.AutoMarke, carpoolToMap.AutoZiel, carpoolToMap.AbfahrtZeit);
-                return mappedDriver;
+            var mappedDriver = new CarpoolDto(carpoolToMap.Id, carpoolToMap.NameBeifahrer, carpoolToMap.NameFahrer, carpoolToMap.Sitzplaetze, carpoolToMap.AutoMarke, carpoolToMap.AutoZiel, carpoolToMap.AbfahrtZeit);
+            return mappedDriver;
         }
         /// <summary>
         /// Add a Carpool to the CSV
@@ -94,17 +94,23 @@ namespace TecAlliance.Carpool.Bussines.Services
             List<CarpoolDto> Returnings = new List<CarpoolDto>();
             //List<CarPool> carPools = new List<CarPool>();
             var carPools = carpooldataService.ReturnCarpoolConections();
-            
+
 
             return carPools;
         }
-
-        public List <CarpoolDto> GetCarPoolById(int id)
-        {            
+        public List<CarpoolDto> GetCarPoolById(int id)
+        {
             List<CarpoolDto> carpoolDtos = new List<CarpoolDto>();
-            carpoolDtos.Add(ToCarpoolDto(carpooldataService.GetCarPoolById(id)));
-            return carpoolDtos;
-        }
 
+            var foo = carpooldataService.GetCarPoolById(id);
+            if (foo != null)
+            {
+                carpoolDtos.Add(ToCarpoolDto(foo));
+                return carpoolDtos;
+            }
+            return null;
+
+
+        }
     }
 }

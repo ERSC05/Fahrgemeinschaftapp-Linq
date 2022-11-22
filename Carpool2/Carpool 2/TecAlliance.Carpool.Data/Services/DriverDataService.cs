@@ -12,61 +12,7 @@ namespace TecAlliance.Carpool.Data.Services
 {
     public class DriverDataService : IDriverDataService
     {
-        /// <summary>
-        /// Count all Lines
-        /// </summary>
-        /// <param name="fileToCount"></param>
-        /// <returns></returns>
-        private static int CountLines(string fileToCount)
-        {
-            int counter = 0;
-            using (StreamReader countReader = new StreamReader(fileToCount))
-            {
-                while (countReader.ReadLine() != null)
-                {
-                    counter++;
-                }
-                return counter;
-            }
 
-        }
-        /// <summary>
-        /// Read all Driver in CSV File
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public List<Driver> DriverReadCsv(string path)
-        {
-            List<Driver> driverItems = new List<Driver>();
-            int counter = 1;
-            using (StreamReader reader = new StreamReader(path, true))
-            {
-                while (counter <= CountLines(path))
-                {
-
-                    //2;Lucas;4;bmw;wkh;morgen
-                    string csveintraege = reader.ReadLine();
-                    string[] splittedstring = csveintraege.Split(';');
-                    var id = Convert.ToInt64(splittedstring[0]);
-                    string name = splittedstring[1];
-                    int sitzplaetze = Convert.ToInt32(splittedstring[2]);
-                    string automarke = splittedstring[3];
-                    string fahrtziel = splittedstring[4];
-                    string abfahrtzeit = splittedstring[5];
-                    string delitetOrNot = splittedstring[6];
-                    if (delitetOrNot == "Yes")
-                    {
-                    }
-                    else
-                    {
-                        var newDriver = new Driver(id, name, sitzplaetze, automarke, fahrtziel, abfahrtzeit, delitetOrNot);
-                        driverItems.Add(newDriver);
-                    }
-                    counter++;
-                }
-            }
-            return driverItems;
-        }
         /// <summary>
         /// Driver are getting add to CSV file
         /// </summary>
@@ -163,9 +109,39 @@ namespace TecAlliance.Carpool.Data.Services
                 }
             }
 
-            return null; ;
+            return null;
 
             
+        }
+        /// <summary>
+        /// Read all driver in CSV file
+        /// </summary>
+        /// <returns></returns>
+        public List<Driver> ReadDriver()
+        {
+            var driverdto = new List<Driver>();
+
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = "SELECT*FROM Fahrer";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        var driverdtoItems = new Driver(Convert.ToInt64(reader["IdFahrer"]), Convert.ToString(reader["Firstname"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]), Convert.ToString(reader["DeletedOrNot"]));
+                        driverdto.Add(driverdtoItems);
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+            return driverdto;
         }
     }
 }

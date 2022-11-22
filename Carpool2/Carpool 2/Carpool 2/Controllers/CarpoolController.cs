@@ -33,8 +33,12 @@ namespace Carpool_2.Controllers
         [Route("api/Carpool_2/ZeigeFahrerById{id}")]
         public ActionResult<List<CarpoolDto>> GetCarPoolById(int id)
         {
-            return carpoolBussinesService.GetCarPoolById(id);
+            var carpoolDtos = carpoolBussinesService.GetCarPoolById(id);
+            if (carpoolDtos == null)
+                return NotFound($"Carpool with Id: {id} does not exist");
+            return carpoolDtos;
         }
+
         #endregion
         #region ShowAllExistCarpool
         [HttpGet]//("Zeige Fahrer")]
