@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -27,11 +28,8 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         private CarpoolDto ToCarpoolDto(CarPool carpoolToMap)
         {
-
-            var mappedDriver = new CarpoolDto(carpoolToMap.Id, carpoolToMap.NameBeifahrer, carpoolToMap.NameFahrer, carpoolToMap.Sitzplaetze, carpoolToMap.AutoMarke, carpoolToMap.AutoZiel, carpoolToMap.AbfahrtZeit);
-
-            return mappedDriver;
-
+                var mappedDriver = new CarpoolDto(carpoolToMap.Id, carpoolToMap.NameBeifahrer, carpoolToMap.NameFahrer, carpoolToMap.Sitzplaetze, carpoolToMap.AutoMarke, carpoolToMap.AutoZiel, carpoolToMap.AbfahrtZeit);
+                return mappedDriver;
         }
         /// <summary>
         /// Add a Carpool to the CSV
@@ -55,7 +53,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         public List<CarpoolDto> ShowAllExistCarpool()
         {
             List<CarpoolDto> carPools = new List<CarpoolDto>();
-            var carpool = carpooldataService.Showcarpool();
+            var carpool = carpooldataService.CarpoolReadCsv();
             foreach (var delitet in carpool)
             {
                 var driver2 = ToCarpoolDto(delitet);
@@ -69,10 +67,10 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <param name="Zielort"></param>
         /// <returns></returns>
-        public string FindCarpool(string Zielort)
+        public string FindCarpool(string Zielort, int id)
         {
             var returner = new CarpoolDataService();
-            var returntext = returner.FindCarpool(Zielort);
+            var returntext = returner.AddPersonToCarpool(Zielort, id);
             return returntext;
         }
         /// <summary>
@@ -91,5 +89,22 @@ namespace TecAlliance.Carpool.Bussines.Services
             }
             return delitedcarpool;
         }
+        public List<string> ReturnCarpoolConections()
+        {
+            List<CarpoolDto> Returnings = new List<CarpoolDto>();
+            //List<CarPool> carPools = new List<CarPool>();
+            var carPools = carpooldataService.ReturnCarpoolConections();
+            
+
+            return carPools;
+        }
+
+        public List <CarpoolDto> GetCarPoolById(int id)
+        {            
+            List<CarpoolDto> carpoolDtos = new List<CarpoolDto>();
+            carpoolDtos.Add(ToCarpoolDto(carpooldataService.GetCarPoolById(id)));
+            return carpoolDtos;
+        }
+
     }
 }

@@ -9,7 +9,7 @@ namespace TecAlliance.Carpool.Data.Services
         /// </summary>
         /// <param name="carpool"></param>
         void CarpoolAddCsv(CarPool carpool);
-        List<CarPool> CarpoolReadCsv(string path);
+        List<CarPool> CarpoolReadCsv();
         /// <summary>
         /// delete a carpool in the csf/database and shows the rest of the list.
         /// </summary>
@@ -21,17 +21,9 @@ namespace TecAlliance.Carpool.Data.Services
         /// </summary>
         /// <param name="zielort"></param>
         /// <returns></returns>
-        string FindCarpool(string zielort);
-        /// <summary>
-        /// read all Carpools from the database/csv file
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        List<string> ReadCarpoolCsv(string path);
-        /// <summary>
-        /// Return a List with all existing and Carpools that existed in the past
-        /// </summary>
-        /// <returns></returns>
-        public List<CarPool>? Showcarpool();
+        public string AddPersonToCarpool(string zielort, int personId);
+        public List<string> ReturnCarpoolConections();
+        public CarPool GetCarPoolById(int carpoolId);
+
     }
 }

@@ -39,7 +39,6 @@ namespace TecAlliance.Carpool.Data.Services
         {
             List<Driver> driverItems = new List<Driver>();
             int counter = 1;
-            int a = 0;
             using (StreamReader reader = new StreamReader(path, true))
             {
                 while (counter <= CountLines(path))
@@ -72,31 +71,46 @@ namespace TecAlliance.Carpool.Data.Services
         /// Driver are getting add to CSV file
         /// </summary>
         /// <param name="driver"></param>
-        public void DriverAddCsv(Driver driver)
+        public Driver DriverAddCsv(Driver driver)
         {
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = "INSERT INTO Fahrer (Firstname,Sitzplaetze,CarName,ZielOrt,ZielZeit,DeletedOrNot)" +
+                string queryString = "INSERT INTO Fahrer (Firstname,Sitzplaetze,CarName,ZielOrt,ZielZeit,DeletedOrNot) " +
                                     $"VALUES('{driver.Name}',{driver.Sitzplaetze},'{driver.AutoMarke}','{driver.FahrtZiehl}',GETDATE(),'No')";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
                 command.BeginExecuteNonQuery();
             }
-        }
-        /// <summary>
-        /// Sort the given list
-        /// </summary>
-        /// <param name="drivers"></param>
-        /// <returns></returns>
-        private List<Driver> SortList(List<Driver> drivers)
+            List<Driver> drivers = GetLastDriverInDataBase();
+            Driver driver1 = drivers[0];
+            return driver1;
+        }    
+        public List<Driver> GetLastDriverInDataBase()
         {
-            List<Driver> driverList = new List<Driver>();
-            List<Driver> sortetdriverlist = new List<Driver>();
-            sortetdriverlist = drivers.OrderBy(s => s.Id).ToList();
+            Driver driverItems;
+            List<Driver> driver = new List<Driver>();
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = "SELECT TOP (1) [IdFahrer] ,[Firstname] ,[Sitzplaetze] ,[CarName] ,[ZielOrt] ,[ZielZeit] ,[DeletedOrNot] FROM [Carpool].[dbo].[Fahrer] ORDER BY IdFahrer";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        driver.Add(driverItems = new Driver(Convert.ToInt64(reader["IdFahrer"]), Convert.ToString(reader["Firstname"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]), Convert.ToString(reader["DeletedOrNot"])));
+                    }
 
-
-            return sortetdriverlist;
+                }
+                finally
+                {
+                     reader.Close();
+                }
+            }
+                return driver;
         }
         /// <summary>
         /// Deliting driver from CSV file
@@ -121,6 +135,37 @@ namespace TecAlliance.Carpool.Data.Services
 
 
 
+        }
+        public Driver GetDriverById(int fahrerId)
+        {
+            Driver driver;
+
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"SELECT*FROM Fahrer WHERE IdFahrer = {fahrerId}";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        driver = new Driver(Convert.ToInt64(reader["IdFahrer"]), Convert.ToString(reader["Firstname"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]), Convert.ToString(reader["DeletedOrNot"]));
+                        return driver;
+
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+
+                }
+            }
+
+            return null; ;
+
+            
         }
     }
 }

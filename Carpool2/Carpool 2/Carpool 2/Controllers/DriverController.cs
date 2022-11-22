@@ -20,7 +20,7 @@ namespace Carpool_2.Controllers
             this.driverBussinesService = driverBussinesService;
         }
 
-
+        #region GetDriver
         [HttpGet]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -38,16 +38,18 @@ namespace Carpool_2.Controllers
                 return BadRequest($"Driver does not exist"); 
             //}
         }
+        #endregion
+        #region GetDriverById
         [HttpGet("{id}")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<List<DriverDto>>> GetDriverId(long id)
+        public async Task<ActionResult<List<DriverDto>>> GetDriverId(int id)
         {
             try
             {
-                var test = driverBussinesService.Get(id);
+                var test = driverBussinesService.GetDriverById(id);
 
                 if (test.Count == 0)
                 {
@@ -60,25 +62,28 @@ namespace Carpool_2.Controllers
                 return BadRequest($"{id} does not exist");
             }
         }
-
+        #endregion
+        #region CreateDriver
         [HttpPost]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult CreateDriver(DriverDto driverdto)
+        public async Task<ActionResult<DriverDto>> CreateDriver(DriverDto driverdto)
         {
             try
             {
                 //Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
-                driverBussinesService.AddDriver(driverdto);
-                return CreatedAtAction("AddDriver", new { id = driverdto.Id }, driverdto);
+                var addedDriver = driverBussinesService.AddDriver(driverdto);
+                return addedDriver;
             }
             catch
             {
                 return BadRequest($"{driverdto} it not a driver");
             }
         }
+        #endregion
+        #region DeleteDrive
         [HttpDelete("{id}")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -99,7 +104,7 @@ namespace Carpool_2.Controllers
                 return BadRequest($"{id} does not exist");
             }
         }
-
+        #endregion
     }
 
 }

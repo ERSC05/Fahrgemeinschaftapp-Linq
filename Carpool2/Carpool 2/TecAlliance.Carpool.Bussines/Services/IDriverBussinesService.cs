@@ -8,7 +8,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// Create a new Driver with the given informations
         /// </summary>
         /// <param name="carPool"></param>
-        void AddDriver(DriverDto driverDto);
+        public DriverDto AddDriver(DriverDto driverDto);
         /// <summary>
         /// Delete Driver at given Id
         /// </summary>
@@ -26,5 +26,6 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <returns></returns>
         List<DriverDto> ReadDriver();
+        public List<DriverDto> GetDriverById(int id);
     }
 }

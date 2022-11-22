@@ -113,12 +113,14 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// Add a Driver from the user
         /// </summary>
         /// <param name="driverDto"></param>
-        public void AddDriver(DriverDto driverDto)
+        public DriverDto AddDriver(DriverDto driverDto)
         {
             long id = ReturnLastId();
+            Driver driverWithLastId;
             var driver = new Driver(id, driverDto.Name, driverDto.Sitzplaetze, driverDto.AutoMarke, driverDto.FahrtZiehl, driverDto.AbfahrtZeit, driverDto.DeletedOrNot);
             var driver1 = driverdataService;
             driver1.DriverAddCsv(driver);
+            return ToDriverDto(driver);
         }
         /// <summary>
         /// Delite a driver
@@ -136,6 +138,13 @@ namespace TecAlliance.Carpool.Bussines.Services
                 finaldelite.Add(driver2);
             }
             return finaldelite;
+        }
+
+        public List<DriverDto> GetDriverById(int id)
+        {
+            List<DriverDto> driverDtos = new List<DriverDto>();
+            driverDtos.Add(ToDriverDto(driverdataService.GetDriverById(id)));
+            return driverDtos;
         }
     }
 }

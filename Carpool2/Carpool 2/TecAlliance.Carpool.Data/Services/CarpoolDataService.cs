@@ -12,54 +12,27 @@ namespace TecAlliance.Carpool.Data.Services
 {
     public class CarpoolDataService : ICarpoolDataService
     {
-        /// <summary>
-        /// Return the last Id from Carpool List
-        /// </summary>
-        /// <returns></returns>
-        public long ReturnLastId()
-        {
-            return CarpoolReadCsv($"{Assembly.GetEntryAssembly().Location}\\..\\..\\..\\..\\Fahrgemeinschaften.csv").Last().Id;
-        }
-        /// <summary>
-        /// Carpools are added in to the CSV file
-        /// </summary>
-        /// <param name="carpool"></param>
         public void CarpoolAddCsv(CarPool carpool)
         {
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = "INSERT INTO Carpools (FirstnameNonDriver,FirstnameDriver,Sitzplaetze,CarName,ZielOrt,ZielZeit,DeletedOrNot)"+
+                string queryString = "INSERT INTO Carpools (FirstnameNonDriver,FirstnameDriver,Sitzplaetze,CarName,ZielOrt,ZielZeit,DeletedOrNot)" +
                    $"VALUES('{carpool.NameBeifahrer}','{carpool.NameFahrer}',{carpool.Sitzplaetze},'{carpool.AutoMarke}','{carpool.AutoZiel}',GETDATE(),'No')";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
                 command.BeginExecuteNonQuery();
-            }
-        }
-        /// <summary>
-        /// Count lines in CSV file
-        /// </summary>
-        /// <param name="fileToCount"></param>
-        /// <returns></returns>
-        private static int CountLines(string fileToCount)
-        {
-            int counter = 0;
-            using (StreamReader countReader = new StreamReader(fileToCount))
-            {
-                while (countReader.ReadLine() != null)
-                {
-                    counter++;
-                }
-                return counter;
-            }
 
+
+            }
         }
+
         /// <summary>
         /// Read all Carpools in the CSV file. Return a List<CarPool>
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public List<CarPool> CarpoolReadCsv(string path)
+        public List<CarPool> CarpoolReadCsv()
         {
 
             var carpools = new List<CarPool>();
@@ -84,52 +57,135 @@ namespace TecAlliance.Carpool.Data.Services
                     reader.Close();
                 }
             }
+
+
+
             return carpools;
         }
-        /// <summary>
-        /// Read all Carpools in the CSV file. Return a string
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public List<string> ReadCarpoolCsv(string path)
+        public CarPool GetCarPoolById(int carpoolId)
         {
-            int counter = 1;
-            List<string> liststring = new List<string>();
-            using (StreamReader reader = new StreamReader(path))
+            CarPool carPool;
+
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                while (counter <= CountLines(path))
+                string queryString = $"SELECT*FROM Carpools WHERE IdCarpool = {carpoolId}";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
                 {
-                    string linereader = reader.ReadLine();
-                    string finalread = linereader + ";";
-                    liststring.Add(finalread);
-                    counter++;
+                    while (reader.Read())
+                    {
+                        carPool = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+                        return carPool;
+
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                    
                 }
             }
-            return liststring;
+
+            return null;
+        }
+        public List<CarPool> GetCarPoolsByZielOrt(string zielOrt)
+        {
+            var carpools = new List<CarPool>();
+
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"SELECT*FROM Carpools WHERE ZielOrt = '{zielOrt}'";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+                        carpools.Add(carpoolItem);
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+
+
+
+            return carpools;
+        }
+        public string UpdateCarpool(long id)
+        {
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"UPDATE Carpools SET Sitzplaetze = Sitzplaetze-1 WHERE IdCarpool = {id}";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                //command.Parameters.Add("@IdCarpool", System.Data.SqlDbType.Int);
+                //command.Parameters["@IdCarpool"].Value = id;
+                connection.Open();
+                command.BeginExecuteNonQuery();
+            }
+            return "Your carpool got created";
+        }
+        public void DriverToCarpoolAdd(long idCarpool, long idPerson)
+        {
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"INSERT INTO DriverToCarpool (IdFahrer, IdCarpool) " +
+                   $"VALUES({idPerson},{idCarpool})";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+
         }
         /// <summary>
         /// Serach for a specific Carpool in the CSV file
         /// </summary>
         /// <param name="zielort"></param>
         /// <returns></returns>
-        public string FindCarpool(string zielort)
+        public string AddPersonToCarpool(string zielort, int personId)
         {
+            string updatedCarpool = "t";
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"UPDATE Carpools SET Sitzplaetze = Sitzplaetze-1 WHERE ZielOrt = '{zielort}'";
+                string queryString = $"UPDATE Carpools SET Sitzplaetze = Sitzplaetze-1 WHERE ZielOrt = @zielort";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@zielort", System.Data.SqlDbType.VarChar);
+                command.Parameters["@zielort"].Value = zielort;
                 connection.Open();
                 command.BeginExecuteNonQuery();
             }
 
-            return connectionString;
-        }
-            private List<CarPool> SortList(List<CarPool> carpool)
-        {
-            List<CarPool> sortetdriverlist = new List<CarPool>();
-            sortetdriverlist = carpool.OrderBy(s => s.Id).ToList();
-            return sortetdriverlist;
+            var carPools = GetCarPoolsByZielOrt(zielort);
+            int test = 0;
+            foreach (var item in carPools)
+            {
+                if (test == 1)
+                {
+                    break;
+                }
+                else if (item.Sitzplaetze > 0 && item.AutoZiel == zielort)
+                {
+                    updatedCarpool = UpdateCarpool(item.Id);
+                    DriverToCarpoolAdd(item.Id, personId);
+                    test = 1;
+                }
+                else
+                {
+                }
+            }
+            return updatedCarpool;
         }
         /// <summary>
         /// Delete a item from a List at the index of the given Id
@@ -143,26 +199,48 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE FROM Carpools WHERE Carpools.IdCarpool = {id}";
+                string queryString = $"DELETE FROM Carpools WHERE Carpools.IdCarpool = @Id";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@Id", System.Data.SqlDbType.Int);
+                command.Parameters["@Id"].Value = id;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
             }
             return carpools;
         }
-        public List<CarPool> Showcarpool()
+        public List<string> ReturnCarpoolConections()
         {
-            int counter = 0;
-            List<CarPool> carPooldto = new List<CarPool>();
-            var pfad1 = Assembly.GetEntryAssembly().Location;
-            pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv"; ///////////////
-            List<CarPool> carPool = CarpoolReadCsv(pfad1);
-            List<string> liststring = new List<string>();
-            liststring = ReadCarpoolCsv(pfad1);
-            string[] strings = new string[6];
-            string[] allItems = liststring.ToArray();
-            return carPool;
+            var carpools = new List<CarPool>();
+            List<string> ReturnTextWithAllCarpoolConections = new List<string>();
+
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = "SELECT* FROM Fahrer as fahrer JOIN DriverToCarpool as drivertocarpool ON fahrer.IdFahrer = drivertocarpool.IdFahrer JOIN Carpools as carpools ON carpools.IdCarpool = drivertocarpool.IdCarpool ORDER BY fahrer.Firstname ";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        var driveritem = new Driver(Convert.ToInt64(reader["IdFahrer"]), Convert.ToString(reader["Firstname"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]), Convert.ToString(reader["DeletedOrNot"]));
+                        var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+
+                        ReturnTextWithAllCarpoolConections.Add($"{carpoolItem.NameFahrer} fährt mit {carpoolItem.NameBeifahrer} in einem {carpoolItem.AutoMarke} nach {carpoolItem.AutoZiel} und hat noch {driveritem.Sitzplaetze} Sitzplaetze frei.");
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+
+
+
+            return ReturnTextWithAllCarpoolConections;
+
         }
     }
 }

@@ -126,7 +126,7 @@ namespace TestProject3
             //Arange
 
             //Act
-            var a = _carpoolData.Showcarpool();
+            var a = _carpoolData.CarpoolReadCsv();
             //Assert
             a.Should().NotBeNullOrEmpty();
         }
@@ -149,7 +149,7 @@ namespace TestProject3
             var pfad1 = Assembly.GetEntryAssembly().Location;
             pfad1 = pfad1 + "\\..\\..\\..\\..\\Fahrgemeinschaften.csv";
             //Act
-            var returList = _carpoolData.CarpoolReadCsv(pfad1);
+            var returList = _carpoolData.CarpoolReadCsv();
             //Assert
             returList.Should().NotBeNullOrEmpty().And.BeOfType<List<CarPool>>();            
         }

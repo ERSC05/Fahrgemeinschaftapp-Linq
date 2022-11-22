@@ -20,7 +20,20 @@ namespace Carpool_2.Controllers
             this.carpoolBussinesService = carpoolBussinesService;
         }
 
-       
+        [HttpGet]//("Zeige Fahrer")]
+        [Route("api/Carpool_2/Zeige_Alle_Beifahrer_Und_Fahrer_In_Einem_Bestimmtem_Carpool")]
+        public List<string> ReturnCarpoolConections()
+        {
+            
+            return carpoolBussinesService.ReturnCarpoolConections(); ;
+        }
+        [HttpGet]
+        [Route("api/Carpool_2/ZeigeFahrerById{id}")]
+        public ActionResult<List<CarpoolDto>> GetCarPoolById(int id)
+        {
+            return carpoolBussinesService.GetCarPoolById(id);
+        }
+
         [HttpGet]//("Zeige Fahrer")]
         [Route("api/Carpool_2/ZeigeFahrer")]
         [ProducesDefaultResponseType]
@@ -34,15 +47,15 @@ namespace Carpool_2.Controllers
         }
 
         [HttpPost]//("FahrgemeinschaftFinden")]
-        [Route("api/Carpool_2/FahrgemeinschaftFinden{Zielort}")]
+        [Route("api/Carpool_2/FahrgemeinschaftFinden{Zielort} {DeineId}")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public string FindCarpool(string Zielort)
+        public string FindCarpool(string Zielort, int DeineId)
         {
-            var returntext = carpoolBussinesService.FindCarpool(Zielort);
+            var returntext = carpoolBussinesService.FindCarpool(Zielort, DeineId);
 
             return returntext;
         }
@@ -62,7 +75,7 @@ namespace Carpool_2.Controllers
         }
 
 
-
+        
 
 
         [HttpDelete]//("{Id eingeben}")]

@@ -14,12 +14,13 @@ namespace TecAlliance.Carpool.Data.Services
         /// Adding one Driver in the database/csv file
         /// </summary>
         /// <param name="driver"></param>
-        void DriverAddCsv(Driver driver);
+        public Driver DriverAddCsv(Driver driver);
         /// <summary>
         /// read all Driver from the database/csv file
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         List<Driver> DriverReadCsv(string path);
+        public Driver GetDriverById(int fahrerId);
     }
 }

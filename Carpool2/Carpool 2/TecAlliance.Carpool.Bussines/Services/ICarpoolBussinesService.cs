@@ -21,11 +21,14 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <param name="Zielort"></param>
         /// <returns></returns>
-        string FindCarpool(string Zielort);
+        string FindCarpool(string Zielort, int id);
         /// <summary>
         /// Shows all Carpools. All that exist and all that existed.
         /// </summary>
         /// <returns></returns>
         List<CarpoolDto> ShowAllExistCarpool();
+        public List<string> ReturnCarpoolConections();
+        public List<CarpoolDto> GetCarPoolById(int id);
+
     }
 }
