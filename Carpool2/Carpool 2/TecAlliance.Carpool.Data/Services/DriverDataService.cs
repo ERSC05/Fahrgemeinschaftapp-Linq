@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -23,8 +24,16 @@ namespace TecAlliance.Carpool.Data.Services
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string queryString = "INSERT INTO Fahrer (Firstname,Sitzplaetze,CarName,ZielOrt,ZielZeit,DeletedOrNot) " +
-                                    $"VALUES('{driver.Name}',{driver.Sitzplaetze},'{driver.AutoMarke}','{driver.FahrtZiehl}',GETDATE(),'No')";
+                                    $"VALUES(@Name,@Sitzplaetze,@AutoMarke,@FahrtZiehl,GETDATE(),'No')";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@Name", SqlDbType.VarChar);
+                command.Parameters["@Name"].Value = driver.Name;
+                command.Parameters.Add("@Sitzplaetze", SqlDbType.Int);
+                command.Parameters["@Sitzplaetze"].Value = driver.Sitzplaetze;
+                command.Parameters.Add("@AutoMarke", SqlDbType.VarChar);
+                command.Parameters["@AutoMarke"].Value = driver.AutoMarke;
+                command.Parameters.Add("@FahrtZiehl", SqlDbType.VarChar);
+                command.Parameters["@FahrtZiehl"].Value = driver.FahrtZiehl;
                 connection.Open();
                 command.BeginExecuteNonQuery();
             }
@@ -70,12 +79,17 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE FROM Fahrer WHERE Fahrer.IdFahrer = {id}";
+                string queryString = $"DELETE Fahrer FROM Fahrer WHERE Fahrer.IdFahrer = @id";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@id", SqlDbType.Int);
+                command.Parameters["@id"].Value = id;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
             }
+            
+            drivers.Add(GetDriverById(Convert.ToInt32(id)));
+
             return drivers;
 
 
@@ -89,8 +103,10 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"SELECT*FROM Fahrer WHERE IdFahrer = {fahrerId}";
+                string queryString = $"SELECT*FROM Fahrer WHERE IdFahrer = @fahrerId";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("fahrerId", SqlDbType.Int);
+                command.Parameters["fahrerId"].Value = fahrerId;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 try

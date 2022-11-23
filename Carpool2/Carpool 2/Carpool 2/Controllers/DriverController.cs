@@ -28,15 +28,7 @@ namespace Carpool_2.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<List<DriverDto>>> GetDriver()
         {
-            //try
-            //{
-                var test = driverBussinesService.ReadDriver();
-                return test;
-            //}
-            //catch 
-            //{ 
-                return BadRequest($"Driver does not exist"); 
-            //}
+            return driverBussinesService.ReadDriver();
         }
         #endregion
         #region GetDriverById
@@ -49,13 +41,13 @@ namespace Carpool_2.Controllers
         {
             try
             {
-                var test = driverBussinesService.GetDriverById(id);
+                var driverByIdList = driverBussinesService.GetDriverById(id);
 
-                if (test.Count == 0)
+                if (driverByIdList.Count == 0)
                 {
                     return BadRequest($"{id} does not exist");
                 }
-                return test;
+                return driverByIdList;
             }
             catch
             {

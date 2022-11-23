@@ -53,7 +53,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         public List<CarpoolDto> ShowAllExistCarpool()
         {
             List<CarpoolDto> carPools = new List<CarpoolDto>();
-            var carpool = carpooldataService.CarpoolReadCsv();
+            var carpool = carpooldataService.CarpoolReadDatabase();
             foreach (var delitet in carpool)
             {
                 var driver2 = ToCarpoolDto(delitet);
@@ -67,11 +67,22 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <param name="Zielort"></param>
         /// <returns></returns>
-        public string FindCarpool(string Zielort, int id)
+        public List<CarpoolDto> FindCarpool(string Zielort, int id)
         {
-            var returner = new CarpoolDataService();
-            var returntext = returner.AddPersonToCarpool(Zielort, id);
-            return returntext;
+
+            var returnedCarpool = carpooldataService.AddPersonToCarpool(Zielort, id);
+            List<CarpoolDto> carPools = new List<CarpoolDto>();
+
+            if (returnedCarpool == null)
+            {
+            }
+            else
+            {
+                carPools.Add(ToCarpoolDto(returnedCarpool));
+            }
+
+            return carPools;
+
         }
         /// <summary>
         /// Deliting the Carpool at special index
@@ -81,8 +92,8 @@ namespace TecAlliance.Carpool.Bussines.Services
         public List<CarpoolDto> DeleteCarpool(long id)
         {
             List<CarpoolDto> delitedcarpool = new List<CarpoolDto>();
-            var test = carpooldataService.DelitedList(id);
-            foreach (var delitet in test)
+            var deletedListFromCarpool = carpooldataService.DeletedList(id);
+            foreach (var delitet in deletedListFromCarpool)
             {
                 var driver2 = ToCarpoolDto(delitet);
                 delitedcarpool.Add(driver2);
@@ -102,15 +113,22 @@ namespace TecAlliance.Carpool.Bussines.Services
         {
             List<CarpoolDto> carpoolDtos = new List<CarpoolDto>();
 
-            var foo = carpooldataService.GetCarPoolById(id);
-            if (foo != null)
+            var CarpoolById = carpooldataService.GetCarPoolById(id);
+            if (CarpoolById != null)
             {
-                carpoolDtos.Add(ToCarpoolDto(foo));
+                carpoolDtos.Add(ToCarpoolDto(CarpoolById));
                 return carpoolDtos;
             }
             return null;
 
 
+        }
+        public List<string> DeleteCarpoolsByDriverId(int idUser)
+        {
+            List<string> DeleteAllCarpoolWhereIAmIn = new List<string>();
+            var item = carpooldataService.DeleteAllCarpoolWhereIAmIn(idUser);
+            DeleteAllCarpoolWhereIAmIn.Add(item);
+            return DeleteAllCarpoolWhereIAmIn;
         }
     }
 }

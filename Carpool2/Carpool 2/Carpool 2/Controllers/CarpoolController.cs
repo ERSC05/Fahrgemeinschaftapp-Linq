@@ -24,7 +24,6 @@ namespace Carpool_2.Controllers
         [Route("api/Carpool_2/Zeige_Alle_Beifahrer_Und_Fahrer_In_Einem_Bestimmtem_Carpool")]
         public List<string> ReturnCarpoolConections()
         {
-
             return carpoolBussinesService.ReturnCarpoolConections(); ;
         }
         #endregion
@@ -48,9 +47,8 @@ namespace Carpool_2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<CarpoolDto>> ShowingCarpool()
-        {
-            var done = carpoolBussinesService.ShowAllExistCarpool();
-            return done;
+        {           
+            return carpoolBussinesService.ShowAllExistCarpool(); ;
         }
         #endregion
         #region FindCarpool
@@ -61,11 +59,16 @@ namespace Carpool_2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public string FindCarpool(string Zielort, int DeineId)
+        public ActionResult<List<CarpoolDto>> FindCarpool(string Zielort, int DeineId)
         {
-            var returntext = carpoolBussinesService.FindCarpool(Zielort, DeineId);
+            var a = carpoolBussinesService.FindCarpool(Zielort, DeineId);
+            if(a.Count == 0)
+            {
+                return BadRequest("Carpool could not be found");
+               
+            }           
 
-            return returntext;
+            else { return a; }
         }
         #endregion
         #region CreateCarpool
@@ -77,10 +80,10 @@ namespace Carpool_2.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public ActionResult<List<CarpoolDto>> CreateCarpool(CarPool carPool)
+        public string CreateCarpool(CarPool carPool)
         {
             carpoolBussinesService.AddCarpool(carPool);
-            return CreatedAtAction("AddCarpool", new { id = carPool.Id }, carPool);
+            return "Carpool got created";
         }
         #endregion
         #region DeliteCarpool
@@ -105,5 +108,20 @@ namespace Carpool_2.Controllers
             }
         }
         #endregion
+
+        [HttpDelete]//("{Id eingeben}")]
+        [Route("api/Carpool_2/IdEingebenUmDichAusAllenCarpoolsZuDeleten{driverId}")]
+        public ActionResult<List<string>> DeleteAllCarpoolsByDriverId(int driverId)
+        {
+            var responseMessage = carpoolBussinesService.DeleteCarpoolsByDriverId(driverId);
+            if (responseMessage.Count == 0)
+            {
+                return BadRequest("Deine Id gibt es nicht");
+            }
+            else 
+            return responseMessage;
+            
+        }
+        
     }
 }

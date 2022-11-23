@@ -10,25 +10,22 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <param name="carPool"></param>
         void AddCarpool(CarPool carPool);
-        /// <summary>
-        /// A Carpool is getting delete. The bool is going to set to yes. else it's set to no
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        List<CarpoolDto> DeleteCarpool(long id);
+
         /// <summary>
         /// search for a Carpool, which is driving to the giving place
         /// </summary>
         /// <param name="Zielort"></param>
         /// <returns></returns>
-        string FindCarpool(string Zielort, int id);
+        public List<CarpoolDto> FindCarpool(string Zielort, int id);
         /// <summary>
         /// Shows all Carpools. All that exist and all that existed.
         /// </summary>
         /// <returns></returns>
-        List<CarpoolDto> ShowAllExistCarpool();
+        public List<CarpoolDto> ShowAllExistCarpool();
         public List<string> ReturnCarpoolConections();
         public List<CarpoolDto> GetCarPoolById(int id);
+        public List<string> DeleteCarpoolsByDriverId(int idUser);
+        public List<CarpoolDto> DeleteCarpool(long id);
 
     }
 }
