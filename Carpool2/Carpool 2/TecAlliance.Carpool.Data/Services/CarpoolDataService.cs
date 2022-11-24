@@ -111,8 +111,10 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"SELECT*FROM Carpools WHERE ZielOrt = '{zielOrt}'";
+                string queryString = $"SELECT*FROM Carpools WHERE ZielOrt = @zielOrt";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@zielOrt", SqlDbType.VarChar);
+                command.Parameters["@zielOrt"].Value = zielOrt;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 try
@@ -273,8 +275,10 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE drivertocarpool FROM Carpools C INNER JOIN DriverToCarpool as drivertocarpool On C.IdCarpool = drivertocarpool.IdCarpool WHERE drivertocarpool.IdFahrer = {idUser} ";
+                string queryString = $"DELETE drivertocarpool FROM Carpools C INNER JOIN DriverToCarpool as drivertocarpool On C.IdCarpool = drivertocarpool.IdCarpool WHERE drivertocarpool.IdFahrer = @idUser ";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@idUser", SqlDbType.Int);
+                command.Parameters["@idUser"].Value = idUser;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
@@ -288,8 +292,11 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE FROM  Fahrer WHERE IdFahrer = {idUser} ";
+                string queryString = $"DELETE FROM  Fahrer WHERE IdFahrer = @idUser ";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@idUser", SqlDbType.Int);
+                command.Parameters["@idUser"].Value = idUser;
+
                 connection.Open();
                 command.ExecuteNonQuery();
 
@@ -303,8 +310,10 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE FROM DriverToCarpool WHERE IdFahrer = {idUser} ";
+                string queryString = $"DELETE FROM DriverToCarpool WHERE IdFahrer = @idUser ";
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@idUser", SqlDbType.Int);
+                command.Parameters["@idUser"].Value = idUser;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 

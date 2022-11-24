@@ -61,7 +61,7 @@ namespace Carpool_2.Controllers
         #endregion
         #region FindCarpool
         [HttpPost]//("FahrgemeinschaftFinden")]
-        [Route("api/Carpool_2/FahrgemeinschaftFinden{Zielort} {DeineId}")]
+        [Route("api/Carpool_2/FahrgemeinschaftFinden/{Zielort}/{DeineId}")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

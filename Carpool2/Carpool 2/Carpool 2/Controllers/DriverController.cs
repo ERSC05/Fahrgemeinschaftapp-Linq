@@ -56,7 +56,7 @@ namespace Carpool_2.Controllers
         }
         #endregion
         #region CreateDriver
-        [HttpPost]
+        [HttpPut]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
