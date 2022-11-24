@@ -15,6 +15,7 @@ namespace TecAlliance.Carpool.Data.Models
         public string AutoMarke { get; set; }
         public string AutoZiel { get; set; }
         public string AbfahrtZeit { get; set; }
+        public Driver Driver { get; set; }
 
         public CarPool(long id, string nameBeifahrer, string nameFahrer, int sitzplaetze, string autoMarke, string autoZiel, string abfahrtZeit)
         {

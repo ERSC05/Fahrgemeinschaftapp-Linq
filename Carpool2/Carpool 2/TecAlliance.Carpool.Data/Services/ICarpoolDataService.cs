@@ -22,10 +22,12 @@ namespace TecAlliance.Carpool.Data.Services
         /// <param name="zielort"></param>
         /// <returns></returns>
         public CarPool AddPersonToCarpool(string zielort, int personId);
-        public List<string> ReturnCarpoolConections();
+        public List<CarPool> ReturnCarpoolConections();
         public CarPool GetCarPoolById(int carpoolId);
-        public string DeleteAllCarpoolWhereIAmIn(int idUser);
+        public string DeleteCarpoolsByDriverId(int idUser);
         public CarPool UpdateCarpool(long id);
         public void DriverToCarpoolAdd(long idCarpool, long idPerson);
+        public List<CarPool> GetAllPassangerById(int id);
+
     }
 }

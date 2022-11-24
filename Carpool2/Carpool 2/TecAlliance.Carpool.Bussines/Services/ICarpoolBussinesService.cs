@@ -10,7 +10,6 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <param name="carPool"></param>
         void AddCarpool(CarPool carPool);
-
         /// <summary>
         /// search for a Carpool, which is driving to the giving place
         /// </summary>
@@ -22,10 +21,11 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// </summary>
         /// <returns></returns>
         public List<CarpoolDto> ShowAllExistCarpool();
-        public List<string> ReturnCarpoolConections();
+        public List<CarpoolDto> ReturnCarpoolConections();
         public List<CarpoolDto> GetCarPoolById(int id);
         public List<string> DeleteCarpoolsByDriverId(int idUser);
         public List<CarpoolDto> DeleteCarpool(long id);
+        public List<CarpoolDto> GetAllPassangerById(int id);
 
     }
 }

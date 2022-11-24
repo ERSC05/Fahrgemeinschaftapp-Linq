@@ -229,10 +229,11 @@ namespace TecAlliance.Carpool.Data.Services
             }
             return carpools;
         }
-        public List<string> ReturnCarpoolConections()
+        public List<CarPool> ReturnCarpoolConections()
         {
+
             var carpools = new List<CarPool>();
-            List<string> ReturnTextWithAllCarpoolConections = new List<string>();
+            //List<string> ReturnTextWithAllCarpoolConections = new List<string>();
 
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -247,8 +248,10 @@ namespace TecAlliance.Carpool.Data.Services
                     {
                         var driveritem = new Driver(Convert.ToInt64(reader["IdFahrer"]), Convert.ToString(reader["Firstname"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]), Convert.ToString(reader["DeletedOrNot"]));
                         var carpoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["SitzplaetzeCarpool"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+                        carpoolItem.Driver = driveritem;
+                        carpools.Add(carpoolItem);
+                        //ReturnTextWithAllCarpoolConections.Add($"{carpoolItem.NameFahrer} fährt mit {driveritem.Name} in einem {carpoolItem.AutoMarke} nach {carpoolItem.AutoZiel} und hat noch {carpoolItem.Sitzplaetze} Sitzplaetze frei.");
 
-                        ReturnTextWithAllCarpoolConections.Add($"{carpoolItem.NameFahrer} fährt mit {driveritem.Name} in einem {carpoolItem.AutoMarke} nach {carpoolItem.AutoZiel} und hat noch {carpoolItem.Sitzplaetze} Sitzplaetze frei.");
                     }
                 }
                 finally
@@ -259,7 +262,7 @@ namespace TecAlliance.Carpool.Data.Services
 
 
 
-            return ReturnTextWithAllCarpoolConections;
+            return carpools;
 
         }
         private void DeleteFromCarpools(int idUser)
@@ -307,21 +310,59 @@ namespace TecAlliance.Carpool.Data.Services
 
             }
         }
-        public string DeleteAllCarpoolWhereIAmIn(int idUser)
+        public string DeleteCarpoolsByDriverId(int idUser)
         {
             try
             {
                 DeleteFromFahrer(idUser);
                 DeleteFromCarpools(idUser);
                 DeleteFromConvertList(idUser);
-                return "Yout carpoolconections got deleted";
+                return "Your carpoolconections got deleted";
             }
             catch
             {
                 return null;
             }
 
-            
+
+        }
+        public List<CarPool> GetAllPassangerById(int id)
+        {
+            List<CarPool> carPools = new List<CarPool>();
+
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"SELECT* FROM Fahrer as fahrer JOIN DriverToCarpool as drivertocarpool ON fahrer.IdFahrer = drivertocarpool.IdFahrer JOIN Carpools as carpools ON carpools.IdCarpool = drivertocarpool.IdCarpool ORDER BY fahrer.Firstname ";
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        var carPoolItem = new CarPool(Convert.ToInt64(reader["IdCarpool"]), Convert.ToString(reader["FirstnameNonDriver"]), Convert.ToString(reader["FirstnameDriver"]), Convert.ToInt32(reader["SitzplaetzeCarpool"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]));
+                        var driverItem = new Driver(Convert.ToInt64(reader["IdFahrer"]), Convert.ToString(reader["Firstname"]), Convert.ToInt32(reader["Sitzplaetze"]), Convert.ToString(reader["CarName"]), Convert.ToString(reader["ZielOrt"]), Convert.ToString(reader["ZielZeit"]), Convert.ToString(reader["DeletedOrNot"]));
+
+                        if (driverItem.Id == id)
+                        {
+                            carPoolItem.Driver = driverItem;
+                            carPools.Add(carPoolItem);
+                        }
+                        
+
+                    }
+                    return carPools;
+                }
+                finally
+                {
+                    reader.Close();
+
+                }
+            }
+
+            return null;
         }
     }
 }

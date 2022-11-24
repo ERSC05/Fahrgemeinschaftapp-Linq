@@ -68,7 +68,7 @@ namespace TecAlliance.Carpool.Data.Services
                 return driver;
         }
         /// <summary>
-        /// Deliting driver from CSV file
+        /// Deliting Driver from CSV file
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -130,7 +130,7 @@ namespace TecAlliance.Carpool.Data.Services
             
         }
         /// <summary>
-        /// Read all driver in CSV file
+        /// Read all Driver in CSV file
         /// </summary>
         /// <returns></returns>
         public List<Driver> ReadDriver()

@@ -65,13 +65,13 @@ namespace Carpool_2.Controllers
         {
             try
             {
-                //Driver driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
+                //Driver Driver = new Driver(driverdto.Id,driverdto.Name,driverdto.Sitzplaetze,driverdto.AutoMarke, driverdto.FahrtZiehl,driverdto.AbfahrtZeit);
                 var addedDriver = driverBussinesService.AddDriver(driverdto);
                 return addedDriver;
             }
             catch
             {
-                return BadRequest($"{driverdto} it not a driver");
+                return BadRequest($"{driverdto} it not a Driver");
             }
         }
         #endregion

@@ -33,7 +33,7 @@ namespace TecAlliance.Carpool.Bussines.Services
 
         }
         /// <summary>
-        /// Read all driver in CSV file
+        /// Read all Driver in CSV file
         /// </summary>
         /// <returns></returns>
         public List<DriverDto> ReadDriver()
@@ -60,7 +60,7 @@ namespace TecAlliance.Carpool.Bussines.Services
             return ToDriverDto(driver);
         }
         /// <summary>
-        /// Delite a driver
+        /// Delite a Driver
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

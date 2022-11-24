@@ -100,14 +100,18 @@ namespace TecAlliance.Carpool.Bussines.Services
             }
             return delitedcarpool;
         }
-        public List<string> ReturnCarpoolConections()
+        public List<CarpoolDto> ReturnCarpoolConections()
         {
             List<CarpoolDto> Returnings = new List<CarpoolDto>();
+
             //List<CarPool> carPools = new List<CarPool>();
             var carPools = carpooldataService.ReturnCarpoolConections();
+            foreach (var carpool in carPools)
+            {
+                Returnings.Add(ToCarpoolDto(carpool));
+            }
 
-
-            return carPools;
+            return Returnings;
         }
         public List<CarpoolDto> GetCarPoolById(int id)
         {
@@ -126,9 +130,21 @@ namespace TecAlliance.Carpool.Bussines.Services
         public List<string> DeleteCarpoolsByDriverId(int idUser)
         {
             List<string> DeleteAllCarpoolWhereIAmIn = new List<string>();
-            var item = carpooldataService.DeleteAllCarpoolWhereIAmIn(idUser);
+            var item = carpooldataService.DeleteCarpoolsByDriverId(idUser);
+            
             DeleteAllCarpoolWhereIAmIn.Add(item);
             return DeleteAllCarpoolWhereIAmIn;
+        }
+        public List<CarpoolDto> GetAllPassangerById(int id)
+        {
+            List<CarpoolDto> CarpoolDtos = new List<CarpoolDto>();
+            var allPasssanger = carpooldataService.GetAllPassangerById(id);
+            foreach(var passanger in allPasssanger)
+            {
+                CarpoolDtos.Add(ToCarpoolDto(passanger));
+            }
+            return CarpoolDtos;
+
         }
     }
 }

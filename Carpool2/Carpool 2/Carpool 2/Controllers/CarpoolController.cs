@@ -21,10 +21,18 @@ namespace Carpool_2.Controllers
         }
         #region ReturnCarpoolConections
         [HttpGet]//("Zeige Fahrer")]
-        [Route("api/Carpool_2/Zeige_Alle_Beifahrer_Und_Fahrer_In_Einem_Bestimmtem_Carpool")]
-        public List<string> ReturnCarpoolConections()
+        [Route("api/Carpool_2/GetAllPassenger")]
+        public List<CarpoolDto> ReturnCarpoolConections()
         {
             return carpoolBussinesService.ReturnCarpoolConections(); ;
+        }
+        #endregion
+        #region GetAllPassangerById
+        [HttpGet]
+        [Route("api/Carpool_2/GetAllPassengerById")]
+        public List<CarpoolDto> GetAllPassangerById(int id)
+        {
+            return carpoolBussinesService.GetAllPassangerById(id);
         }
         #endregion
         #region GetCarPoolById
@@ -72,7 +80,7 @@ namespace Carpool_2.Controllers
         }
         #endregion
         #region CreateCarpool
-        [HttpPost]//("{EineFahrgemeinschaftBilden")]
+        [HttpPut]//("{EineFahrgemeinschaftBilden")]
         [Route("api/Carpool_2/EineFahrgemeinschaftBilden")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -108,9 +116,9 @@ namespace Carpool_2.Controllers
             }
         }
         #endregion
-
+        #region DeleteFromCarpool
         [HttpDelete]//("{Id eingeben}")]
-        [Route("api/Carpool_2/IdEingebenUmDichAusAllenCarpoolsZuDeleten{driverId}")]
+        [Route("api/Carpool_2/DeleteFromCarpool{driverId}")]
         public ActionResult<List<string>> DeleteAllCarpoolsByDriverId(int driverId)
         {
             var responseMessage = carpoolBussinesService.DeleteCarpoolsByDriverId(driverId);
@@ -122,6 +130,6 @@ namespace Carpool_2.Controllers
             return responseMessage;
             
         }
-        
+        #endregion
     }
 }
