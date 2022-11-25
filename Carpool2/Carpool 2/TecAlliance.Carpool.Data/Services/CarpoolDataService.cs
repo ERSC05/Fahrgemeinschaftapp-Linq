@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +15,7 @@ namespace TecAlliance.Carpool.Data.Services
 {
     public class CarpoolDataService : ICarpoolDataService
     {
-        public void CarpoolAddCsv(CarPool carpool)
+        public void CarpoolAddDatabase(CarPool carpool)
         {
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -216,8 +218,15 @@ namespace TecAlliance.Carpool.Data.Services
         /// <returns></returns>
         public List<CarPool> DeletedList(long id)
         {
-            var carpools = new List<CarPool>();
 
+            var checkCarpoolExist = GetCarPoolById(Convert.ToInt32(id));
+            if (checkCarpoolExist == null)
+            {
+                return null;
+            }
+            var carpools = new List<CarPool>();
+            carpools.Add(checkCarpoolExist);
+            DeleteFromDriverToCarpoolWithCarpoolId(Convert.ToInt32(id));
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -230,6 +239,8 @@ namespace TecAlliance.Carpool.Data.Services
 
             }
             return carpools;
+
+
         }
         public List<CarPool> ReturnCarpoolConections()
         {
@@ -275,12 +286,28 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE drivertocarpool FROM Carpools C INNER JOIN DriverToCarpool as drivertocarpool On C.IdCarpool = drivertocarpool.IdCarpool WHERE drivertocarpool.IdFahrer = @idUser ";
+                string queryString = $"DELETE drivertocarpool FROM Carpools C INNER JOIN DriverToCarpool as drivertocarpool On C.IdCarpool = drivertocarpool.IdCarpool WHERE drivertocarpool.IdFahrer = @idCarpool ";
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add("@idUser", SqlDbType.Int);
-                command.Parameters["@idUser"].Value = idUser;
+                command.Parameters.Add("@idCarpool", SqlDbType.Int);
+                command.Parameters["@idCarpool"].Value = idUser;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
+
+            }
+        }
+        private void DeleteFromDriverToCarpoolWithCarpoolId(int idCarpool)
+        {
+            var carpools = new List<CarPool>();
+            string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"DELETE FROM  DriverToCarpool WHERE IdCarpool = @idCarpool ";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@idCarpool", SqlDbType.Int);
+                command.Parameters["@idCarpool"].Value = idCarpool;
+
+                connection.Open();
+                command.ExecuteNonQuery();
 
             }
         }
@@ -292,10 +319,10 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE FROM  Fahrer WHERE IdFahrer = @idUser ";
+                string queryString = $"DELETE FROM  Fahrer WHERE IdFahrer = @idCarpool ";
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add("@idUser", SqlDbType.Int);
-                command.Parameters["@idUser"].Value = idUser;
+                command.Parameters.Add("@idCarpool", SqlDbType.Int);
+                command.Parameters["@idCarpool"].Value = idUser;
 
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -310,10 +337,10 @@ namespace TecAlliance.Carpool.Data.Services
             string connectionString = @"Data Source=localhost;Initial Catalog=Carpool;Integrated Security=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE FROM DriverToCarpool WHERE IdFahrer = @idUser ";
+                string queryString = $"DELETE FROM DriverToCarpool WHERE IdFahrer = @idCarpool ";
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add("@idUser", SqlDbType.Int);
-                command.Parameters["@idUser"].Value = idUser;
+                command.Parameters.Add("@idCarpool", SqlDbType.Int);
+                command.Parameters["@idCarpool"].Value = idUser;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
@@ -323,15 +350,19 @@ namespace TecAlliance.Carpool.Data.Services
         {
             try
             {
+                var foo = GetAllPassangerById(idUser);
                 DeleteFromFahrer(idUser);
                 DeleteFromCarpools(idUser);
                 DeleteFromConvertList(idUser);
-                return "Your carpoolconections got deleted";
+
+
+                return "carpool got deleted";
             }
             catch
             {
-                return null;
+                return "Your Carpool got not deleated. id does not exist";
             }
+
 
 
         }
@@ -359,7 +390,7 @@ namespace TecAlliance.Carpool.Data.Services
                             carPoolItem.Driver = driverItem;
                             carPools.Add(carPoolItem);
                         }
-                        
+
 
                     }
                     return carPools;

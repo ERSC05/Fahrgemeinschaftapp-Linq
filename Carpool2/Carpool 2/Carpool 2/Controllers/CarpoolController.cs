@@ -55,7 +55,7 @@ namespace Carpool_2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<CarpoolDto>> ShowingCarpool()
-        {           
+        {
             return carpoolBussinesService.ShowAllExistCarpool(); ;
         }
         #endregion
@@ -70,11 +70,11 @@ namespace Carpool_2.Controllers
         public ActionResult<List<CarpoolDto>> FindCarpool(string Zielort, int DeineId)
         {
             var a = carpoolBussinesService.FindCarpool(Zielort, DeineId);
-            if(a.Count == 0)
+            if (a.Count == 0)
             {
                 return BadRequest("Carpool could not be found");
-               
-            }           
+
+            }
 
             else { return a; }
         }
@@ -104,16 +104,16 @@ namespace Carpool_2.Controllers
         public ActionResult<List<CarpoolDto>> DeliteCarpool(long id)
         {
             long idcheck = id;
-            try
-            {
-
+            
                 var delitedList = carpoolBussinesService.DeleteCarpool(id);
-                return delitedList;
-            }
-            catch
-            {
-                return BadRequest($"Deine id ist {id} und diese gibt es nicht. Du kannst diese Id also nicht deliten.");
-            }
+                if (delitedList.Count == 0)
+                {
+                    return BadRequest($"Deine id ist {id} und diese gibt es nicht. Du kannst diese Id also nicht deliten.");
+
+
+                }
+                else { return delitedList; }
+            
         }
         #endregion
         #region DeleteFromCarpool
@@ -126,9 +126,9 @@ namespace Carpool_2.Controllers
             {
                 return BadRequest("Deine Id gibt es nicht");
             }
-            else 
-            return responseMessage;
-            
+            else
+                return responseMessage;
+
         }
         #endregion
     }

@@ -37,13 +37,12 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <param name="carPool"></param>
         public void AddCarpool(CarPool carPool)
         {
-            try
-            {
-                var carpool = new CarPool(0, carPool.NameBeifahrer, carPool.NameFahrer, carPool.Sitzplaetze, carPool.AutoMarke, carPool.AutoZiel, carPool.AbfahrtZeit);
-                var carpool1 = new CarpoolDataService();
-                carpool1.CarpoolAddCsv(carpool);
-            }
-            catch { throw new ArgumentException("carpool got not created."); }
+
+            var carpool = new CarPool(0, carPool.NameBeifahrer, carPool.NameFahrer, carPool.Sitzplaetze, carPool.AutoMarke, carPool.AutoZiel, carPool.AbfahrtZeit);
+            var carpool1 = new CarpoolDataService();
+            carpool1.CarpoolAddDatabase(carpool);
+
+
 
         }
         /// <summary>
@@ -91,14 +90,20 @@ namespace TecAlliance.Carpool.Bussines.Services
         /// <returns></returns>
         public List<CarpoolDto> DeleteCarpool(long id)
         {
+
             List<CarpoolDto> delitedcarpool = new List<CarpoolDto>();
             var deletedListFromCarpool = carpooldataService.DeletedList(id);
-            foreach (var delitet in deletedListFromCarpool)
+            if (deletedListFromCarpool == null) { BadRequestResult result = new BadRequestResult(); }
+            else
             {
-                var driver2 = ToCarpoolDto(delitet);
-                delitedcarpool.Add(driver2);
-            }
-            return delitedcarpool;
+                foreach (var delitet in deletedListFromCarpool)
+                {
+                    var driver2 = ToCarpoolDto(delitet);
+                    delitedcarpool.Add(driver2);
+                }
+                return delitedcarpool;
+            }return delitedcarpool;
+
         }
         public List<CarpoolDto> ReturnCarpoolConections()
         {
@@ -131,7 +136,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         {
             List<string> DeleteAllCarpoolWhereIAmIn = new List<string>();
             var item = carpooldataService.DeleteCarpoolsByDriverId(idUser);
-            
+
             DeleteAllCarpoolWhereIAmIn.Add(item);
             return DeleteAllCarpoolWhereIAmIn;
         }
@@ -139,7 +144,7 @@ namespace TecAlliance.Carpool.Bussines.Services
         {
             List<CarpoolDto> CarpoolDtos = new List<CarpoolDto>();
             var allPasssanger = carpooldataService.GetAllPassangerById(id);
-            foreach(var passanger in allPasssanger)
+            foreach (var passanger in allPasssanger)
             {
                 CarpoolDtos.Add(ToCarpoolDto(passanger));
             }

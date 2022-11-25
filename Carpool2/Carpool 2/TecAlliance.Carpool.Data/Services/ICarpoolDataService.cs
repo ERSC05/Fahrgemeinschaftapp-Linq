@@ -8,14 +8,14 @@ namespace TecAlliance.Carpool.Data.Services
         /// Adding one Carpool in the database/csv file
         /// </summary>
         /// <param name="carpool"></param>
-        public void CarpoolAddCsv(CarPool carpool);
-        List<CarPool> CarpoolReadDatabase();
+        public void CarpoolAddDatabase(CarPool carpool);
+        public List<CarPool> CarpoolReadDatabase();
         /// <summary>
         /// delete a carpool in the csf/database and shows the rest of the list.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        List<CarPool> DeletedList(long id);
+        public List<CarPool> DeletedList(long id);
         /// <summary>
         /// Return a Carpool with the given place you want to drive to
         /// </summary>
